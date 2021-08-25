@@ -2,6 +2,7 @@ import Engine.Animation;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.image.BufferStrategy;
 
 public class GamePanel extends JPanel {
 
@@ -10,11 +11,11 @@ public class GamePanel extends JPanel {
     public GamePanel(){
         System.out.println("Inside constructor(GamePanel.java)");
         // Disable the paint notification from the System
+        /*
         this.setIgnoreRepaint(true);
         setIgnoreRepaint(true);
-        //this.setBackground(Color.black);
-        this.setPreferredSize(new Dimension(400, 300));
-        //loadImages();
+        */
+        this.setPreferredSize(new Dimension(600, 500));
     }
 
     public void loadImages(){
@@ -40,7 +41,8 @@ public class GamePanel extends JPanel {
             long elapsedTime = System.currentTimeMillis() - currTime;
             currTime += elapsedTime;
             animation.update(elapsedTime);
-            Graphics g = this.getGraphics();
+
+            Graphics2D g = (Graphics2D) this.getGraphics();
             if (g == null){
                 System.out.println("Null");
                 break;

@@ -10,6 +10,7 @@ public class MyFrame extends JFrame{
         this.setSize(840,840);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setVisible(true);
+        this.setResizable(false);
         this.add(gamePanel);
         gamePanel.loadImages();
         gamePanel.animationLoop();
