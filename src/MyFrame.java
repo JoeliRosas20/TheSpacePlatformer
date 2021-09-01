@@ -4,16 +4,21 @@ import javax.swing.*;
 public class MyFrame extends JFrame{
 
     GamePanel gamePanel = new GamePanel();
+    Game game = new Game();
 
     public MyFrame(){
         System.out.println("Inside constructor(MyFrame.java)");
-        this.setSize(840,840);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setVisible(true);
         this.setResizable(false);
-        this.add(gamePanel);
-        gamePanel.loadImages();
-        gamePanel.animationLoop();
+        //this.add(gamePanel);
+        this.add(game);
+        this.setTitle("Space Explorers");
+        this.pack();
+        this.setLocationRelativeTo(null);
+        game.start();
+        //gamePanel.loadImages();
+        //gamePanel.animationLoop();
     }
 
 }

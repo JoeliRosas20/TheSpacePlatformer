@@ -9,12 +9,12 @@ public class GamePanel extends JPanel {
     Animation animation;
 
     public GamePanel(){
-        System.out.println("Inside constructor(GamePanel.java)");
+        //System.out.println("Inside constructor(GamePanel.java)");
         this.setPreferredSize(new Dimension(600, 500));
     }
 
     public void loadImages(){
-        System.out.println("Inside loadImages(GamePanel.java)");
+        //System.out.println("Inside loadImages(GamePanel.java)");
         Image player = loadImage("Images//Idle (1).png");
         Image player2 = loadImage("Images//Idle (2).png");
         Image player3 = loadImage("Images//Idle (3).png");
@@ -43,7 +43,7 @@ public class GamePanel extends JPanel {
     }
 
     public void animationLoop(){
-        System.out.println("Inside animationLoop(GamePanel.java)");
+        //System.out.println("Inside animationLoop(GamePanel.java)");
         long startTime = System.currentTimeMillis();
         long currTime = startTime;
         while (currTime - startTime < 5000){
