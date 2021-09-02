@@ -2,19 +2,16 @@ import Engine.Animation;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.image.BufferStrategy;
 
 public class GamePanel extends JPanel {
 
     Animation animation;
 
     public GamePanel(){
-        //System.out.println("Inside constructor(GamePanel.java)");
         this.setPreferredSize(new Dimension(600, 500));
     }
 
     public void loadImages(){
-        //System.out.println("Inside loadImages(GamePanel.java)");
         Image player = loadImage("Images//Idle (1).png");
         Image player2 = loadImage("Images//Idle (2).png");
         Image player3 = loadImage("Images//Idle (3).png");
@@ -26,6 +23,7 @@ public class GamePanel extends JPanel {
         Image player9 = loadImage("Images//Idle (9).png");
         Image player10 = loadImage("Images//Idle (10).png");
         animation = new Animation();
+        /*
         animation.addFrame(player, 150);
         animation.addFrame(player2, 150);
         animation.addFrame(player3, 150);
@@ -36,6 +34,8 @@ public class GamePanel extends JPanel {
         animation.addFrame(player8, 150);
         animation.addFrame(player9, 150);
         animation.addFrame(player10, 150);
+
+         */
     }
 
     private Image loadImage(String name){
@@ -43,7 +43,6 @@ public class GamePanel extends JPanel {
     }
 
     public void animationLoop(){
-        //System.out.println("Inside animationLoop(GamePanel.java)");
         long startTime = System.currentTimeMillis();
         long currTime = startTime;
         while (currTime - startTime < 5000){
@@ -51,10 +50,6 @@ public class GamePanel extends JPanel {
             currTime += elapsedTime;
             animation.update(elapsedTime);
             Graphics2D g = (Graphics2D) this.getGraphics();
-            if (g == null){
-                System.out.println("Null");
-                break;
-            }
             draw(g);
             g.dispose();
             try{

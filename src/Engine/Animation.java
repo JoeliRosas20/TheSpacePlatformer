@@ -1,6 +1,7 @@
 package Engine;
 
 import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
 public class Animation {
@@ -11,13 +12,13 @@ public class Animation {
     private long totalDuration;
 
     public Animation(){
-        System.out.println("Inside constructor(Animation.java)");
+        //System.out.println("Inside constructor(Animation.java)");
         frames = new ArrayList();
         totalDuration = 0;
         start();
     }
 
-    public synchronized void addFrame(Image image, long duration){
+    public synchronized void addFrame(BufferedImage image, long duration){
         totalDuration += duration;
         frames.add(new AnimFrame(image, totalDuration));
     }
@@ -40,7 +41,7 @@ public class Animation {
         }
     }
 
-    public synchronized Image getImage(){
+    public synchronized BufferedImage getImage(){
         if (frames.size() == 0){
             return null;
         }
@@ -55,10 +56,10 @@ public class Animation {
 
     private class AnimFrame{
 
-        Image image;
+        BufferedImage image;
         long endTime;
 
-        public AnimFrame(Image image, long endTime){
+        public AnimFrame(BufferedImage image, long endTime){
             this.image = image;
             this.endTime = endTime;
         }
