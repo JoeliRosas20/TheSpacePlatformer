@@ -82,6 +82,7 @@ public class Game extends Canvas implements Runnable{
             loadImages();
             render();
         }
+        stop();
     }
 
     public void update(){
