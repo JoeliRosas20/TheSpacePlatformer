@@ -1,4 +1,5 @@
 import Engine.Animation;
+import Engine.Sprite;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -18,6 +19,7 @@ public class Game extends Canvas implements Runnable{
     BufferedImage image;
     File f;
     Animation animation;
+    Sprite sprite;
 
     public Game(){
         Dimension size = new Dimension(width * scale, height * scale);
@@ -36,16 +38,16 @@ public class Game extends Canvas implements Runnable{
     }
 
     public void loadImages(){
-        BufferedImage player = loadImage("Images//Idle (1).png");
-        BufferedImage player2 = loadImage("Images//Idle (2).png");
-        BufferedImage player3 = loadImage("Images//Idle (3).png");
-        BufferedImage player4 = loadImage("Images//Idle (4).png");
-        BufferedImage player5 = loadImage("Images//Idle (5).png");
-        BufferedImage player6 = loadImage("Images//Idle (6).png");
-        BufferedImage player7 = loadImage("Images//Idle (7).png");
-        BufferedImage player8 = loadImage("Images//Idle (8).png");
-        BufferedImage player9 = loadImage("Images//Idle (9).png");
-        BufferedImage player10 = loadImage("Images//Idle (10).png");
+        BufferedImage player = loadImage("Images//Jump (1).png");
+        BufferedImage player2 = loadImage("Images//Jump (2).png");
+        BufferedImage player3 = loadImage("Images//Jump (3).png");
+        BufferedImage player4 = loadImage("Images//Jump (4).png");
+        BufferedImage player5 = loadImage("Images//Jump (5).png");
+        BufferedImage player6 = loadImage("Images//Jump (6).png");
+        BufferedImage player7 = loadImage("Images//Jump (7).png");
+        BufferedImage player8 = loadImage("Images//Jump (8).png");
+        BufferedImage player9 = loadImage("Images//Jump (9).png");
+        BufferedImage player10 = loadImage("Images//Jump (10).png");
         animation = new Animation();
         animation.addFrame(player, 100);
         animation.addFrame(player2, 100);
@@ -57,6 +59,9 @@ public class Game extends Canvas implements Runnable{
         animation.addFrame(player8, 100);
         animation.addFrame(player9, 100);
         animation.addFrame(player10, 100);
+        sprite = new Sprite(animation);
+        sprite.setDx(0.2f);
+        sprite.setDy(0.2f);
     }
 
     public synchronized void start(){
@@ -78,15 +83,27 @@ public class Game extends Canvas implements Runnable{
     @Override
     public void run() {
         while (running){
-            update();
+            //update();
             loadImages();
             render();
         }
         stop();
     }
 
-    public void update(){
-
+    public void update(long elapsedTime){
+        if (sprite.getX() < 0){
+            sprite.setDx(Math.abs(sprite.getDx()));
+        }
+        else if (sprite.getX() + sprite.getWidth() >= width * scale){
+            sprite.setDx(-Math.abs(sprite.getDx()));
+        }
+        if (sprite.getY() < 0){
+            sprite.setDy(Math.abs(sprite.getDy()));
+        }
+        else if (sprite.getY() + sprite.getHeight() >= height * scale){
+            sprite.setDy(-Math.abs(sprite.getDy()));
+        }
+        sprite.update(elapsedTime);
     }
 
     public void render(){
@@ -96,7 +113,8 @@ public class Game extends Canvas implements Runnable{
             //System.out.println("The time is: " + (currTime - startTime));
             long elapsedTime = System.currentTimeMillis() - currTime;
             currTime += elapsedTime;
-            animation.update(elapsedTime);
+            //animation.update(elapsedTime);
+            update(elapsedTime);
             BufferStrategy strategy = getBufferStrategy();
             if (strategy == null) {
                 createBufferStrategy(3);
@@ -105,7 +123,8 @@ public class Game extends Canvas implements Runnable{
             Graphics g = strategy.getDrawGraphics();
             g.setColor(Color.blue);
             g.fillRect(0, 0, getWidth(), getHeight());
-            g.drawImage(animation.getImage(), 1, 1, null);
+            //g.drawImage(animation.getImage(), 1, 1, null);
+            g.drawImage(sprite.getImage(), Math.round(sprite.getX()), Math.round(sprite.getY()), null);
             g.dispose();
             strategy.show();
         }
