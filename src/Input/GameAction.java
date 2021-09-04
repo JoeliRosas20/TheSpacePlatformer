@@ -1,5 +1,8 @@
 package Input;
 
+/**
+ * Creates actions for the players and maps the keys.
+ */
 public class GameAction {
 
     /**
@@ -38,6 +41,10 @@ public class GameAction {
         reset();
     }
 
+    /**
+     * Get name of the action
+     * @return
+     */
     public String getName() {
         return name;
     }
@@ -50,15 +57,25 @@ public class GameAction {
         amount = 0;
     }
 
+    /**
+     * When someone taps a button
+     */
     public synchronized void tap(){
         press();
         released();
     }
 
+    /**
+     * Signals that key is pressed
+     */
     public synchronized void press(){
         press(1);
     }
 
+    /**
+     * Signals that key was pressed a number of times
+     * @param amount
+     */
     public synchronized void press(int amount){
         if (state != STATE_WAITING_FOR_RELEASE){
             this.amount += amount;
@@ -66,14 +83,25 @@ public class GameAction {
         }
     }
 
+    /**
+     * Signals that key was released
+     */
     public synchronized void released(){
         state = STATE_RELEASED;
     }
 
+    /**
+     * Returns wether key was pressed or not
+     * @return
+     */
     public synchronized boolean isPressed(){
         return (getAmount() != 0);
     }
 
+    /**
+     * This is the number of times the key was pressed since last checked
+     * @return
+     */
     public synchronized int getAmount(){
         int returnVal = amount;
         if (returnVal != 0){
