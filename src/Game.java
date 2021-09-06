@@ -15,11 +15,12 @@ public class Game extends Canvas implements Runnable{
     private boolean running = false;
     BufferedImage image, bg;
     File f;
-    Animation animation;
+    Animation animation, animation2;
     PlayerTest playerTest;
     private boolean paused;
     protected InputManager inputManager;
     protected GameAction jump, exit, moveLeft, moveRight, pause;
+    PlayerTest2 playerTest2;
 
     public Game(){
         Dimension size = new Dimension(width * scale, height * scale);
@@ -53,7 +54,18 @@ public class Game extends Canvas implements Runnable{
         BufferedImage player8 = loadImage("Images//Idle (8).png");
         BufferedImage player9 = loadImage("Images//Idle (9).png");
         BufferedImage player10 = loadImage("Images//Idle (10).png");
+        BufferedImage player11 = loadImage("Images//Jump (1).png");
+        BufferedImage player12 = loadImage("Images//Jump (2).png");
+        BufferedImage player13 = loadImage("Images//Jump (3).png");
+        BufferedImage player14 = loadImage("Images//Jump (4).png");
+        BufferedImage player15 = loadImage("Images//Jump (5).png");
+        BufferedImage player16 = loadImage("Images//Jump (6).png");
+        BufferedImage player17 = loadImage("Images//Jump (7).png");
+        BufferedImage player18 = loadImage("Images//Jump (8).png");
+        BufferedImage player19 = loadImage("Images//Jump (9).png");
+        BufferedImage player20 = loadImage("Images//Jump (10).png");
         animation = new Animation();
+        animation2 = new Animation();
         animation.addFrame(player, 100);
         animation.addFrame(player2, 100);
         animation.addFrame(player3, 100);
@@ -64,9 +76,21 @@ public class Game extends Canvas implements Runnable{
         animation.addFrame(player8, 100);
         animation.addFrame(player9, 100);
         animation.addFrame(player10, 100);
-        playerTest = new PlayerTest(animation);
-        playerTest.setFloorY((height * scale) - player.getHeight());
-        System.out.println(height * scale);
+        animation2.addFrame(player11, 100);
+        animation2.addFrame(player12, 100);
+        animation2.addFrame(player13, 100);
+        animation2.addFrame(player14, 100);
+        animation2.addFrame(player15, 100);
+        animation2.addFrame(player16, 100);
+        animation2.addFrame(player17, 100);
+        animation2.addFrame(player18, 100);
+        animation2.addFrame(player19, 100);
+        animation2.addFrame(player20, 100);
+        //playerTest = new PlayerTest(animation);
+        //playerTest.setFloorY((height * scale) - player.getHeight());
+        playerTest2 = new PlayerTest2(animation, animation2);
+        System.out.println(height * scale);;
+        playerTest2.setFloorY((height * scale) - player.getHeight());
         System.out.println(player.getHeight());
     }
 
@@ -98,7 +122,8 @@ public class Game extends Canvas implements Runnable{
         checkSystemInput();
         if (!isPaused()){
             checkGameInput();
-            playerTest.update(elapsedTime);
+            //playerTest.update(elapsedTime);
+            playerTest2.update(elapsedTime);
         }
     }
 
@@ -119,7 +144,8 @@ public class Game extends Canvas implements Runnable{
             //g.setColor(Color.blue);
             g.fillRect(0, 0, getWidth(), getHeight());
             g.drawImage(bg, 0, 0, null);
-            g.drawImage(playerTest.getImage(), Math.round(playerTest.getX()), Math.round(playerTest.getY()), null);
+            //g.drawImage(playerTest.getImage(), Math.round(playerTest.getX()), Math.round(playerTest.getY()), null);
+            g.drawImage(playerTest2.getImage(), Math.round(playerTest2.getX()), Math.round(playerTest2.getY()), null);
             g.dispose();
             strategy.show();
         }
@@ -163,15 +189,25 @@ public class Game extends Canvas implements Runnable{
     public void checkGameInput(){
         float velocityX = 0;
         if (moveLeft.isPressed()){
-            velocityX -= PlayerTest.SPEED;
+            //velocityX -= PlayerTest.SPEED;
+            velocityX -= PlayerTest2.SPEED;
         }
         if (moveRight.isPressed()){
-            velocityX += PlayerTest.SPEED;
+            //velocityX += PlayerTest.SPEED;
+            velocityX += PlayerTest2.SPEED;
         }
-        playerTest.setDx(velocityX);
+        //playerTest.setDx(velocityX);
+        playerTest2.setDx(velocityX);
+        /*
         if (jump.isPressed() && playerTest.getState() != PlayerTest.STATE_JUMPING){
             playerTest.jump();
         }
+        */
+
+        if (jump.isPressed() && playerTest2.getState() != PlayerTest2.STATE_JUMPING){
+            playerTest2.jump();
+        }
+
     }
 
 }

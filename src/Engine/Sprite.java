@@ -4,7 +4,7 @@ import java.awt.*;
 
 public class Sprite {
 
-    private Animation animation;
+    public Animation animation;
     private float x;
     private float y;
     private float dx;
