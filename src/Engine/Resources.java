@@ -14,6 +14,8 @@ public class Resources {
     Animation animation;
 
     public void loadPlayerImages(){
+        //Load Idle, Jump, Walk Right, Walk Left, and Die
+        BufferedImage[][] images = new BufferedImage[5][];
         BufferedImage player = loadImage("Images//Idle (1).png");
         BufferedImage player2 = loadImage("Images//Idle (2).png");
         BufferedImage player3 = loadImage("Images//Idle (3).png");

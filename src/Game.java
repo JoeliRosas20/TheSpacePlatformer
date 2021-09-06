@@ -16,7 +16,6 @@ public class Game extends Canvas implements Runnable{
     BufferedImage image, bg;
     File f;
     Animation animation, animation2;
-    PlayerTest playerTest;
     private boolean paused;
     protected InputManager inputManager;
     protected GameAction jump, exit, moveLeft, moveRight, pause;
@@ -86,12 +85,10 @@ public class Game extends Canvas implements Runnable{
         animation2.addFrame(player18, 100);
         animation2.addFrame(player19, 100);
         animation2.addFrame(player20, 100);
-        //playerTest = new PlayerTest(animation);
-        //playerTest.setFloorY((height * scale) - player.getHeight());
         playerTest2 = new PlayerTest2(animation, animation2);
-        System.out.println(height * scale);;
-        playerTest2.setFloorY((height * scale) - player.getHeight());
-        System.out.println(player.getHeight());
+        System.out.println(height * scale);
+        playerTest2.setFloorY((height * scale) - playerTest2.getHeight());
+        System.out.println(playerTest2.getHeight());
     }
 
     public synchronized void start(){
@@ -122,7 +119,6 @@ public class Game extends Canvas implements Runnable{
         checkSystemInput();
         if (!isPaused()){
             checkGameInput();
-            //playerTest.update(elapsedTime);
             playerTest2.update(elapsedTime);
         }
     }
@@ -131,7 +127,6 @@ public class Game extends Canvas implements Runnable{
         long startTime = System.currentTimeMillis();
         long currTime = startTime;
         while (true) {
-            //System.out.println("The time is: " + (currTime - startTime));
             long elapsedTime = System.currentTimeMillis() - currTime;
             currTime += elapsedTime;
             update(elapsedTime);
@@ -141,10 +136,8 @@ public class Game extends Canvas implements Runnable{
                 return;
             }
             Graphics g = strategy.getDrawGraphics();
-            //g.setColor(Color.blue);
             g.fillRect(0, 0, getWidth(), getHeight());
             g.drawImage(bg, 0, 0, null);
-            //g.drawImage(playerTest.getImage(), Math.round(playerTest.getX()), Math.round(playerTest.getY()), null);
             g.drawImage(playerTest2.getImage(), Math.round(playerTest2.getX()), Math.round(playerTest2.getY()), null);
             g.dispose();
             strategy.show();
@@ -189,21 +182,12 @@ public class Game extends Canvas implements Runnable{
     public void checkGameInput(){
         float velocityX = 0;
         if (moveLeft.isPressed()){
-            //velocityX -= PlayerTest.SPEED;
             velocityX -= PlayerTest2.SPEED;
         }
         if (moveRight.isPressed()){
-            //velocityX += PlayerTest.SPEED;
             velocityX += PlayerTest2.SPEED;
         }
-        //playerTest.setDx(velocityX);
         playerTest2.setDx(velocityX);
-        /*
-        if (jump.isPressed() && playerTest.getState() != PlayerTest.STATE_JUMPING){
-            playerTest.jump();
-        }
-        */
-
         if (jump.isPressed() && playerTest2.getState() != PlayerTest2.STATE_JUMPING){
             playerTest2.jump();
         }
