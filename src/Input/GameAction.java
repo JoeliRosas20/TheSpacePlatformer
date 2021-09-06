@@ -77,6 +77,7 @@ public class GameAction {
      * @param amount
      */
     public synchronized void press(int amount){
+        System.out.println("(GameAction.java) press()");
         if (state != STATE_WAITING_FOR_RELEASE){
             this.amount += amount;
             state = STATE_PRESSED;
@@ -87,11 +88,12 @@ public class GameAction {
      * Signals that key was released
      */
     public synchronized void released(){
+        System.out.println("(GameAction.java) released()");
         state = STATE_RELEASED;
     }
 
     /**
-     * Returns wether key was pressed or not
+     * Returns whether key was pressed or not
      * @return
      */
     public synchronized boolean isPressed(){
