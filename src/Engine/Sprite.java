@@ -15,7 +15,7 @@ public class Sprite {
     }
 
     public void update(long elapsedTime){
-        System.out.println("(Sprite.java) update()");
+        //System.out.println("(Sprite.java) update()");
         x += dx * elapsedTime;
         y += dy * elapsedTime;
         animation.update(elapsedTime);

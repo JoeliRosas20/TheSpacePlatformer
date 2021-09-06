@@ -15,11 +15,10 @@ public class Game extends Canvas implements Runnable{
     private boolean running = false;
     BufferedImage image, bg;
     File f;
-    Animation animation, animation2;
     private boolean paused;
     protected InputManager inputManager;
     protected GameAction jump, exit, moveLeft, moveRight, pause;
-    PlayerTest2 playerTest2;
+    Resources resources;
 
     public Game(){
         Dimension size = new Dimension(width * scale, height * scale);
@@ -27,7 +26,8 @@ public class Game extends Canvas implements Runnable{
         paused = false;
         inputManager= new InputManager(this);
         createGameActions();
-        loadImages();
+        resources = new Resources();
+        bg = loadImage("Images//Space.jpg");
     }
 
     public BufferedImage loadImage(String name){
@@ -39,56 +39,6 @@ public class Game extends Canvas implements Runnable{
             e.printStackTrace();
         }
         return image;
-    }
-
-    public void loadImages(){
-        bg = loadImage("Images//Space.jpg");
-        BufferedImage player = loadImage("Images//Idle (1).png");
-        BufferedImage player2 = loadImage("Images//Idle (2).png");
-        BufferedImage player3 = loadImage("Images//Idle (3).png");
-        BufferedImage player4 = loadImage("Images//Idle (4).png");
-        BufferedImage player5 = loadImage("Images//Idle (5).png");
-        BufferedImage player6 = loadImage("Images//Idle (6).png");
-        BufferedImage player7 = loadImage("Images//Idle (7).png");
-        BufferedImage player8 = loadImage("Images//Idle (8).png");
-        BufferedImage player9 = loadImage("Images//Idle (9).png");
-        BufferedImage player10 = loadImage("Images//Idle (10).png");
-        BufferedImage player11 = loadImage("Images//Jump (1).png");
-        BufferedImage player12 = loadImage("Images//Jump (2).png");
-        BufferedImage player13 = loadImage("Images//Jump (3).png");
-        BufferedImage player14 = loadImage("Images//Jump (4).png");
-        BufferedImage player15 = loadImage("Images//Jump (5).png");
-        BufferedImage player16 = loadImage("Images//Jump (6).png");
-        BufferedImage player17 = loadImage("Images//Jump (7).png");
-        BufferedImage player18 = loadImage("Images//Jump (8).png");
-        BufferedImage player19 = loadImage("Images//Jump (9).png");
-        BufferedImage player20 = loadImage("Images//Jump (10).png");
-        animation = new Animation();
-        animation2 = new Animation();
-        animation.addFrame(player, 100);
-        animation.addFrame(player2, 100);
-        animation.addFrame(player3, 100);
-        animation.addFrame(player4, 100);
-        animation.addFrame(player5, 100);
-        animation.addFrame(player6, 100);
-        animation.addFrame(player7, 100);
-        animation.addFrame(player8, 100);
-        animation.addFrame(player9, 100);
-        animation.addFrame(player10, 100);
-        animation2.addFrame(player11, 100);
-        animation2.addFrame(player12, 100);
-        animation2.addFrame(player13, 100);
-        animation2.addFrame(player14, 100);
-        animation2.addFrame(player15, 100);
-        animation2.addFrame(player16, 100);
-        animation2.addFrame(player17, 100);
-        animation2.addFrame(player18, 100);
-        animation2.addFrame(player19, 100);
-        animation2.addFrame(player20, 100);
-        playerTest2 = new PlayerTest2(animation, animation2);
-        System.out.println(height * scale);
-        playerTest2.setFloorY((height * scale) - playerTest2.getHeight());
-        System.out.println(playerTest2.getHeight());
     }
 
     public synchronized void start(){
@@ -119,7 +69,8 @@ public class Game extends Canvas implements Runnable{
         checkSystemInput();
         if (!isPaused()){
             checkGameInput();
-            playerTest2.update(elapsedTime);
+            //playerTest2.update(elapsedTime);
+            resources.getPlayer().update(elapsedTime);
         }
     }
 
@@ -138,7 +89,7 @@ public class Game extends Canvas implements Runnable{
             Graphics g = strategy.getDrawGraphics();
             g.fillRect(0, 0, getWidth(), getHeight());
             g.drawImage(bg, 0, 0, null);
-            g.drawImage(playerTest2.getImage(), Math.round(playerTest2.getX()), Math.round(playerTest2.getY()), null);
+            g.drawImage(resources.getPlayer().getImage(), Math.round(resources.getPlayer().getX()), Math.round(resources.getPlayer().getY()), null);
             g.dispose();
             strategy.show();
         }
@@ -187,9 +138,9 @@ public class Game extends Canvas implements Runnable{
         if (moveRight.isPressed()){
             velocityX += PlayerTest2.SPEED;
         }
-        playerTest2.setDx(velocityX);
-        if (jump.isPressed() && playerTest2.getState() != PlayerTest2.STATE_JUMPING){
-            playerTest2.jump();
+        resources.getPlayer().setDx(velocityX);
+        if (jump.isPressed() && resources.getPlayer().getState() != PlayerTest2.STATE_JUMPING){
+            resources.getPlayer().jump();
         }
 
     }
