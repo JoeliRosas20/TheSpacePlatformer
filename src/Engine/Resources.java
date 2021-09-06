@@ -1,9 +1,14 @@
 package Engine;
 
+import TileMap.TileMap;
+
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class Resources {
 
@@ -17,6 +22,28 @@ public class Resources {
 
     public Resources(){
         loadPlayerImages();
+    }
+
+    private TileMap loadMap(String fileName) throws IOException{
+        ArrayList lines = new ArrayList();
+        int width = 0;
+        int height = 0;
+        //Reads every line of the text file
+        BufferedReader reader = new BufferedReader(new FileReader(fileName));
+        while (true){
+            String line = reader.readLine();
+            //No more lines to read
+            if (line == null){
+                reader.close();
+                break;
+            }
+            //Adding every line except with comments
+            if (!line.startsWith("#")){
+                lines.add(line);
+                width = Math.max(width, line.length());
+            }
+        }
+        return null;
     }
 
     public PlayerTest2 getPlayer(){
