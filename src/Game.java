@@ -13,7 +13,7 @@ public class Game extends Canvas implements Runnable{
     public static int scale = 3;
     private Thread thread;
     private boolean running = false;
-    BufferedImage image;
+    BufferedImage image, bg;
     File f;
     Animation animation;
     PlayerTest playerTest;
@@ -42,6 +42,7 @@ public class Game extends Canvas implements Runnable{
     }
 
     public void loadImages(){
+        bg = loadImage("Images//Space.jpg");
         BufferedImage player = loadImage("Images//Idle (1).png");
         BufferedImage player2 = loadImage("Images//Idle (2).png");
         BufferedImage player3 = loadImage("Images//Idle (3).png");
@@ -115,8 +116,9 @@ public class Game extends Canvas implements Runnable{
                 return;
             }
             Graphics g = strategy.getDrawGraphics();
-            g.setColor(Color.blue);
+            //g.setColor(Color.blue);
             g.fillRect(0, 0, getWidth(), getHeight());
+            g.drawImage(bg, 0, 0, null);
             g.drawImage(playerTest.getImage(), Math.round(playerTest.getX()), Math.round(playerTest.getY()), null);
             g.dispose();
             strategy.show();

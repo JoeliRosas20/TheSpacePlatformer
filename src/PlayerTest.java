@@ -34,11 +34,18 @@ public class PlayerTest extends Sprite {
     }
 
     public void update(long elapsedTime){
+        System.out.println("(PlayerTest.java) update()");
+        //Set the vertical velocity for jumping
         if (getState() == STATE_JUMPING){
+            System.out.println("(PlayerTest.java) update(), if state is jumping");
             setDy(getDy() + GRAVITY * elapsedTime);
+            System.out.println("(PlayerTest.java) update(), if state is jumping:"+(getDy() + GRAVITY * elapsedTime));
         }
+        //Moves the player
         super.update(elapsedTime);
+        //Check if player landed on floor
         if (getState() == STATE_JUMPING && getY() >= floorY){
+            System.out.println("(PlayerTest.java) update(), if state is jumping and not on the floor");
             setDy(0);
             setY(floorY);
             setState(STATE_NORMAL);
