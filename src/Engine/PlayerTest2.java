@@ -1,8 +1,5 @@
 package Engine;
 
-import Engine.Animation;
-import Engine.Sprite;
-
 public class PlayerTest2 extends Sprite {
 
     public static final int STATE_NORMAL = 0;

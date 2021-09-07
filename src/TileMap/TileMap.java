@@ -1,9 +1,8 @@
 package TileMap;
 
 import Engine.Sprite;
-
-import java.awt.*;
 import java.awt.image.*;
+import java.io.File;
 import java.util.Iterator;
 import java.util.LinkedList;
 
@@ -24,6 +23,10 @@ public class TileMap {
 
     public int getHeight(){
         return tiles[0].length;
+    }
+
+    public void loadMap(String fileName){
+        File file = new File(fileName);
     }
 
     public BufferedImage getTile(int x, int y){

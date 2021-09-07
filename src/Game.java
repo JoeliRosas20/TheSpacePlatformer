@@ -90,6 +90,7 @@ public class Game extends Canvas implements Runnable{
             g.fillRect(0, 0, getWidth(), getHeight());
             g.drawImage(bg, 0, 0, null);
             g.drawImage(tile, 100, 100, null);
+            //map.draw(g);
             g.drawImage(resources.getPlayer().getImage(), Math.round(resources.getPlayer().getX()), Math.round(resources.getPlayer().getY()), null);
             g.dispose();
             strategy.show();
