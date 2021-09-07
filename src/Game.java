@@ -13,7 +13,7 @@ public class Game extends Canvas implements Runnable{
     public static int scale = 3;
     private Thread thread;
     private boolean running = false;
-    BufferedImage image, bg;
+    BufferedImage image, bg, tile;
     File f;
     private boolean paused;
     protected InputManager inputManager;
@@ -28,6 +28,7 @@ public class Game extends Canvas implements Runnable{
         createGameActions();
         resources = new Resources();
         bg = loadImage("Images//Space.jpg");
+        tile = loadImage("TileImages//t_R.png");
     }
 
     public BufferedImage loadImage(String name){
@@ -69,7 +70,6 @@ public class Game extends Canvas implements Runnable{
         checkSystemInput();
         if (!isPaused()){
             checkGameInput();
-            //playerTest2.update(elapsedTime);
             resources.getPlayer().update(elapsedTime);
         }
     }
@@ -89,6 +89,7 @@ public class Game extends Canvas implements Runnable{
             Graphics g = strategy.getDrawGraphics();
             g.fillRect(0, 0, getWidth(), getHeight());
             g.drawImage(bg, 0, 0, null);
+            g.drawImage(tile, 100, 100, null);
             g.drawImage(resources.getPlayer().getImage(), Math.round(resources.getPlayer().getX()), Math.round(resources.getPlayer().getY()), null);
             g.dispose();
             strategy.show();
