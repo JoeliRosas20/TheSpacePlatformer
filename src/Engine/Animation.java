@@ -41,6 +41,10 @@ public class Animation {
         }
     }
 
+    /**
+     * Returns the image
+     * @return
+     */
     public synchronized BufferedImage getImage(){
         if (frames.size() == 0){
             return null;

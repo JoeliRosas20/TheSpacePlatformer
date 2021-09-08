@@ -23,6 +23,9 @@ public class Resources {
         return playerTest2;
     }
 
+    /**
+     * Loads the images of the player onto the game
+     */
     public void loadPlayerImages(){
         //Load Idle, Jump, Walk Right, Walk Left, and Die
         BufferedImage[][] images = new BufferedImage[5][];
