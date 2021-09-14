@@ -1,5 +1,7 @@
 import Engine.*;
 import Input.*;
+import TileMap.TileMap;
+
 import javax.imageio.*;
 import java.awt.*;
 import java.awt.event.*;
@@ -19,6 +21,7 @@ public class Game extends Canvas implements Runnable{
     protected InputManager inputManager;
     protected GameAction jump, exit, moveLeft, moveRight, pause;
     Resources resources;
+    TileMap map = new TileMap("Maps//world1");
 
     public Game(){
         Dimension size = new Dimension(width * scale, height * scale);
@@ -28,7 +31,6 @@ public class Game extends Canvas implements Runnable{
         createGameActions();
         resources = new Resources();
         bg = loadImage("Images//Space.jpg");
-        tile = loadImage("TileImages//t_R.png");
     }
 
     public BufferedImage loadImage(String name){
@@ -90,7 +92,7 @@ public class Game extends Canvas implements Runnable{
             g.fillRect(0, 0, getWidth(), getHeight());
             g.drawImage(bg, 0, 0, null);
             g.drawImage(tile, 100, 100, null);
-            //map.draw(g);
+            map.draw(g);
             g.drawImage(resources.getPlayer().getImage(), Math.round(resources.getPlayer().getX()), Math.round(resources.getPlayer().getY()), null);
             g.dispose();
             strategy.show();

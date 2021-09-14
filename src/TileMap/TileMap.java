@@ -1,65 +1,73 @@
 package TileMap;
 
 import Engine.Sprite;
+
+import javax.imageio.ImageIO;
+import java.awt.*;
 import java.awt.image.*;
+import java.io.BufferedReader;
 import java.io.File;
-import java.util.Iterator;
-import java.util.LinkedList;
+import java.io.FileReader;
+import java.io.IOException;
 
 public class TileMap {
 
-    private BufferedImage[][] tiles;
-    private LinkedList sprites;
     private Sprite player;
+    public String[] map;
+    public BufferedImage[] tile;
+    public String[] tileName;
+    BufferedImage image;
+    public static int width = 300;
+    public static int height = width / 16 * 9;
 
-    public TileMap(int width, int height){
-        tiles = new BufferedImage[width][height];
-        sprites = new LinkedList();
-    }
-
-    public int getWidth(){
-        return tiles.length;
-    }
-
-    public int getHeight(){
-        return tiles[0].length;
+    public TileMap(String filename){
+        loadMap(filename);
+        loadTileImages();
     }
 
     public void loadMap(String fileName){
         File file = new File(fileName);
+        try{
+            BufferedReader reader = new BufferedReader(new FileReader(file));
+            int n = Integer.parseInt(reader.readLine());
+            map = new String[n];
+            for (int row = 0; row < n; row++){
+                map[row] = reader.readLine();
+            }
+            n = Integer.parseInt(reader.readLine());
+            tileName = new String[n];
+            for (int i = 0; i < n; i++){
+                tileName[i] = reader.readLine();
+            }
+            reader.close();
+        }catch (IOException e){ }
     }
 
-    public BufferedImage getTile(int x, int y){
-        if (x < 0 || x >= getWidth() || y < 0 || y >= getHeight()){
-            return null;
+    public void loadTileImages(){
+        tile = new BufferedImage[tileName.length];
+        for (int i = 0; i < tile.length; i++){
+            tile[i] = loadImage(tileName[i]);
         }
-        else {
-            return tiles[x][y];
+    }
+
+    public BufferedImage loadImage(String name){
+        try {
+            File f = new File(name);
+            image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
+            image = ImageIO.read(f);
+        }catch (IOException e){
+            e.printStackTrace();
         }
+        return image;
     }
 
-    public void setTile(int x, int y, BufferedImage tile){
-        tiles[x][y] = tile;
-    }
-
-    public Sprite getPlayer(){
-        return player;
-    }
-
-    public void setPlayer(Sprite player){
-        this.player = player;
-    }
-
-    public void addSprite(Sprite sprite){
-        sprites.add(sprite);
-    }
-
-    public void removeSprite(Sprite sprite){
-        sprites.remove(sprite);
-    }
-
-    public Iterator getSprites(){
-        return sprites.iterator();
+    public void draw(Graphics g){
+        for (int row = 0; row < map.length; row++){
+            for (int col = 0; col < map[row].length(); col++){
+                char c = map[row].charAt(col);
+                g.drawImage(tile[c - 'A'], col*100, row*100, null);
+            }
+        }
     }
 
 }
