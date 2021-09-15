@@ -9,6 +9,8 @@ public class Sprite {
     private float y;
     private float dx;
     private float dy;
+    private float ay;
+    public static final int GRAVITY = 1;
 
     public Sprite(Animation animation){
         this.animation = animation;
@@ -59,6 +61,14 @@ public class Sprite {
 
     public void setDy(float dy) {
         this.dy = dy;
+    }
+
+    public void setAy(float ay){
+        this.ay = ay;
+    }
+
+    public void applyGravity(){
+        ay = GRAVITY;
     }
 
     public Image getImage(){

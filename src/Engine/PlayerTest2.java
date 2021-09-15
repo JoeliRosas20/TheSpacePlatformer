@@ -35,6 +35,12 @@ public class PlayerTest2 extends Sprite {
         state = STATE_JUMPING;
     }
 
+    public void stop(){
+        setDx(0);
+        setDy(0);
+        setAy(0);
+    }
+
     public void update(long elapsedTime){
         //System.out.println("(Engine.PlayerTest2.java) update()");
         Animation nAnim = animation;

@@ -20,8 +20,9 @@ public class Game extends Canvas implements Runnable{
     private boolean paused;
     protected InputManager inputManager;
     protected GameAction jump, exit, moveLeft, moveRight, pause;
-    Resources resources;
+    Resources resources;;
     TileMap map = new TileMap("Maps//world1");
+    PlayerTest2 playerT;
 
     public Game(){
         Dimension size = new Dimension(width * scale, height * scale);
@@ -30,6 +31,7 @@ public class Game extends Canvas implements Runnable{
         inputManager= new InputManager(this);
         createGameActions();
         resources = new Resources();
+        playerT = resources.getPlayer();
         bg = loadImage("Images//Space.jpg");
     }
 
@@ -71,8 +73,10 @@ public class Game extends Canvas implements Runnable{
     public void update(long elapsedTime){
         checkSystemInput();
         if (!isPaused()){
+            //inGameLoop();
             checkGameInput();
-            resources.getPlayer().update(elapsedTime);
+
+            playerT.update(elapsedTime);
         }
     }
 
@@ -90,13 +94,67 @@ public class Game extends Canvas implements Runnable{
             }
             Graphics g = strategy.getDrawGraphics();
             g.fillRect(0, 0, getWidth(), getHeight());
-            g.drawImage(bg, 0, 0, null);
-            g.drawImage(tile, 100, 100, null);
-            map.draw(g);
-            g.drawImage(resources.getPlayer().getImage(), Math.round(resources.getPlayer().getX()), Math.round(resources.getPlayer().getY()), null);
+            draw(g);
             g.dispose();
             strategy.show();
         }
+    }
+
+    public void draw(Graphics g){
+        g.drawImage(bg, 0, 0, null);
+        g.drawImage(tile, 100, 100, null);
+        map.draw(g);
+        g.drawImage(playerT.getImage(), Math.round(playerT.getX()), Math.round(playerT.getY()), null);
+        //g.drawImage(resources.getPlayer().getImage(), 300, 100, null);
+        //System.out.println("X:"+Math.round(resources.getPlayer().getX()));
+        //System.out.println("Y:"+Math.round(resources.getPlayer().getY()));
+    }
+
+    public void inGameLoop(){
+        //System.out.println("(Game.java)Inside inGameLoop()");
+        if (!map.clearBelow(playerT)){
+            System.out.println("(Game.java)Inside inGameLoop()'s loop");
+            playerT.stop();
+            float velocityX = 0;
+            if (moveLeft.isPressed()){
+                System.out.println("(Game.java)Inside inGameLoop(), moveLeft pressed");
+                if (map.clearLeftOf(playerT)){
+                    System.out.println("(Game.java)Inside inGameLoop(), moveLeft pressed, clearLeftOf");
+                    velocityX -= PlayerTest2.SPEED;
+                    System.out.println("(Game.java)Inside inGameLoop(), moveLeft pressed, Leaving clearLeftOf");
+                }
+            }
+            if (moveRight.isPressed()){
+                System.out.println("(Game.java)Inside inGameLoop(), moveRight pressed");
+                if (map.clearRightOf(playerT)){
+                    System.out.println("(Game.java)Inside inGameLoop(), moveRight pressed, clearRightOf");
+                    velocityX += PlayerTest2.SPEED;
+                    System.out.println("(Game.java)Inside inGameLoop(), moveRight pressed, Leaving clearRightOf");
+                }
+            }
+            playerT.setDx(velocityX);
+            if (jump.isPressed() && playerT.getState() != PlayerTest2.STATE_JUMPING){
+                System.out.println("(Game.java)Inside inGameLoop(), jump pressed");
+                if (map.clearAbove(playerT)){
+                    System.out.println("(Game.java)Inside inGameLoop(), jump pressed, clearAbove");
+                    resources.getPlayer().jump();
+                    System.out.println("(Game.java)Inside inGameLoop(), jump pressed, Leaving clearAbove");
+                }
+            }
+        }
+        else{
+            playerT.applyGravity();
+            if (!map.clearLeftOf(playerT)){
+                resources.getPlayer().setDx(0);
+            }
+            if (!map.clearRightOf(playerT)){
+                resources.getPlayer().setDx(0);
+            }
+            if (!map.clearAbove(playerT)){
+                resources.getPlayer().setDy(0);
+            }
+        }
+        //System.out.println("(Game.java)Leaving inGameLoop()");
     }
 
     //------------------------------------------------------------------------------//
@@ -137,16 +195,18 @@ public class Game extends Canvas implements Runnable{
     public void checkGameInput(){
         float velocityX = 0;
         if (moveLeft.isPressed()){
+            //System.out.println("(Game.java)Inside checkGameInput(), moveLeft pressed");
             velocityX -= PlayerTest2.SPEED;
         }
         if (moveRight.isPressed()){
+            //System.out.println("(Game.java)Inside checkGameInput(), moveRight pressed");
             velocityX += PlayerTest2.SPEED;
         }
-        resources.getPlayer().setDx(velocityX);
+        playerT.setDx(velocityX);
         if (jump.isPressed() && resources.getPlayer().getState() != PlayerTest2.STATE_JUMPING){
-            resources.getPlayer().jump();
+            //System.out.println("(Game.java)Inside checkGameInput(), jump pressed");
+            playerT.jump();
         }
-
     }
 
 }
