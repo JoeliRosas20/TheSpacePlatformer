@@ -77,30 +77,9 @@ public class Game extends Canvas implements Runnable{
     public void update(long elapsedTime){
         checkSystemInput();
         if (!isPaused()){
-            //inGameLoop();
             checkGameInput();
-            //playerT.update(elapsedTime);
-            Top = Math.round(playerT.getY() - (playerT.getHeight() + 2));
-            Bottom = Math.round(playerT.getY() + (playerT.getHeight() + 2));
-            Right = Math.round(playerT.getX() + 100);
-            Left = Math.round(playerT.getX() - 100);
-
-            System.out.println("(Game.java)Top:"+ Top + " and Left:" + Left);
-            System.out.println("(Game.java)Top:"+Top+ " and Right:" + Right);
-            System.out.println("(Game.java)Bottom:"+Bottom+ " and Left:" + Left);
-            System.out.println("(Game.java)Bottom:"+Bottom+ " and Right:" + Right);
-            if((map.valueAt(Top,Left) == '#') && (map.valueAt(Top,Right) == '#') && (map.valueAt(Bottom,Left) == '#') && (map.valueAt(Bottom, Right) == '#')){
-                System.out.println("Floating");
-                playerT.setDy(0.1f);
-            }else if(map.valueAt(Bottom,Left) != '#' && map.valueAt(Bottom, Right) != '#'){
-                System.out.println("Standing on the floor");
-                playerT.setDy(0);
-                playerT.setFloorY(Bottom - (playerT.getHeight()+2));
-                System.out.println(Bottom - (playerT.getHeight() + 2));
-                //playerT.setFloorY(310);
-            }
+            checkingCollision();
             playerT.update(elapsedTime);
-
         }
     }
 
@@ -127,55 +106,47 @@ public class Game extends Canvas implements Runnable{
     public void draw(Graphics g){
         g.drawImage(bg, 0, 0, null);
         g.drawImage(tile, 100, 100, null);
+        g.setColor(Color.GREEN);
         map.draw(g);
         g.drawImage(playerT.getImage(), Math.round(playerT.getX()), Math.round(playerT.getY()), null);
+        g.setColor(Color.red);
+        g.drawRect(Math.round(playerT.getX()), Math.round(playerT.getY()), playerT.getWidth(), playerT.getHeight());
     }
 
-    public void inGameLoop(){
-        //System.out.println("(Game.java)Inside inGameLoop()");
-        if (!map.clearBelow(playerT)){
-            //System.out.println("(Game.java)Inside inGameLoop()'s loop");
-            playerT.stop();
-            float velocityX = 0;
-            if (moveLeft.isPressed()){
-                System.out.println("(Game.java)Inside inGameLoop(), moveLeft pressed");
-                if (map.clearLeftOf(playerT)){
-                    System.out.println("(Game.java)Inside inGameLoop(), moveLeft pressed, clearLeftOf");
-                    velocityX -= PlayerTest2.SPEED;
-                    System.out.println("(Game.java)Inside inGameLoop(), moveLeft pressed, Leaving clearLeftOf");
-                }
-            }
-            if (moveRight.isPressed()){
-                System.out.println("(Game.java)Inside inGameLoop(), moveRight pressed");
-                if (map.clearRightOf(playerT)){
-                    System.out.println("(Game.java)Inside inGameLoop(), moveRight pressed, clearRightOf");
-                    velocityX += PlayerTest2.SPEED;
-                    System.out.println("(Game.java)Inside inGameLoop(), moveRight pressed, Leaving clearRightOf");
-                }
-            }
-            playerT.setDx(velocityX);
-            if (jump.isPressed() && playerT.getState() != PlayerTest2.STATE_JUMPING){
-                System.out.println("(Game.java)Inside inGameLoop(), jump pressed");
-                if (map.clearAbove(playerT)){
-                    System.out.println("(Game.java)Inside inGameLoop(), jump pressed, clearAbove");
-                    playerT.jump();
-                    System.out.println("(Game.java)Inside inGameLoop(), jump pressed, Leaving clearAbove");
-                }
-            }
+    public void checkingCollision(){
+        Top = Math.round(playerT.getY() - (playerT.getHeight() + 2));
+        Bottom = Math.round(playerT.getY() + (playerT.getHeight() + 2));
+        Right = Math.round(playerT.getX() + 100);
+        Left = Math.round(playerT.getX() - 100);
+        //System.out.println("First left is:"+Left);
+        if (Left <= -100){
+            //System.out.println(Left + " OOOHHHHHHHHHHHHHHHHHHHHH");
+            playerT.setX(0.5f);
+            playerT.setY(0);
+            Left = (Left * -1) - 100;
+            //System.out.println("new left is "+(Left-100)+" AAAAAAAAAAAAAAHHHHHHHHHHHHHHHH\n");
         }
-        else{
-            playerT.applyGravity();
-            if (!map.clearLeftOf(playerT)){
-                playerT.setDx(0);
-            }
-            if (!map.clearRightOf(playerT)){
-                playerT.setDx(0);
-            }
-            if (!map.clearAbove(playerT)){
-                playerT.setDy(0);
-            }
+        //System.out.println("Second left is:"+Left);
+/*
+        System.out.println("(Game.java)Top:"+ Top + " and Left:" + Left);
+        System.out.println("(Game.java)Top:"+Top+ " and Right:" + Right);
+        System.out.println("(Game.java)Bottom:"+Bottom+ " and Left:" + Left);
+        System.out.println("(Game.java)Bottom:"+Bottom+ " and Right:" + Right);
+*/
+        //When the player is floating in the air
+        if((map.valueAt(Top,Left) == '#') && (map.valueAt(Top,Right) == '#') && (map.valueAt(Bottom,Left) == '#') && (map.valueAt(Bottom, Right) == '#')){
+            //System.out.println("Floating");
+            playerT.setDy(0.1f);
         }
-        //System.out.println("(Game.java)Leaving inGameLoop()");
+        //Once the player is on the ground
+        else if(map.valueAt(Bottom,Left) != '#' && map.valueAt(Bottom, Right) != '#'){
+            //System.out.println("Standing on the floor");
+            playerT.setDy(0);
+            playerT.setFloorY(Bottom - (playerT.getHeight()+2));
+            //System.out.println(Bottom - (playerT.getHeight() + 2));
+
+        }
+
     }
 
     //------------------------------------------------------------------------------//
@@ -214,23 +185,17 @@ public class Game extends Canvas implements Runnable{
     }
 
     public void checkGameInput(){
-        //System.out.println("(Game.java)Inside checkGameInput.java");
         float velocityX = 0;
         if (moveLeft.isPressed()){
-            //System.out.println("(Game.java)Inside checkGameInput.java, left was pressed");
             velocityX -= PlayerTest2.SPEED;
         }
         if (moveRight.isPressed()){
-            //System.out.println("(Game.java)Inside checkGameInput.java, right was pressed");
             velocityX += PlayerTest2.SPEED;
         }
         playerT.setDx(velocityX);
         if (jump.isPressed() && playerT.getState() != PlayerTest2.STATE_JUMPING){
-            //System.out.println("(Game.java)Inside checkGameInput.java, jump was pressed");
             playerT.jump();
         }
-        //System.out.println("(Game.java)Leaving checkGameInput.java");
-        //System.out.println("The PlayerX is " + (int)playerT.getX()+"\n and PlayerY is " + (int)playerT.getY());
     }
 
 }

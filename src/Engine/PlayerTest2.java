@@ -59,7 +59,7 @@ public class PlayerTest2 extends Sprite {
         }
         //Moves the player
         super.update(elapsedTime);
-        System.out.println("(PlayerTest2.java)Y is:"+Math.round(getY())+"\n");
+        //System.out.println("(PlayerTest2.java)Y is:"+Math.round(getY())+"\n");
         //System.out.println("Floor is:"+floorY);
         //Check if player landed on floor
         if (getState() == STATE_JUMPING && getY() >= floorY){
