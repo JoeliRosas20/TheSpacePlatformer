@@ -10,6 +10,7 @@ public class PlayerTest2 extends Sprite {
     private int state;
     Animation idle;
     Animation jump;
+    private float ay;
 
     public PlayerTest2(Animation idle, Animation jump) {
         super(idle);
@@ -38,8 +39,13 @@ public class PlayerTest2 extends Sprite {
     public void stop(){
         setDx(0);
         setDy(0);
-        setAy(0);
+        ay = 0;
     }
+
+    public void applyGravity(){
+        ay = GRAVITY;
+    }
+
 
     public void update(long elapsedTime){
         //System.out.println("(Engine.PlayerTest2.java) update()");
@@ -53,7 +59,7 @@ public class PlayerTest2 extends Sprite {
         }
         //Moves the player
         super.update(elapsedTime);
-        //System.out.println("Y is:"+getY());
+        System.out.println("(PlayerTest2.java)Y is:"+Math.round(getY())+"\n");
         //System.out.println("Floor is:"+floorY);
         //Check if player landed on floor
         if (getState() == STATE_JUMPING && getY() >= floorY){

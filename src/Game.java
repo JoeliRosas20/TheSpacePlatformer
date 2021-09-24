@@ -21,8 +21,9 @@ public class Game extends Canvas implements Runnable{
     protected InputManager inputManager;
     protected GameAction jump, exit, moveLeft, moveRight, pause;
     Resources resources;;
-    TileMap map = new TileMap("Maps//world1");
+    TileMap map;
     PlayerTest2 playerT;
+    int Top, Bottom, Right, Left;
 
     public Game(){
         Dimension size = new Dimension(width * scale, height * scale);
@@ -32,7 +33,10 @@ public class Game extends Canvas implements Runnable{
         createGameActions();
         resources = new Resources();
         playerT = resources.getPlayer();
+        map = resources.getMap();
         bg = loadImage("Images//Space.jpg");
+
+
     }
 
     public BufferedImage loadImage(String name){
@@ -75,8 +79,28 @@ public class Game extends Canvas implements Runnable{
         if (!isPaused()){
             //inGameLoop();
             checkGameInput();
+            //playerT.update(elapsedTime);
+            Top = Math.round(playerT.getY() - (playerT.getHeight() + 2));
+            Bottom = Math.round(playerT.getY() + (playerT.getHeight() + 2));
+            Right = Math.round(playerT.getX() + 100);
+            Left = Math.round(playerT.getX() - 100);
 
+            System.out.println("(Game.java)Top:"+ Top + " and Left:" + Left);
+            System.out.println("(Game.java)Top:"+Top+ " and Right:" + Right);
+            System.out.println("(Game.java)Bottom:"+Bottom+ " and Left:" + Left);
+            System.out.println("(Game.java)Bottom:"+Bottom+ " and Right:" + Right);
+            if((map.valueAt(Top,Left) == '#') && (map.valueAt(Top,Right) == '#') && (map.valueAt(Bottom,Left) == '#') && (map.valueAt(Bottom, Right) == '#')){
+                System.out.println("Floating");
+                playerT.setDy(0.1f);
+            }else if(map.valueAt(Bottom,Left) != '#' && map.valueAt(Bottom, Right) != '#'){
+                System.out.println("Standing on the floor");
+                playerT.setDy(0);
+                playerT.setFloorY(Bottom - (playerT.getHeight()+2));
+                System.out.println(Bottom - (playerT.getHeight() + 2));
+                //playerT.setFloorY(310);
+            }
             playerT.update(elapsedTime);
+
         }
     }
 
@@ -105,15 +129,12 @@ public class Game extends Canvas implements Runnable{
         g.drawImage(tile, 100, 100, null);
         map.draw(g);
         g.drawImage(playerT.getImage(), Math.round(playerT.getX()), Math.round(playerT.getY()), null);
-        //g.drawImage(resources.getPlayer().getImage(), 300, 100, null);
-        //System.out.println("X:"+Math.round(resources.getPlayer().getX()));
-        //System.out.println("Y:"+Math.round(resources.getPlayer().getY()));
     }
 
     public void inGameLoop(){
         //System.out.println("(Game.java)Inside inGameLoop()");
         if (!map.clearBelow(playerT)){
-            System.out.println("(Game.java)Inside inGameLoop()'s loop");
+            //System.out.println("(Game.java)Inside inGameLoop()'s loop");
             playerT.stop();
             float velocityX = 0;
             if (moveLeft.isPressed()){
@@ -137,7 +158,7 @@ public class Game extends Canvas implements Runnable{
                 System.out.println("(Game.java)Inside inGameLoop(), jump pressed");
                 if (map.clearAbove(playerT)){
                     System.out.println("(Game.java)Inside inGameLoop(), jump pressed, clearAbove");
-                    resources.getPlayer().jump();
+                    playerT.jump();
                     System.out.println("(Game.java)Inside inGameLoop(), jump pressed, Leaving clearAbove");
                 }
             }
@@ -145,13 +166,13 @@ public class Game extends Canvas implements Runnable{
         else{
             playerT.applyGravity();
             if (!map.clearLeftOf(playerT)){
-                resources.getPlayer().setDx(0);
+                playerT.setDx(0);
             }
             if (!map.clearRightOf(playerT)){
-                resources.getPlayer().setDx(0);
+                playerT.setDx(0);
             }
             if (!map.clearAbove(playerT)){
-                resources.getPlayer().setDy(0);
+                playerT.setDy(0);
             }
         }
         //System.out.println("(Game.java)Leaving inGameLoop()");
@@ -193,20 +214,23 @@ public class Game extends Canvas implements Runnable{
     }
 
     public void checkGameInput(){
+        //System.out.println("(Game.java)Inside checkGameInput.java");
         float velocityX = 0;
         if (moveLeft.isPressed()){
-            //System.out.println("(Game.java)Inside checkGameInput(), moveLeft pressed");
+            //System.out.println("(Game.java)Inside checkGameInput.java, left was pressed");
             velocityX -= PlayerTest2.SPEED;
         }
         if (moveRight.isPressed()){
-            //System.out.println("(Game.java)Inside checkGameInput(), moveRight pressed");
+            //System.out.println("(Game.java)Inside checkGameInput.java, right was pressed");
             velocityX += PlayerTest2.SPEED;
         }
         playerT.setDx(velocityX);
-        if (jump.isPressed() && resources.getPlayer().getState() != PlayerTest2.STATE_JUMPING){
-            //System.out.println("(Game.java)Inside checkGameInput(), jump pressed");
+        if (jump.isPressed() && playerT.getState() != PlayerTest2.STATE_JUMPING){
+            //System.out.println("(Game.java)Inside checkGameInput.java, jump was pressed");
             playerT.jump();
         }
+        //System.out.println("(Game.java)Leaving checkGameInput.java");
+        //System.out.println("The PlayerX is " + (int)playerT.getX()+"\n and PlayerY is " + (int)playerT.getY());
     }
 
 }

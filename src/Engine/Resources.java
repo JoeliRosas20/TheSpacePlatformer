@@ -1,5 +1,7 @@
 package Engine;
 
+import TileMap.TileMap;
+
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -14,6 +16,7 @@ public class Resources {
     File f;
     Animation animation, animation2;
     PlayerTest2 playerTest2;
+    TileMap map = new TileMap("Maps//world1");
 
     public Resources(){
         loadPlayerImages();
@@ -21,6 +24,10 @@ public class Resources {
 
     public PlayerTest2 getPlayer(){
         return playerTest2;
+    }
+
+    public TileMap getMap(){
+        return map;
     }
 
     /**
@@ -72,14 +79,13 @@ public class Resources {
         animation2.addFrame(player19, 100);
         animation2.addFrame(player20, 100);
         playerTest2 = new PlayerTest2(animation, animation2);
-        //System.out.println(height * scale);
-        playerTest2.setFloorY(((height * scale) - playerTest2.getHeight()) - 100);
-
-        //playerTest2.setX(100);
-        System.out.println("Floor is: "+((height * scale)-playerTest2.getHeight()));
-        System.out.println("X:"+playerTest2.getX());
-        System.out.println("Y:"+playerTest2.getY());
-
+        /*
+        System.out.println(height * scale);
+        System.out.println(playerTest2.getHeight());
+        playerTest2.setFloorY(((height * scale) - playerTest2.getHeight()));
+        */
+        playerTest2.setX(100);
+        playerTest2.setY(200);
     }
 
     public BufferedImage loadImage(String name){
