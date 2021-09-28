@@ -82,10 +82,11 @@ public class Resources {
         /*
         System.out.println(height * scale);
         System.out.println(playerTest2.getHeight());
-        playerTest2.setFloorY(((height * scale) - playerTest2.getHeight()));
         */
-        playerTest2.setX(100);
-        playerTest2.setY(200);
+        //playerTest2.setX(100);
+        //playerTest2.setY(200);
+        //playerTest2.setFloorY(((height * scale) - playerTest2.getHeight()));
+
     }
 
     public BufferedImage loadImage(String name){

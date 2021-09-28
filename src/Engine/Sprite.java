@@ -9,6 +9,8 @@ public class Sprite {
     private float y;
     private float dx;
     private float dy;
+    private int ay = 0;
+    public static final int GRAVITY = 1;
 
     public Sprite(Animation animation){
         this.animation = animation;
@@ -16,6 +18,7 @@ public class Sprite {
 
     public void update(long elapsedTime){
         //System.out.println("(Sprite.java) update()");
+        //dy += ay;
         x += dx * elapsedTime;
         y += dy * elapsedTime;
         animation.update(elapsedTime);
@@ -63,6 +66,10 @@ public class Sprite {
 
     public void setDy(float dy) {
         this.dy = dy;
+    }
+
+    public void applyGravity(){
+        this.ay = GRAVITY;
     }
 
     public Image getImage(){

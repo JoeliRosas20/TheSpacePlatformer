@@ -32,7 +32,8 @@ public class PlayerTest2 extends Sprite {
     }
 
     public void jump(){
-        setDy(-0.8f);
+        System.out.println(("(Engine.PlayerTest2.java) jump()"));
+        setDy(-100.8f);
         state = STATE_JUMPING;
     }
 
@@ -41,11 +42,6 @@ public class PlayerTest2 extends Sprite {
         setDy(0);
         ay = 0;
     }
-
-    public void applyGravity(){
-        ay = GRAVITY;
-    }
-
 
     public void update(long elapsedTime){
         //System.out.println("(Engine.PlayerTest2.java) update()");
@@ -59,8 +55,8 @@ public class PlayerTest2 extends Sprite {
         }
         //Moves the player
         super.update(elapsedTime);
-        //System.out.println("(PlayerTest2.java)Y is:"+Math.round(getY())+"\n");
-        //System.out.println("Floor is:"+floorY);
+        System.out.println("(PlayerTest2.java)Y is:"+Math.round(getY())+"\n");
+        System.out.println("(PlayerTest2.java)Floor is:"+floorY);
         //Check if player landed on floor
         if (getState() == STATE_JUMPING && getY() >= floorY){
             //System.out.println("(Engine.PlayerTest2.java) update(), if state is jumping and not on the floor");

@@ -75,43 +75,16 @@ public class TileMap {
         return image;
     }
 
-    /*
-    The following four methods is supposed to be the tile map collision
-    Based of Murphy's sample game code
+    /**
+     * Returns the value of y and x of requested tile
+     * @param y
+     * @param x
+     * @return
      */
-    public boolean clearAbove(PlayerTest2 player){
-        int top = (int) player.getY();
-        int left = (int) player.getX();
-        int right = (int) player.getX() + 1;
-        return (valueAt(top-25, left) == '#') && (valueAt(top - 25, right) == '#');
-    }
-
-    public boolean clearBelow(PlayerTest2 player){
-        int bottom = (int) player.getY() + 1;
-        int left = (int) player.getX();
-        int right = (int) player.getX() + 1;
-        //System.out.println(bottom);
-        return (valueAt((int) (bottom - (player.getDy())+1), left) == '#') && (valueAt((int) (bottom - (player.getDy())+1), right) == '#');
-    }
-
-    public boolean clearLeftOf(PlayerTest2 player){
-        int top = (int) player.getY();
-        int bottom = (int) player.getY() + 1;
-        int left = (int) player.getX();
-        return (valueAt(top, left - 20) == '#') && (valueAt(bottom, left - 20) == '#');
-    }
-
-    public boolean clearRightOf(PlayerTest2 player){
-        int top = (int) player.getY();
-        int bottom = (int) player.getY() + 1;
-        int right = (int) player.getX() + 1;
-        return (valueAt(top, right + 20) == '#') && (valueAt(bottom, (int) right + 20) == '#');
-    }
-
     public char valueAt(int y, int x){
         int row = (y / 100);
         int col = (x / 100);
-        //System.out.println("(TileMap.java)Row "+row+" and Col "+col);
+        System.out.println("(TileMap.java)Row "+row+" and Col "+col);
         return map[row].charAt(col);
     }
 

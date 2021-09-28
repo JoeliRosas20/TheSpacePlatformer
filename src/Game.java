@@ -35,8 +35,6 @@ public class Game extends Canvas implements Runnable{
         playerT = resources.getPlayer();
         map = resources.getMap();
         bg = loadImage("Images//Space.jpg");
-
-
     }
 
     public BufferedImage loadImage(String name){
@@ -77,8 +75,8 @@ public class Game extends Canvas implements Runnable{
     public void update(long elapsedTime){
         checkSystemInput();
         if (!isPaused()){
-            checkGameInput();
             checkingCollision();
+            checkGameInput();
             playerT.update(elapsedTime);
         }
     }
@@ -108,43 +106,47 @@ public class Game extends Canvas implements Runnable{
         g.drawImage(tile, 100, 100, null);
         g.setColor(Color.GREEN);
         map.draw(g);
-        g.drawImage(playerT.getImage(), Math.round(playerT.getX()), Math.round(playerT.getY()), null);
+        g.drawImage(playerT.getImage(), Math.round(playerT.getX()), Math.round(playerT.getY()+10), null);
         g.setColor(Color.red);
-        g.drawRect(Math.round(playerT.getX()), Math.round(playerT.getY()), playerT.getWidth(), playerT.getHeight());
+        g.drawRect(Math.round(playerT.getX()), Math.round(playerT.getY()+10), playerT.getWidth(), playerT.getHeight());
     }
 
     public void checkingCollision(){
-        Top = Math.round(playerT.getY() - (playerT.getHeight() + 2));
+        Top = Math.round(playerT.getY() - 1);
         Bottom = Math.round(playerT.getY() + (playerT.getHeight() + 2));
-        Right = Math.round(playerT.getX() + 100);
-        Left = Math.round(playerT.getX() - 100);
-        //System.out.println("First left is:"+Left);
-        if (Left <= -100){
-            //System.out.println(Left + " OOOHHHHHHHHHHHHHHHHHHHHH");
+        Right = Math.round(playerT.getX() + 1);
+        Left = Math.round(playerT.getX() - 1);
+        //Makes sure the player does not go out of bounds on left side
+        if (Left <= -1){
             playerT.setX(0.5f);
             playerT.setY(0);
             Left = (Left * -1) - 100;
-            //System.out.println("new left is "+(Left-100)+" AAAAAAAAAAAAAAHHHHHHHHHHHHHHHH\n");
         }
-        //System.out.println("Second left is:"+Left);
-/*
-        System.out.println("(Game.java)Top:"+ Top + " and Left:" + Left);
-        System.out.println("(Game.java)Top:"+Top+ " and Right:" + Right);
-        System.out.println("(Game.java)Bottom:"+Bottom+ " and Left:" + Left);
-        System.out.println("(Game.java)Bottom:"+Bottom+ " and Right:" + Right);
-*/
         //When the player is floating in the air
+        System.out.println("(Game.java)When the player is floating in the air");
         if((map.valueAt(Top,Left) == '#') && (map.valueAt(Top,Right) == '#') && (map.valueAt(Bottom,Left) == '#') && (map.valueAt(Bottom, Right) == '#')){
             //System.out.println("Floating");
-            playerT.setDy(0.1f);
+            playerT.setDy(0.3f);
+            playerT.setDx(0);
         }
         //Once the player is on the ground
-        else if(map.valueAt(Bottom,Left) != '#' && map.valueAt(Bottom, Right) != '#'){
+        if(map.valueAt(Bottom,Left) != '#' && map.valueAt(Bottom, Right) != '#'){
             //System.out.println("Standing on the floor");
-            playerT.setDy(0);
             playerT.setFloorY(Bottom - (playerT.getHeight()+2));
-            //System.out.println(Bottom - (playerT.getHeight() + 2));
+            System.out.println("(Game.java)Is the player jumping?");
+            //Gets ready for the player to jump
+            if (map.valueAt(Top-100, Right) == '#' && map.valueAt(Top-100, Left) == '#' && jump.isPressed()){
+                System.out.println("(Game.java)The player jumped. AAAAAAAAAAAAAAAAAAAAAAAAAHHHHHHHHHHHHHHHHHHHHHHHHHH");
+                System.out.println("(Game.java)Top, Right "+map.valueAt(Top-100, Right)+". Top, Left "+map.valueAt(Top, Left));
+                System.out.println("(Game.java)Top:"+ Top + " and Left:" + Left);
+                System.out.println("(Game.java)Top:"+Top+ " and Right:" + Right);
+                System.out.println(map.valueAt(Math.round(playerT.getY()), Math.round(playerT.getX())));
+                playerT.jump();
+            }
 
+        }
+        else{
+            playerT.applyGravity();
         }
 
     }
@@ -194,7 +196,7 @@ public class Game extends Canvas implements Runnable{
         }
         playerT.setDx(velocityX);
         if (jump.isPressed() && playerT.getState() != PlayerTest2.STATE_JUMPING){
-            playerT.jump();
+            //playerT.jump();
         }
     }
 
