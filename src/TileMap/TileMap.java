@@ -84,7 +84,7 @@ public class TileMap {
     public char valueAt(int y, int x){
         int row = (y / 100);
         int col = (x / 100);
-        System.out.println("(TileMap.java)Row "+row+" and Col "+col);
+        //System.out.println("(TileMap.java)Row "+row+" and Col "+col);
         return map[row].charAt(col);
     }
 
@@ -94,8 +94,8 @@ public class TileMap {
                 char c = map[row].charAt(col);
                 if (c != '#')
                 g.drawImage(tile[c - 'A'], col*100, row*100, null);
-                g.setColor(Color.green);
-                g.drawRect(col*100, row*100, 100, 100);
+                //g.setColor(Color.green);
+                //g.drawRect(col*100, row*100, 100, 100);
             }
         }
     }

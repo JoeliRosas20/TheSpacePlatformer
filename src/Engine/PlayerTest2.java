@@ -32,34 +32,24 @@ public class PlayerTest2 extends Sprite {
     }
 
     public void jump(){
-        System.out.println(("(Engine.PlayerTest2.java) jump()"));
-        setDy(-100.8f);
+        //System.out.println(("(Engine.PlayerTest2.java) jump()"));
+        setDy(-0.8f);
         state = STATE_JUMPING;
     }
 
-    public void stop(){
-        setDx(0);
-        setDy(0);
-        ay = 0;
-    }
-
     public void update(long elapsedTime){
-        //System.out.println("(Engine.PlayerTest2.java) update()");
         Animation nAnim = animation;
         //Set the vertical velocity for jumping
         if (getState() == STATE_JUMPING){
-            //System.out.println("(Engine.PlayerTest2.java) update(), if state is jumping");
+            //System.out.println("(PlayerTest2.java)Looks like the Player is in the jumping state");
             setDy(getDy() + GRAVITY * elapsedTime);
             nAnim = jump;
-            //System.out.println("(Engine.PlayerTest2.java) update(), if state is jumping:"+(getDy() + GRAVITY * elapsedTime));
         }
         //Moves the player
         super.update(elapsedTime);
-        System.out.println("(PlayerTest2.java)Y is:"+Math.round(getY())+"\n");
-        System.out.println("(PlayerTest2.java)Floor is:"+floorY);
         //Check if player landed on floor
         if (getState() == STATE_JUMPING && getY() >= floorY){
-            //System.out.println("(Engine.PlayerTest2.java) update(), if state is jumping and not on the floor");
+            //System.out.println("(PlayerTest2.java)Looks like the Player landed on floor");
             setDy(0);
             setY(floorY);
             setState(STATE_NORMAL);

@@ -68,24 +68,18 @@ public class Resources {
         animation.addFrame(player8, 100);
         animation.addFrame(player9, 100);
         animation.addFrame(player10, 100);
-        animation2.addFrame(player11, 100);
-        animation2.addFrame(player12, 100);
-        animation2.addFrame(player13, 100);
-        animation2.addFrame(player14, 100);
-        animation2.addFrame(player15, 100);
-        animation2.addFrame(player16, 100);
-        animation2.addFrame(player17, 100);
-        animation2.addFrame(player18, 100);
-        animation2.addFrame(player19, 100);
-        animation2.addFrame(player20, 100);
+        animation2.addFrame(player11, 200);
+        animation2.addFrame(player12, 200);
+        animation2.addFrame(player13, 200);
+        animation2.addFrame(player14, 200);
+        animation2.addFrame(player15, 200);
+        animation2.addFrame(player16, 200);
+        animation2.addFrame(player17, 200);
+        animation2.addFrame(player18, 200);
+        animation2.addFrame(player19, 200);
+        animation2.addFrame(player20, 200);
         playerTest2 = new PlayerTest2(animation, animation2);
-        /*
-        System.out.println(height * scale);
-        System.out.println(playerTest2.getHeight());
-        */
-        //playerTest2.setX(100);
-        //playerTest2.setY(200);
-        //playerTest2.setFloorY(((height * scale) - playerTest2.getHeight()));
+        //playerTest2.setFloorY(((height * scale) - playerTest2.getHeight())-100);
 
     }
 
