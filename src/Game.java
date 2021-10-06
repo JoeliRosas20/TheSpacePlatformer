@@ -122,45 +122,59 @@ public class Game extends Canvas implements Runnable{
         Bottom = Math.round(playerT.getY() + (playerT.getHeight() + 2));
         Right = Math.round(playerT.getX() + 99);
         Left = Math.round(playerT.getX());
+
         boolean notTopRightTile = map.valueAt(Top, Right) != '#';
         boolean notBottomRightTile = map.valueAt(Bottom, Right) != '#';
         boolean notTopLeftTile = map.valueAt(Top, Left) != '#';
         boolean notBottomLeftTile = map.valueAt(Bottom, Left) != '#';
+        boolean belowIsGround = notBottomLeftTile && notBottomRightTile;
+
+        //These are for checking the right side of the player if there is a tile
+        boolean notBottomRight = map.valueAt(Bottom, Right - 30) != '#';
+        boolean notTopRight = map.valueAt(Top, Right - 30) != '#';
+        boolean thereIsATileOnRight = notBottomRight && notTopRight;
+
+        //These are for checking the left side of the player if there is a tile
+        boolean notTopLeft = map.valueAt(Top, Left+30) != '#';
+        boolean notBottomLeft = map.valueAt(Bottom, Left+30) != '#';
+        boolean thereIsAtTileOnLeft = notTopLeft && notBottomLeft;
+
         //Makes sure the player does not go out of bounds on left side
         if (Left <= -20){
             playerT.setX(-19);
             playerT.setY(0);
             Left = (Left * -1) - 100;
         }
+
         //Attempt to check the right side of player it is a tile
-        if(notTopRightTile && notBottomRightTile){
-            System.out.println("--------------------------Go Back----------------------------");
+        if(thereIsATileOnRight){
             playerT.setX(Left-1);
         }
-        //When the player is floating in the air
+
+        //Attempt to check the left side of player it is a tile
+        if (thereIsAtTileOnLeft){
+            playerT.setX(Right+1);
+        }
+
+        //To get the player floating at the start
         if((map.valueAt(Top,Left) == '#') && (map.valueAt(Top,Right) == '#') && (map.valueAt(Bottom,Left) == '#') && (map.valueAt(Bottom, Right) == '#')){
             //System.out.println("Floating");
             playerT.setDy(0.3f);
             playerT.setDx(0);
         }
+
         //Once the player is on the ground
-        if(notBottomLeftTile && notBottomRightTile){
+        if(belowIsGround){
             playerT.setFloorY(Bottom - (playerT.getHeight()+2));
             //This loop is for the player jump
-            if (map.valueAt(Top-200, Right) == '#' && map.valueAt(Top-200, Left) == '#' && jump.isPressed()&& playerT.getState() != PlayerTest2.STATE_JUMPING){
-                //playerT.jump();
-                if(map.valueAt(Top, Right) != '#' && map.valueAt(Bottom, Right) != '#'){
-                    System.out.println("--------------------------Go Back 2----------------------------");
-                    playerT.setX(Left);
-                    playerT.setFloorY(Bottom - (playerT.getHeight()+2));
-                }
+            if (map.valueAt(Top-100, Right) == '#' && map.valueAt(Top-100, Left) == '#' && jump.isPressed() && playerT.getState() != PlayerTest2.STATE_JUMPING){
+                playerT.jump();
             }
         }
         else{
             //When the player is airborne
             playerT.applyGravity();
         }
-
     }
 
     //------------------------------------------------------------------------------//
@@ -207,10 +221,6 @@ public class Game extends Canvas implements Runnable{
             velocityX += PlayerTest2.SPEED;
         }
         playerT.setDx(velocityX);
-        if (jump.isPressed() && playerT.getState() != PlayerTest2.STATE_JUMPING){
-            //System.out.println("(Game.java) Inside checkGameInput.java, jump was pressed---------------------");
-            playerT.jump();
-        }
     }
 
 }
