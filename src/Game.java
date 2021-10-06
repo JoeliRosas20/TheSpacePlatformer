@@ -148,12 +148,7 @@ public class Game extends Canvas implements Runnable{
             playerT.setFloorY(Bottom - (playerT.getHeight()+2));
             //This loop is for the player jump
             if (map.valueAt(Top-200, Right) == '#' && map.valueAt(Top-200, Left) == '#' && jump.isPressed()&& playerT.getState() != PlayerTest2.STATE_JUMPING){
-                //playerT.jump();
-                if(map.valueAt(Top, Right) != '#' && map.valueAt(Bottom, Right) != '#'){
-                    System.out.println("--------------------------Go Back 2----------------------------");
-                    playerT.setX(Left);
-                    playerT.setFloorY(Bottom - (playerT.getHeight()+2));
-                }
+                playerT.jump();
             }
         }
         else{
@@ -207,10 +202,6 @@ public class Game extends Canvas implements Runnable{
             velocityX += PlayerTest2.SPEED;
         }
         playerT.setDx(velocityX);
-        if (jump.isPressed() && playerT.getState() != PlayerTest2.STATE_JUMPING){
-            //System.out.println("(Game.java) Inside checkGameInput.java, jump was pressed---------------------");
-            playerT.jump();
-        }
     }
 
 }
