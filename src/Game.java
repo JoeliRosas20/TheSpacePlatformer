@@ -83,7 +83,7 @@ public class Game extends Canvas implements Runnable{
             checkingCollision();
             checkGameInput();
             playerT.update(elapsedTime);
-            System.out.println("Get Y:"+playerT.getY());
+            //System.out.println("Get Y:"+playerT.getY());
         }
     }
 
@@ -120,19 +120,21 @@ public class Game extends Canvas implements Runnable{
     public void checkingCollision(){
         Top = Math.round(playerT.getY() - 1);
         Bottom = Math.round(playerT.getY() + (playerT.getHeight() + 2));
-        Right = Math.round(playerT.getX() + 100);
+        Right = Math.round(playerT.getX() + 99);
         Left = Math.round(playerT.getX() - 1);
         boolean topRightTile = map.valueAt(Top, Right) != '#';
+        boolean bottomRightTile = map.valueAt(Bottom, Right) != '#';
         //Makes sure the player does not go out of bounds on left side
         if (Left <= -1){
             playerT.setX(0.5f);
             playerT.setY(0);
             Left = (Left * -1) - 100;
         }
-        if(topRightTile && map.valueAt(Bottom, Right) != '#'){
+        //Attempt to check the right side of player it is a tile
+        if(topRightTile && bottomRightTile){
             //System.out.println("--------------------------Go Back----------------------------");
             playerT.setX(Left);
-            playerT.setFloorY(Bottom - (playerT.getHeight()+2));
+            //playerT.setFloorY(Bottom - (playerT.getHeight()+2));
         }
         //When the player is floating in the air
         if((map.valueAt(Top,Left) == '#') && (map.valueAt(Top,Right) == '#') && (map.valueAt(Bottom,Left) == '#') && (map.valueAt(Bottom, Right) == '#')){
