@@ -147,7 +147,7 @@ public class Game extends Canvas implements Runnable{
         if(notBottomLeftTile && notBottomRightTile){
             playerT.setFloorY(Bottom - (playerT.getHeight()+2));
             //This loop is for the player jump
-            if (map.valueAt(Top-200, Right) == '#' && map.valueAt(Top-200, Left) == '#' && jump.isPressed()&& playerT.getState() != PlayerTest2.STATE_JUMPING){
+            if (map.valueAt(Top-100, Right) == '#' && map.valueAt(Top-100, Left) == '#' && jump.isPressed()&& playerT.getState() != PlayerTest2.STATE_JUMPING){
                 //playerT.jump();
                 if(map.valueAt(Top, Right) != '#' && map.valueAt(Bottom, Right) != '#'){
                     System.out.println("--------------------------Go Back 2----------------------------");
