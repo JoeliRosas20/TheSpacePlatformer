@@ -118,23 +118,24 @@ public class Game extends Canvas implements Runnable{
     }
 
     public void checkingCollision(){
-        Top = Math.round(playerT.getY() - 1);
+        Top = Math.round(playerT.getY());
         Bottom = Math.round(playerT.getY() + (playerT.getHeight() + 2));
         Right = Math.round(playerT.getX() + 99);
-        Left = Math.round(playerT.getX() - 1);
-        boolean topRightTile = map.valueAt(Top, Right) != '#';
-        boolean bottomRightTile = map.valueAt(Bottom, Right) != '#';
+        Left = Math.round(playerT.getX());
+        boolean notTopRightTile = map.valueAt(Top, Right) != '#';
+        boolean notBottomRightTile = map.valueAt(Bottom, Right) != '#';
+        boolean notTopLeftTile = map.valueAt(Top, Left) != '#';
+        boolean notBottomLeftTile = map.valueAt(Bottom, Left) != '#';
         //Makes sure the player does not go out of bounds on left side
-        if (Left <= -1){
-            playerT.setX(0.5f);
+        if (Left <= -20){
+            playerT.setX(-19);
             playerT.setY(0);
             Left = (Left * -1) - 100;
         }
         //Attempt to check the right side of player it is a tile
-        if(topRightTile && bottomRightTile){
-            //System.out.println("--------------------------Go Back----------------------------");
-            playerT.setX(Left);
-            //playerT.setFloorY(Bottom - (playerT.getHeight()+2));
+        if(notTopRightTile && notBottomRightTile){
+            System.out.println("--------------------------Go Back----------------------------");
+            playerT.setX(Left-1);
         }
         //When the player is floating in the air
         if((map.valueAt(Top,Left) == '#') && (map.valueAt(Top,Right) == '#') && (map.valueAt(Bottom,Left) == '#') && (map.valueAt(Bottom, Right) == '#')){
@@ -143,7 +144,7 @@ public class Game extends Canvas implements Runnable{
             playerT.setDx(0);
         }
         //Once the player is on the ground
-        if(map.valueAt(Bottom,Left) != '#' && map.valueAt(Bottom, Right) != '#'){
+        if(notBottomLeftTile && notBottomRightTile){
             playerT.setFloorY(Bottom - (playerT.getHeight()+2));
             //This loop is for the player jump
             if (map.valueAt(Top-200, Right) == '#' && map.valueAt(Top-200, Left) == '#' && jump.isPressed()&& playerT.getState() != PlayerTest2.STATE_JUMPING){
