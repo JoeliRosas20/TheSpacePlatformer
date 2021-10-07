@@ -156,7 +156,7 @@ public class Game extends Canvas implements Runnable{
             playerT.setX(Right+1);
         }
 
-        //When the player is floating in the air
+        //When the player is floating in the air at the start of level
         if((map.valueAt(Top,Left) == '#') && (map.valueAt(Top,Right) == '#') && (map.valueAt(Bottom,Left) == '#') && (map.valueAt(Bottom, Right) == '#')){
             playerT.setDy(0.3f);
             playerT.setDx(0);
@@ -167,12 +167,7 @@ public class Game extends Canvas implements Runnable{
             playerT.setFloorY(Bottom - (playerT.getHeight()+2));
             //This loop is for the player jump
             if (map.valueAt(Top-100, Right) == '#' && map.valueAt(Top-100, Left) == '#' && jump.isPressed()&& playerT.getState() != PlayerTest2.STATE_JUMPING){
-                //playerT.jump();
-                if(map.valueAt(Top, Right) != '#' && map.valueAt(Bottom, Right) != '#'){
-                    System.out.println("--------------------------Go Back 2----------------------------");
-                    playerT.setX(Left);
-                    playerT.setFloorY(Bottom - (playerT.getHeight()+2));
-                }
+                playerT.jump();
             }
         }
         else{
@@ -225,10 +220,6 @@ public class Game extends Canvas implements Runnable{
             velocityX += PlayerTest2.SPEED;
         }
         playerT.setDx(velocityX);
-        if (jump.isPressed() && playerT.getState() != PlayerTest2.STATE_JUMPING){
-            //System.out.println("(Game.java) Inside checkGameInput.java, jump was pressed---------------------");
-            playerT.jump();
-        }
     }
 
 }
