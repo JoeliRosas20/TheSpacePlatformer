@@ -83,7 +83,7 @@ public class Game extends Canvas implements Runnable{
             checkingCollision();
             checkGameInput();
             playerT.update(elapsedTime);
-            //System.out.println("Get Y:"+playerT.getY());
+            System.out.println("Get Y:"+playerT.getY()+" and Get X:"+playerT.getX());
         }
     }
 
@@ -123,6 +123,7 @@ public class Game extends Canvas implements Runnable{
         Bottom = Math.round(playerT.getY() + (playerT.getHeight() + 2));
         Right = Math.round(playerT.getX() + 99);
         Left = Math.round(playerT.getX());
+        //System.out.println("Top: "+Top+", Bottom: "+Bottom+", Left: "+Left+", Right: "+Right);
 
         boolean notTopRightTile = map.valueAt(Top, Right) != '#';
         boolean notBottomRightTile = map.valueAt(Bottom, Right) != '#';
@@ -135,8 +136,8 @@ public class Game extends Canvas implements Runnable{
         boolean thereIsATileOnRight = notTopRight & notBottomRight;
 
         //For checking if there is a tile on the left side
-        boolean notTopLeft = map.valueAt(Top, Left+30) != '#';
-        boolean notBottomLeft = map.valueAt(Bottom, Left+30) != '#';
+        boolean notTopLeft = map.valueAt(Top, Left+20) != '#';
+        boolean notBottomLeft = map.valueAt(Bottom, Left+20) != '#';
         boolean thereIsATileOnLeft = notTopLeft && notBottomLeft;
 
         //Makes sure the player does not go out of bounds on left side
@@ -153,7 +154,7 @@ public class Game extends Canvas implements Runnable{
 
         //Attempt to check the left side of player if it is a tile
         if (thereIsATileOnLeft){
-            playerT.setX(Right+1);
+            playerT.setX(Left+1);
         }
 
         //When the player is floating in the air at the start of level
