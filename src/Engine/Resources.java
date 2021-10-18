@@ -3,6 +3,7 @@ package Engine;
 import TileMap.TileMap;
 
 import javax.imageio.ImageIO;
+import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -15,11 +16,14 @@ public class Resources {
     BufferedImage image;
     File f;
     Animation animation, animation2;
+    Animation eAnimation, eAnimation2;
     PlayerTest2 playerTest2;
+    Enemy enemy;
     TileMap map = new TileMap("Maps//world1");
 
     public Resources(){
         loadPlayerImages();
+        loadEnemyImages();
     }
 
     public PlayerTest2 getPlayer(){
@@ -30,32 +34,36 @@ public class Resources {
         return map;
     }
 
+    public Enemy getEnemy(){
+        return enemy;
+    }
+
     /**
      * Loads the images of the player onto the game
      */
     public void loadPlayerImages(){
         //Load Idle, Jump, Walk Right, Walk Left, and Die
         BufferedImage[][] images = new BufferedImage[5][];
-        BufferedImage player = loadImage("Images//Idle (1).png");
-        BufferedImage player2 = loadImage("Images//Idle (2).png");
-        BufferedImage player3 = loadImage("Images//Idle (3).png");
-        BufferedImage player4 = loadImage("Images//Idle (4).png");
-        BufferedImage player5 = loadImage("Images//Idle (5).png");
-        BufferedImage player6 = loadImage("Images//Idle (6).png");
-        BufferedImage player7 = loadImage("Images//Idle (7).png");
-        BufferedImage player8 = loadImage("Images//Idle (8).png");
-        BufferedImage player9 = loadImage("Images//Idle (9).png");
-        BufferedImage player10 = loadImage("Images//Idle (10).png");
-        BufferedImage player11 = loadImage("Images//Jump (1).png");
-        BufferedImage player12 = loadImage("Images//Jump (2).png");
-        BufferedImage player13 = loadImage("Images//Jump (3).png");
-        BufferedImage player14 = loadImage("Images//Jump (4).png");
-        BufferedImage player15 = loadImage("Images//Jump (5).png");
-        BufferedImage player16 = loadImage("Images//Jump (6).png");
-        BufferedImage player17 = loadImage("Images//Jump (7).png");
-        BufferedImage player18 = loadImage("Images//Jump (8).png");
-        BufferedImage player19 = loadImage("Images//Jump (9).png");
-        BufferedImage player20 = loadImage("Images//Jump (10).png");
+        BufferedImage player = loadImage("Images//PlayerImages//Idle (1).png");
+        BufferedImage player2 = loadImage("Images//PlayerImages//Idle (2).png");
+        BufferedImage player3 = loadImage("Images//PlayerImages//Idle (3).png");
+        BufferedImage player4 = loadImage("Images//PlayerImages//Idle (4).png");
+        BufferedImage player5 = loadImage("Images//PlayerImages//Idle (5).png");
+        BufferedImage player6 = loadImage("Images//PlayerImages//Idle (6).png");
+        BufferedImage player7 = loadImage("Images//PlayerImages//Idle (7).png");
+        BufferedImage player8 = loadImage("Images//PlayerImages//Idle (8).png");
+        BufferedImage player9 = loadImage("Images//PlayerImages//Idle (9).png");
+        BufferedImage player10 = loadImage("Images//PlayerImages//Idle (10).png");
+        BufferedImage player11 = loadImage("Images//PlayerImages//Jump (1).png");
+        BufferedImage player12 = loadImage("Images//PlayerImages//Jump (2).png");
+        BufferedImage player13 = loadImage("Images//PlayerImages//Jump (3).png");
+        BufferedImage player14 = loadImage("Images//PlayerImages//Jump (4).png");
+        BufferedImage player15 = loadImage("Images//PlayerImages//Jump (5).png");
+        BufferedImage player16 = loadImage("Images//PlayerImages//Jump (6).png");
+        BufferedImage player17 = loadImage("Images//PlayerImages//Jump (7).png");
+        BufferedImage player18 = loadImage("Images//PlayerImages//Jump (8).png");
+        BufferedImage player19 = loadImage("Images//PlayerImages//Jump (9).png");
+        BufferedImage player20 = loadImage("Images//PlayerImages//Jump (10).png");
         animation = new Animation();
         animation2 = new Animation();
         animation.addFrame(player, 100);
@@ -79,8 +87,40 @@ public class Resources {
         animation2.addFrame(player19, 200);
         animation2.addFrame(player20, 200);
         playerTest2 = new PlayerTest2(animation, animation2);
-        //playerTest2.setFloorY(((height * scale) - playerTest2.getHeight())-100);
 
+    }
+
+    public void loadEnemyImages(){
+        BufferedImage enemy1 = loadImage("Images//EnemyImages//armor__0003_turn_1.png");
+        BufferedImage enemy2 = loadImage("Images//EnemyImages//armor__0004_turn_2.png");
+        BufferedImage enemy3 = loadImage("Images//EnemyImages//armor__0005_turn_3.png");
+        BufferedImage enemy4 = loadImage("Images//EnemyImages//armor__0006_walk_1.png");
+        BufferedImage enemy5 = loadImage("Images//EnemyImages//armor__0007_walk_2.png");
+        BufferedImage enemy6 = loadImage("Images//EnemyImages//armor__0008_walk_3.png");
+        BufferedImage enemy7 = loadImage("Images//EnemyImages//armor__0009_walk_4.png");
+        BufferedImage enemy8 = loadImage("Images//EnemyImages//armor__0010_walk_5.png");
+        BufferedImage enemy9 = loadImage("Images//EnemyImages//armor__0011_walk_6.png");
+        BufferedImage enemy12 = loadImage("Images//EnemyImages//armor__0006_walk_1_left.png");
+        BufferedImage enemy13 = loadImage("Images//EnemyImages//armor__0007_walk_2_left.png");
+        BufferedImage enemy14 = loadImage("Images//EnemyImages//armor__0008_walk_3_left.png");
+        BufferedImage enemy15 = loadImage("Images//EnemyImages//armor__0009_walk_4_left.png");
+        BufferedImage enemy16 = loadImage("Images//EnemyImages//armor__0010_walk_5_left.png");
+        BufferedImage enemy17 = loadImage("Images//EnemyImages//armor__0011_walk_6_left.png");
+        eAnimation = new Animation();
+        eAnimation2 = new Animation();
+        eAnimation.addFrame(enemy4, 100);
+        eAnimation.addFrame(enemy5, 100);
+        eAnimation.addFrame(enemy6, 100);
+        eAnimation.addFrame(enemy7, 100);
+        eAnimation.addFrame(enemy8, 100);
+        eAnimation.addFrame(enemy9, 100);
+        eAnimation2.addFrame(enemy12, 100);
+        eAnimation2.addFrame(enemy13, 100);
+        eAnimation2.addFrame(enemy14, 100);
+        eAnimation2.addFrame(enemy15, 100);
+        eAnimation2.addFrame(enemy16, 100);
+        eAnimation2.addFrame(enemy17, 100);
+        enemy = new Enemy(eAnimation, animation2);
     }
 
     public BufferedImage loadImage(String name){

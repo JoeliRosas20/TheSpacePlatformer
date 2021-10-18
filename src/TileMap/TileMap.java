@@ -1,5 +1,6 @@
 package TileMap;
 
+import Engine.Enemy;
 import Engine.PlayerTest2;
 import Engine.Resources;
 import Engine.Sprite;
@@ -26,16 +27,14 @@ public class TileMap {
      */
     public String[] tileName;
     BufferedImage image;
-    private int y;
+    Enemy enemy;
+    Resources resources;
 
     public TileMap(String filename){
         loadMap(filename);
         loadTileImages();
-
-    }
-
-    public int getY(){
-        return y;
+        resources = new Resources();
+        enemy = resources.getEnemy();
     }
 
     public void loadMap(String fileName){
@@ -66,7 +65,6 @@ public class TileMap {
     public BufferedImage loadImage(String name){
         try {
             File f = new File(name);
-            //image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
             image = new BufferedImage(100, 100, BufferedImage.TYPE_INT_RGB);
             image = ImageIO.read(f);
         }catch (IOException e){
@@ -77,9 +75,9 @@ public class TileMap {
 
     /**
      * Returns the value of y and x of requested tile
-     * @param y
-     * @param x
-     * @return
+     * @param y the x position of item
+     * @param x the y position of item
+     * @return the tile located at that position
      */
     public char valueAt(int y, int x){
         int row = (y / 100);
@@ -92,10 +90,12 @@ public class TileMap {
         for (int row = 0; row < map.length; row++){
             for (int col = 0; col < map[row].length(); col++){
                 char c = map[row].charAt(col);
-                if (c != '#')
-                g.drawImage(tile[c - 'A'], col*100, row*100, null);
-                //g.setColor(Color.green);
-                //g.drawRect(col*100, row*100, 100, 100);
+                if (c != '#') {
+                    g.drawImage(tile[c - 'A'], col * 100, row * 100, null);
+                    g.setColor(Color.green);
+                    g.drawRect(col * 100, row * 100, 100, 100);
+                }
+
             }
         }
     }

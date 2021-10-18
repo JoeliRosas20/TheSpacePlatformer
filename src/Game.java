@@ -7,7 +7,7 @@ import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.*;
 import java.io.*;
-
+//TODO Start creating the enemy class and add it to the game
 public class Game extends Canvas implements Runnable{
 
     public static int width = 300;
@@ -24,6 +24,7 @@ public class Game extends Canvas implements Runnable{
     TileMap map;
     PlayerTest2 playerT;
     int Top, Bottom, Right, Left;
+    int check = 0;
 
     public Game(){
         Dimension size = new Dimension(width * scale, height * scale);
@@ -83,7 +84,7 @@ public class Game extends Canvas implements Runnable{
             checkingCollision();
             checkGameInput();
             playerT.update(elapsedTime);
-            System.out.println("Get Y:"+playerT.getY()+" and Get X:"+playerT.getX());
+            //System.out.println("Get Y:"+playerT.getY()+" and Get X:"+playerT.getX());
         }
     }
 
@@ -113,8 +114,8 @@ public class Game extends Canvas implements Runnable{
         g.setColor(Color.GREEN);
         map.draw(g);
         g.drawImage(playerT.getImage(), Math.round(playerT.getX()), Math.round(playerT.getY()+10), null);
-        //g.setColor(Color.red);
-        //g.drawRect(Math.round(playerT.getX()), Math.round(playerT.getY()+10), playerT.getWidth(), playerT.getHeight());
+        g.setColor(Color.red);
+        g.drawRect(Math.round(playerT.getX()), Math.round(playerT.getY()+10), playerT.getWidth(), playerT.getHeight());
     }
 
     public void checkingCollision(){
@@ -159,7 +160,7 @@ public class Game extends Canvas implements Runnable{
 
         //When the player is floating in the air at the start of level
         if((map.valueAt(Top,Left) == '#') && (map.valueAt(Top,Right) == '#') && (map.valueAt(Bottom,Left) == '#') && (map.valueAt(Bottom, Right) == '#')){
-            playerT.setDy(0.3f);
+            playerT.setDy(0.4f);
             playerT.setDx(0);
         }
 
@@ -167,8 +168,17 @@ public class Game extends Canvas implements Runnable{
         if(notBottomLeftTile && notBottomRightTile){
             playerT.setFloorY(Bottom - (playerT.getHeight()+2));
             //This loop is for the player jump
-            if (map.valueAt(Top-100, Right) == '#' && map.valueAt(Top-100, Left) == '#' && jump.isPressed()&& playerT.getState() != PlayerTest2.STATE_JUMPING){
+            if (map.valueAt(Top-100, Right) == '#' && map.valueAt(Top-100, Left) == '#' && jump.isPressed() && playerT.getState() != PlayerTest2.STATE_JUMPING){
                 playerT.jump();
+                System.out.println(map.valueAt(Math.round(playerT.getY()), Math.round(playerT.getX())));
+                System.out.println("Top Right:"+map.valueAt(Top-100, Right));
+                System.out.println("Top Left:"+map.valueAt(Top-100, Left));
+                System.out.println("Bottom Right:"+map.valueAt(Bottom, Right));
+                System.out.println("Bottom Left:"+map.valueAt(Bottom, Left));
+                System.out.println("Player Right:"+map.valueAt(Math.round(playerT.getY()), Right));
+                System.out.println("Player y velocity:"+playerT.getDy());
+                check++;
+                System.out.println(check+"\n");
             }
         }
         else{
