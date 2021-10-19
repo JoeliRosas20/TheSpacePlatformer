@@ -1,7 +1,6 @@
 import Engine.*;
 import Input.*;
 import TileMap.TileMap;
-
 import javax.imageio.*;
 import java.awt.*;
 import java.awt.event.*;
@@ -20,7 +19,7 @@ public class Game extends Canvas implements Runnable{
     private boolean paused;
     protected InputManager inputManager;
     protected GameAction jump, exit, moveLeft, moveRight, pause;
-    Resources resources;;
+    Resources resources;
     TileMap map;
     PlayerTest2 playerT;
     int Top, Bottom, Right, Left;

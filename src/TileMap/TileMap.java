@@ -1,9 +1,5 @@
 package TileMap;
 
-import Engine.Enemy;
-import Engine.PlayerTest2;
-import Engine.Resources;
-import Engine.Sprite;
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.*;
@@ -27,29 +23,26 @@ public class TileMap {
      */
     public String[] tileName;
     BufferedImage image;
-    Enemy enemy;
-    Resources resources;
 
     public TileMap(String filename){
         loadMap(filename);
         loadTileImages();
-        //resources = new Resources();
-        //enemy = resources.getEnemy();
     }
 
     public void loadMap(String fileName){
         File file = new File(fileName);
         try{
             BufferedReader reader = new BufferedReader(new FileReader(file));
-            int n = Integer.parseInt(reader.readLine());
-            map = new String[n];
+            int n = Integer.parseInt(reader.readLine());//The number of rows the map txt has
+            map = new String[n];//creating map array
             for (int row = 0; row < n; row++){
-                map[row] = reader.readLine();
+                map[row] = reader.readLine();//This takes all the words in the txt file and store it in map array
             }
-            n = Integer.parseInt(reader.readLine());
-            tileName = new String[n];
+            //Now off to get the name of the image files
+            n = Integer.parseInt(reader.readLine());//Number of images
+            tileName = new String[n];//creating tileName array
             for (int i = 0; i < n; i++){
-                tileName[i] = reader.readLine();
+                tileName[i] = reader.readLine();//The name of the tile images is stored in the tileName array
             }
             reader.close();
         }catch (IOException e){ }
@@ -58,7 +51,7 @@ public class TileMap {
     public void loadTileImages(){
         tile = new BufferedImage[tileName.length];
         for (int i = 0; i < tile.length; i++){
-            tile[i] = loadImage(tileName[i]);
+            tile[i] = loadImage(tileName[i]);//The array where the images are stored
         }
     }
 
@@ -95,7 +88,6 @@ public class TileMap {
                     g.setColor(Color.green);
                     g.drawRect(col * 100, row * 100, 100, 100);
                 }
-
             }
         }
     }
