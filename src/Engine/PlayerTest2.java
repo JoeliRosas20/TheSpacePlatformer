@@ -10,7 +10,6 @@ public class PlayerTest2 extends Sprite {
     private int state;
     Animation idle;
     Animation jump;
-    private float ay;
 
     public PlayerTest2(Animation idle, Animation jump) {
         super(idle);

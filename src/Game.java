@@ -25,6 +25,7 @@ public class Game extends Canvas implements Runnable{
     PlayerTest2 playerT;
     int Top, Bottom, Right, Left;
     int check = 0;
+    Enemy enemy;
 
     public Game(){
         Dimension size = new Dimension(width * scale, height * scale);
@@ -36,6 +37,7 @@ public class Game extends Canvas implements Runnable{
         playerT = resources.getPlayer();
         map = resources.getMap();
         bg = loadImage("Images//Space.jpg");
+        enemy = resources.getEnemy();
         Top = Math.round(playerT.getY() - 1);
         Bottom = Math.round(playerT.getY() + (playerT.getHeight() + 2));
         Right = Math.round(playerT.getX() + 1);
@@ -84,7 +86,9 @@ public class Game extends Canvas implements Runnable{
             checkingCollision();
             checkGameInput();
             playerT.update(elapsedTime);
-            //System.out.println("Get Y:"+playerT.getY()+" and Get X:"+playerT.getX());
+            System.out.println("Get Y:"+playerT.getY()+" and Get X:"+playerT.getX());
+            System.out.println(map.valueAt(Math.round(playerT.getY()), Math.round(playerT.getX())));
+            enemy.update(elapsedTime);
         }
     }
 
@@ -116,6 +120,7 @@ public class Game extends Canvas implements Runnable{
         g.drawImage(playerT.getImage(), Math.round(playerT.getX()), Math.round(playerT.getY()+10), null);
         g.setColor(Color.red);
         g.drawRect(Math.round(playerT.getX()), Math.round(playerT.getY()+10), playerT.getWidth(), playerT.getHeight());
+        g.drawImage(enemy.getImage(), 0, 0, null);
     }
 
     public void checkingCollision(){

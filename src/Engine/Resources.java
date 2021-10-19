@@ -23,7 +23,7 @@ public class Resources {
 
     public Resources(){
         loadPlayerImages();
-        //loadEnemyImages();
+        loadEnemyImages();
     }
 
     public PlayerTest2 getPlayer(){
@@ -33,11 +33,11 @@ public class Resources {
     public TileMap getMap(){
         return map;
     }
-/*
+
     public Enemy getEnemy(){
         return enemy;
     }
- */
+
     /**
      * Loads the images of the player onto the game
      */
@@ -89,7 +89,7 @@ public class Resources {
         playerTest2 = new PlayerTest2(animation, animation2);
 
     }
-/*
+
     public void loadEnemyImages(){
         BufferedImage enemy1 = loadImage("Images//EnemyImages//armor__0003_turn_1.png");
         BufferedImage enemy2 = loadImage("Images//EnemyImages//armor__0004_turn_2.png");
@@ -122,7 +122,7 @@ public class Resources {
         eAnimation2.addFrame(enemy17, 100);
         enemy = new Enemy(eAnimation, animation2);
     }
-*/
+
     public BufferedImage loadImage(String name){
         try {
             f = new File(name);
