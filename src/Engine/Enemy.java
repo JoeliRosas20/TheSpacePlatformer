@@ -7,6 +7,8 @@ public class Enemy extends Sprite{
 
     public Enemy(Animation left, Animation right){
         super(left);
+        this.right = right;
+        this.left = left;
     }
 
     public void update(long elapsedTime){

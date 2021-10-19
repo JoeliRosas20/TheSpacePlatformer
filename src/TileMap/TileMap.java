@@ -33,8 +33,8 @@ public class TileMap {
     public TileMap(String filename){
         loadMap(filename);
         loadTileImages();
-        resources = new Resources();
-        enemy = resources.getEnemy();
+        //resources = new Resources();
+        //enemy = resources.getEnemy();
     }
 
     public void loadMap(String fileName){
