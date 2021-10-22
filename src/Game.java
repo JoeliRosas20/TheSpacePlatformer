@@ -37,6 +37,7 @@ public class Game extends Canvas implements Runnable{
         map = resources.getMap();
         bg = loadImage("Images//Space.jpg");
         enemy = resources.getEnemy();
+        //---------------------------------------------------------------------------------\\
         Top = Math.round(playerT.getY() - 1);
         Bottom = Math.round(playerT.getY() + (playerT.getHeight() + 2));
         Right = Math.round(playerT.getX() + 1);
@@ -85,8 +86,10 @@ public class Game extends Canvas implements Runnable{
             checkingCollision();
             checkGameInput();
             playerT.update(elapsedTime);
+            //--------------------------------------------------------------\\
             System.out.println("Get Y:"+playerT.getY()+" and Get X:"+playerT.getX());
             System.out.println(map.valueAt(Math.round(playerT.getY()), Math.round(playerT.getX())));
+            //--------------------------------------------------------------\\
             enemy.update(elapsedTime);
         }
     }
@@ -119,7 +122,7 @@ public class Game extends Canvas implements Runnable{
         g.drawImage(playerT.getImage(), Math.round(playerT.getX()), Math.round(playerT.getY()+10), null);
         g.setColor(Color.red);
         g.drawRect(Math.round(playerT.getX()), Math.round(playerT.getY()+10), playerT.getWidth(), playerT.getHeight());
-        g.drawImage(enemy.getImage(), 0, 0, null);
+        g.drawImage(enemy.getImage(), Math.round(enemy.getX()), Math.round(enemy.getY()), null);
     }
 
     public void checkingCollision(){
@@ -128,7 +131,7 @@ public class Game extends Canvas implements Runnable{
         Bottom = Math.round(playerT.getY() + (playerT.getHeight() + 2));
         Right = Math.round(playerT.getX() + 99);
         Left = Math.round(playerT.getX());
-        //System.out.println("Top: "+Top+", Bottom: "+Bottom+", Left: "+Left+", Right: "+Right);
+        //System.out.println("Top: "+Top+", Bottom: "+Bottom+", Left: "+Left+", Right: "+
 
         boolean notTopRightTile = map.valueAt(Top, Right) != '#';
         boolean notBottomRightTile = map.valueAt(Bottom, Right) != '#';
@@ -189,6 +192,7 @@ public class Game extends Canvas implements Runnable{
             //When the player is airborne
             playerT.applyGravity();
         }
+
     }
 
     //------------------------------------------------------------------------------//

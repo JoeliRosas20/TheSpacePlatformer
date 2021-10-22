@@ -75,4 +75,8 @@ public class Sprite {
     public Image getImage(){
         return animation.getImage();
     }
+
+    public Object clone(){
+        return new Sprite(animation);
+    }
 }

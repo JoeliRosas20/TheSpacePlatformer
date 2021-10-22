@@ -7,6 +7,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.LinkedList;
 
 public class TileMap {
 
@@ -23,10 +24,12 @@ public class TileMap {
      */
     public String[] tileName;
     BufferedImage image;
+    public LinkedList sprites;
 
     public TileMap(String filename){
         loadMap(filename);
         loadTileImages();
+        sprites = new LinkedList();
     }
 
     public void loadMap(String fileName){
@@ -83,11 +86,10 @@ public class TileMap {
         for (int row = 0; row < map.length; row++){
             for (int col = 0; col < map[row].length(); col++){
                 char c = map[row].charAt(col);
-                if (c != '#') {
+                if (c != '#')
                     g.drawImage(tile[c - 'A'], col * 100, row * 100, null);
                     g.setColor(Color.green);
                     g.drawRect(col * 100, row * 100, 100, 100);
-                }
             }
         }
     }

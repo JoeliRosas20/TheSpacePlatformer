@@ -1,9 +1,7 @@
 package Engine;
 
 import TileMap.TileMap;
-
 import javax.imageio.ImageIO;
-import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -12,7 +10,6 @@ public class Resources {
 
     public static int width = 300;
     public static int height = width / 16 * 9;
-    public static int scale = 3;
     BufferedImage image;
     File f;
     Animation animation, animation2;
@@ -121,6 +118,7 @@ public class Resources {
         eAnimation2.addFrame(enemy16, 100);
         eAnimation2.addFrame(enemy17, 100);
         enemy = new Enemy(eAnimation, animation2);
+
     }
 
     public BufferedImage loadImage(String name){
