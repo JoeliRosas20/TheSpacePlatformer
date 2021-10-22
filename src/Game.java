@@ -35,7 +35,7 @@ public class Game extends Canvas implements Runnable{
         resources = new Resources();//Calls the resources
         playerT = resources.getPlayer();//Gets the player object which originate from resources
         map = resources.getMap();//Get the map object with originates from resources
-        enemy = resources.getEnemy();//Gets the enemy object which originates from resources
+        enemy = map.getEnemy();//Gets the enemy object which originates from TileMap
         bg = loadImage("Images//Space.jpg");//Loads the background of the game
         //---------------------------------------------------------------------------------\\
         Top = Math.round(playerT.getY() - 1);
@@ -134,7 +134,6 @@ public class Game extends Canvas implements Runnable{
         Bottom = Math.round(playerT.getY() + (playerT.getHeight() + 2));
         Right = Math.round(playerT.getX() + 99);
         Left = Math.round(playerT.getX());
-        //System.out.println("Top: "+Top+", Bottom: "+Bottom+", Left: "+Left+", Right: "+
 
         boolean notTopRightTile = map.valueAt(Top, Right) != '#';
         boolean notBottomRightTile = map.valueAt(Bottom, Right) != '#';
@@ -158,12 +157,12 @@ public class Game extends Canvas implements Runnable{
             Left = (Left * -1) - 100;
         }
 
-        //Attempt to check the right side of player if it is a tile
+        //Attempt to check the Right side of player if it is a tile
         if(thereIsATileOnRight){
             playerT.setX(Left-1);
         }
 
-        //Attempt to check the left side of player if it is a tile
+        //Attempt to check the Left side of player if it is a tile
         if (thereIsATileOnLeft){
             playerT.setX(Left+1);
         }

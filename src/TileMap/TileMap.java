@@ -1,5 +1,9 @@
 package TileMap;
 
+import Engine.Animation;
+import Engine.Enemy;
+import Engine.Sprite;
+
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.*;
@@ -24,12 +28,19 @@ public class TileMap {
      */
     public String[] tileName;
     BufferedImage image;
-    public LinkedList sprites;
+    public LinkedList<Sprite> sprites;
+    Animation eAnimation, eAnimation2;
+    Enemy enemy;
 
     public TileMap(String filename){
         loadMap(filename);
         loadTileImages();
-        sprites = new LinkedList();
+        loadEnemyImages();
+        loadEnemies();
+    }
+
+    public Enemy getEnemy(){
+        return enemy;
     }
 
     public void loadMap(String fileName){
@@ -51,11 +62,56 @@ public class TileMap {
         }catch (IOException e){ }
     }
 
+    public void loadEnemies(){
+        for (int row = 0; row < map.length; row++){
+            for (int col = 0; col < map[row].length(); col++){
+                char c = map[row].charAt(col);
+                if (c == '@'){
+                    addSprites(enemy);
+                }
+            }
+        }
+    }
+
     public void loadTileImages(){
         tile = new BufferedImage[tileName.length];
         for (int i = 0; i < tile.length; i++){
             tile[i] = loadImage(tileName[i]);//The array where the images are stored
         }
+    }
+
+    public void loadEnemyImages(){
+        BufferedImage enemy1 = loadImage("Images//EnemyImages//armor__0003_turn_1.png");
+        BufferedImage enemy2 = loadImage("Images//EnemyImages//armor__0004_turn_2.png");
+        BufferedImage enemy3 = loadImage("Images//EnemyImages//armor__0005_turn_3.png");
+        BufferedImage enemy4 = loadImage("Images//EnemyImages//armor__0006_walk_1.png");
+        BufferedImage enemy5 = loadImage("Images//EnemyImages//armor__0007_walk_2.png");
+        BufferedImage enemy6 = loadImage("Images//EnemyImages//armor__0008_walk_3.png");
+        BufferedImage enemy7 = loadImage("Images//EnemyImages//armor__0009_walk_4.png");
+        BufferedImage enemy8 = loadImage("Images//EnemyImages//armor__0010_walk_5.png");
+        BufferedImage enemy9 = loadImage("Images//EnemyImages//armor__0011_walk_6.png");
+        BufferedImage enemy12 = loadImage("Images//EnemyImages//armor__0006_walk_1_left.png");
+        BufferedImage enemy13 = loadImage("Images//EnemyImages//armor__0007_walk_2_left.png");
+        BufferedImage enemy14 = loadImage("Images//EnemyImages//armor__0008_walk_3_left.png");
+        BufferedImage enemy15 = loadImage("Images//EnemyImages//armor__0009_walk_4_left.png");
+        BufferedImage enemy16 = loadImage("Images//EnemyImages//armor__0010_walk_5_left.png");
+        BufferedImage enemy17 = loadImage("Images//EnemyImages//armor__0011_walk_6_left.png");
+        eAnimation = new Animation();
+        eAnimation2 = new Animation();
+        eAnimation.addFrame(enemy4, 100);
+        eAnimation.addFrame(enemy5, 100);
+        eAnimation.addFrame(enemy6, 100);
+        eAnimation.addFrame(enemy7, 100);
+        eAnimation.addFrame(enemy8, 100);
+        eAnimation.addFrame(enemy9, 100);
+        eAnimation2.addFrame(enemy12, 100);
+        eAnimation2.addFrame(enemy13, 100);
+        eAnimation2.addFrame(enemy14, 100);
+        eAnimation2.addFrame(enemy15, 100);
+        eAnimation2.addFrame(enemy16, 100);
+        eAnimation2.addFrame(enemy17, 100);
+        enemy = new Enemy(eAnimation, eAnimation2);
+
     }
 
     public BufferedImage loadImage(String name){
@@ -67,6 +123,11 @@ public class TileMap {
             e.printStackTrace();
         }
         return image;
+    }
+
+    private void addSprites(Sprite sprite){
+        sprites = new LinkedList<>();
+        sprites.add(sprite);
     }
 
     /**
@@ -86,10 +147,14 @@ public class TileMap {
         for (int row = 0; row < map.length; row++){
             for (int col = 0; col < map[row].length(); col++){
                 char c = map[row].charAt(col);
-                if (c != '#')
-                    g.drawImage(tile[c - 'A'], col * 100, row * 100, null);
-                    g.setColor(Color.green);
-                    g.drawRect(col * 100, row * 100, 100, 100);
+                if (c != '#') {
+                    g.drawImage(tile[c - '@'], col * 100, row * 100, null);
+                    //g.setColor(Color.green);
+                    //g.drawRect(col * 100, row * 100, 100, 100);
+                }
+                if (c == '@'){
+                    g.drawImage(enemy.getImage(), col*100, row*100, null);
+                }
             }
         }
     }
