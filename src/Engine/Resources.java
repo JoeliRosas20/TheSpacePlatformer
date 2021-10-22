@@ -117,7 +117,7 @@ public class Resources {
         eAnimation2.addFrame(enemy15, 100);
         eAnimation2.addFrame(enemy16, 100);
         eAnimation2.addFrame(enemy17, 100);
-        enemy = new Enemy(eAnimation, animation2);
+        enemy = new Enemy(eAnimation, eAnimation2);
 
     }
 

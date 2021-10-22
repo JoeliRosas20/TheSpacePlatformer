@@ -31,18 +31,19 @@ public class Game extends Canvas implements Runnable{
         setPreferredSize(size);
         paused = false;
         inputManager= new InputManager(this);
-        createGameActions();
-        resources = new Resources();
-        playerT = resources.getPlayer();
-        map = resources.getMap();
-        bg = loadImage("Images//Space.jpg");
-        enemy = resources.getEnemy();
+        createGameActions();//The commands for the user to move
+        resources = new Resources();//Calls the resources
+        playerT = resources.getPlayer();//Gets the player object which originate from resources
+        map = resources.getMap();//Get the map object with originates from resources
+        enemy = resources.getEnemy();//Gets the enemy object which originates from resources
+        bg = loadImage("Images//Space.jpg");//Loads the background of the game
         //---------------------------------------------------------------------------------\\
         Top = Math.round(playerT.getY() - 1);
         Bottom = Math.round(playerT.getY() + (playerT.getHeight() + 2));
         Right = Math.round(playerT.getX() + 1);
         Left = Math.round(playerT.getX() - 1);
         System.out.println("Top: "+Top+", Bottom: "+Bottom+", Left: "+Left+", Right: "+Right);
+        //---------------------------------------------------------------------------------\\
     }
 
     public BufferedImage loadImage(String name){
@@ -87,8 +88,10 @@ public class Game extends Canvas implements Runnable{
             checkGameInput();
             playerT.update(elapsedTime);
             //--------------------------------------------------------------\\
+            /*
             System.out.println("Get Y:"+playerT.getY()+" and Get X:"+playerT.getX());
             System.out.println(map.valueAt(Math.round(playerT.getY()), Math.round(playerT.getX())));
+            */
             //--------------------------------------------------------------\\
             enemy.update(elapsedTime);
         }
@@ -177,6 +180,7 @@ public class Game extends Canvas implements Runnable{
             //This loop is for the player jump
             if (map.valueAt(Top-100, Right) == '#' && map.valueAt(Top-100, Left) == '#' && jump.isPressed() && playerT.getState() != PlayerTest2.STATE_JUMPING){
                 playerT.jump();
+                //----------------------------------------------------------------------------\\
                 System.out.println(map.valueAt(Math.round(playerT.getY()), Math.round(playerT.getX())));
                 System.out.println("Top Right:"+map.valueAt(Top-100, Right));
                 System.out.println("Top Left:"+map.valueAt(Top-100, Left));
@@ -186,6 +190,7 @@ public class Game extends Canvas implements Runnable{
                 System.out.println("Player y velocity:"+playerT.getDy());
                 check++;
                 System.out.println(check+"\n");
+                //----------------------------------------------------------------------------\\
             }
         }
         else{
