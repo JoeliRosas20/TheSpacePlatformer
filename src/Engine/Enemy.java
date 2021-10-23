@@ -11,14 +11,20 @@ public class Enemy extends Sprite{
         this.left = left;
     }
 
+    public void move(){
+        setDx(1);
+        setDy(1);
+    }
+
     public void update(long elapsedTime){
         Animation nAnim = animation;
-        if (getDx() < 0){
+        if (getDx() < 0){//negative
             nAnim = left;
         }
-        else if (getDy() > 0){
+        else if (getDx() > 0){//positive
             nAnim = right;
         }
+        super.update(elapsedTime);
         if (animation != nAnim){
             animation = nAnim;
             animation.start();

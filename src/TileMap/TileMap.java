@@ -27,8 +27,11 @@ public class TileMap {
      * This is where the name of the tile image are stored in
      */
     public String[] tileName;
-    BufferedImage image;
+    /**
+     * This is where the sprites like enemies are stored in
+     */
     public LinkedList<Sprite> sprites;
+    BufferedImage image;
     Animation eAnimation, eAnimation2;
     Enemy enemy;
 
@@ -39,6 +42,10 @@ public class TileMap {
         loadEnemies();
     }
 
+    /**
+     * Access to the enemy object
+     * @return enemy
+     */
     public Enemy getEnemy(){
         return enemy;
     }
@@ -111,10 +118,9 @@ public class TileMap {
         eAnimation2.addFrame(enemy16, 100);
         eAnimation2.addFrame(enemy17, 100);
         enemy = new Enemy(eAnimation, eAnimation2);
-
     }
 
-    public BufferedImage loadImage(String name){
+    private BufferedImage loadImage(String name){
         try {
             File f = new File(name);
             image = new BufferedImage(100, 100, BufferedImage.TYPE_INT_RGB);
@@ -128,6 +134,8 @@ public class TileMap {
     private void addSprites(Sprite sprite){
         sprites = new LinkedList<>();
         sprites.add(sprite);
+        System.out.println("The Sprites: "+sprites);
+        System.out.println("Sprite X: "+sprite.getX());
     }
 
     /**
@@ -152,9 +160,13 @@ public class TileMap {
                     //g.setColor(Color.green);
                     //g.drawRect(col * 100, row * 100, 100, 100);
                 }
+
                 if (c == '@'){
-                    g.drawImage(enemy.getImage(), col*100, row*100, null);
+                    //g.drawImage(enemy.getImage(), col*100, row*100, null);
+                    g.drawImage(enemy.getImage(), Math.round(enemy.getX()), Math.round(enemy.getY()), null);
                 }
+
+
             }
         }
     }

@@ -14,7 +14,6 @@ public class Resources {
     File f;
     Animation animation, animation2;
     PlayerTest2 playerTest2;
-    Enemy enemy;
     TileMap map = new TileMap("Maps//world1");
 
     public Resources(){
@@ -80,8 +79,6 @@ public class Resources {
         playerTest2 = new PlayerTest2(animation, animation2);
 
     }
-
-
 
     public BufferedImage loadImage(String name){
         try {
