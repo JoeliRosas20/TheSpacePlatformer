@@ -11,6 +11,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.Iterator;
 import java.util.LinkedList;
 
 public class TileMap {
@@ -74,9 +75,7 @@ public class TileMap {
             for (int col = 0; col < map[row].length(); col++){
                 char c = map[row].charAt(col);
                 if (c == '@'){
-                    addSprites(enemy);
-                    enemy.setX(col*100);
-                    enemy.setY(row*100);
+                    addSprites(enemy, col*100, row*100);
                 }
             }
         }
@@ -133,9 +132,16 @@ public class TileMap {
         return image;
     }
 
-    private void addSprites(Sprite sprite){
+    private void addSprites(Sprite sprite, int x, int y){
         sprites = new LinkedList<>();
-        sprites.add(sprite);
+        Sprite alien = (Sprite) sprite.clone();
+        alien.setX(x);
+        alien.setY(y);
+        sprites.add(alien);
+    }
+
+    public Iterator getSprites(){
+        return sprites.iterator();
     }
 
     /**
@@ -161,7 +167,11 @@ public class TileMap {
                     //g.drawRect(col * 100, row * 100, 100, 100);
                 }
                 if (c == '@'){
-                    g.drawImage(enemy.getImage(), Math.round(enemy.getX()), Math.round(enemy.getY()), null);
+                    Iterator i = getSprites();
+                    while (i.hasNext()) {
+                        Sprite alien = (Sprite)i.next();
+                        g.drawImage(alien.getImage(), Math.round(alien.getX()), Math.round(alien.getY()), null);
+                    }
                 }
             }
         }

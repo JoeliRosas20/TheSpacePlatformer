@@ -44,7 +44,7 @@ public class Game extends Canvas implements Runnable{
         Right = Math.round(playerT.getX() + 1);
         Left = Math.round(playerT.getX() - 1);
         System.out.println("Top: "+Top+", Bottom: "+Bottom+", Left: "+Left+", Right: "+Right);
-        */
+
         eTop = Math.round(enemy.getY());
         eBottom = Math.round(enemy.getY() + enemy.getHeight());
         eRight = Math.round(enemy.getX() + enemy.getWidth());
@@ -56,6 +56,7 @@ public class Game extends Canvas implements Runnable{
         System.out.println("Enemy Bottom Right "+map.valueAt(eBottom, eRight));
         System.out.println("Enemy Top Left "+map.valueAt(eTop, eLeft));
         System.out.println("Enemy Bottom Left "+map.valueAt(eBottom, eLeft));
+        */
         //---------------------------------------------------------------------------------\\
     }
 
@@ -98,7 +99,7 @@ public class Game extends Canvas implements Runnable{
         checkSystemInput();
         if (!isPaused()){
             checkingPlayerCollision();
-            checkingEnemyCollision();
+            //checkingEnemyCollision();
             checkGameInput();
             playerT.update(elapsedTime);
             //--------------------------------------------------------------\\
