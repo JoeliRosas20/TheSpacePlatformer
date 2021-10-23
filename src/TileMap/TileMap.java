@@ -75,6 +75,8 @@ public class TileMap {
                 char c = map[row].charAt(col);
                 if (c == '@'){
                     addSprites(enemy);
+                    enemy.setX(col*100);
+                    enemy.setY(row*100);
                 }
             }
         }
@@ -134,8 +136,6 @@ public class TileMap {
     private void addSprites(Sprite sprite){
         sprites = new LinkedList<>();
         sprites.add(sprite);
-        System.out.println("The Sprites: "+sprites);
-        System.out.println("Sprite X: "+sprite.getX());
     }
 
     /**
@@ -160,12 +160,9 @@ public class TileMap {
                     //g.setColor(Color.green);
                     //g.drawRect(col * 100, row * 100, 100, 100);
                 }
-
                 if (c == '@'){
-                    g.drawImage(enemy.getImage(), Math.round(enemy.getX())+col*100, Math.round(enemy.getY())+row*100, null);
+                    g.drawImage(enemy.getImage(), Math.round(enemy.getX()), Math.round(enemy.getY()), null);
                 }
-
-
             }
         }
     }

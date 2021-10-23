@@ -24,7 +24,6 @@ public class Game extends Canvas implements Runnable{
     PlayerTest2 playerT;
     int Top, Bottom, Right, Left;
     int eTop, eBottom, eRight, eLeft;
-    int check = 0;
     Enemy enemy;
 
     public Game(){
@@ -52,11 +51,15 @@ public class Game extends Canvas implements Runnable{
         eLeft = Math.round(enemy.getX());
         System.out.println("Enemy X: "+enemy.getX()+", Enemy Y: "+enemy.getY());
         System.out.println("Enemy Height: "+enemy.getHeight()+", Enemy Width: "+enemy.getWidth());
-        //System.out.println("Enemy Top " + eTop + ", Enemy Bottom " + eBottom +", Enemy Left " + eLeft + ", Enemy Right "+ eRight);
+        System.out.println("Enemy Top " + eTop + ", Enemy Bottom " + eBottom +", Enemy Left " + eLeft + ", Enemy Right "+ eRight+"\n");
+        System.out.println("Enemy Top Right "+map.valueAt(eTop, eRight));
+        System.out.println("Enemy Bottom Right "+map.valueAt(eBottom, eRight));
+        System.out.println("Enemy Top Left "+map.valueAt(eTop, eLeft));
+        System.out.println("Enemy Bottom Left "+map.valueAt(eBottom, eLeft));
         //---------------------------------------------------------------------------------\\
     }
 
-    public BufferedImage loadImage(String name){
+    private BufferedImage loadImage(String name){
         try {
             f = new File(name);
             image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
@@ -95,20 +98,11 @@ public class Game extends Canvas implements Runnable{
         checkSystemInput();
         if (!isPaused()){
             checkingPlayerCollision();
-            //checkingEnemyCollision();
+            checkingEnemyCollision();
             checkGameInput();
             playerT.update(elapsedTime);
             //--------------------------------------------------------------\\
-            /*
-            System.out.println("Get Y:"+playerT.getY()+" and Get X:"+playerT.getX());
-            System.out.println(map.valueAt(Math.round(playerT.getY()), Math.round(playerT.getX())));
-            enemy.move();
 
-            System.out.println("Enemy DX: "+Math.round(enemy.getDx()));
-            System.out.println("Enemy DY: "+Math.round(enemy.getDy()));
-            */
-            //System.out.println("Enemy X: "+Math.round(enemy.getX()));
-            //System.out.println("Enemy Y: "+Math.round(enemy.getY()));
             //--------------------------------------------------------------\\
             enemy.update(elapsedTime);
         }
@@ -220,7 +214,26 @@ public class Game extends Canvas implements Runnable{
 
     }
 
-    public void checkingEnemyCollision(){ }
+    public void checkingEnemyCollision(){
+        eTop = Math.round(enemy.getY());
+        eBottom = Math.round(enemy.getY() + enemy.getHeight());
+        eRight = Math.round(enemy.getX() + enemy.getWidth());
+        eLeft = Math.round(enemy.getX());
+        if (map.valueAt(eTop, eLeft) == '@' && map.valueAt(eBottom, eLeft) == 'R'){
+            enemy.setDx(-0.04f);
+        }
+        if (map.valueAt(eTop, eRight) == '@' && map.valueAt(eBottom, eRight) == 'R'){
+            enemy.setDx(0.04f);
+        }
+
+        if (map.valueAt(eTop, eLeft) == '#' && map.valueAt(eBottom, eLeft) == 'R'){
+            enemy.setDx(-0.04f);
+        }
+        if (map.valueAt(eTop, eRight) == '#' && map.valueAt(eBottom, eRight) == 'R'){
+            enemy.setDx(0.04f);
+        }
+
+    }
 
     public void checkingSpriteCollision(){ }
 
@@ -268,7 +281,7 @@ public class Game extends Canvas implements Runnable{
             velocityX += PlayerTest2.SPEED;
         }
         playerT.setDx(velocityX);
-        enemy.setDx(velocityX);
+        //enemy.setDx(velocityX);
     }
 
 }
