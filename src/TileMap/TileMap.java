@@ -162,8 +162,7 @@ public class TileMap {
                 }
 
                 if (c == '@'){
-                    //g.drawImage(enemy.getImage(), col*100, row*100, null);
-                    g.drawImage(enemy.getImage(), Math.round(enemy.getX()), Math.round(enemy.getY()), null);
+                    g.drawImage(enemy.getImage(), Math.round(enemy.getX())+col*100, Math.round(enemy.getY())+row*100, null);
                 }
 
 
