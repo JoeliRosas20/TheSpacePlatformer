@@ -31,7 +31,7 @@ public class TileMap {
     /**
      * This is where the sprites like enemies are stored in
      */
-    public LinkedList<Sprite> sprites;
+    public LinkedList<Sprite> sprites = new LinkedList<>();;
     BufferedImage image;
     Animation eAnimation, eAnimation2;
     Enemy enemy;
@@ -41,6 +41,7 @@ public class TileMap {
         loadTileImages();
         loadEnemyImages();
         loadEnemies();
+        System.out.println("Sprites:"+getSprites());
     }
 
     /**
@@ -51,6 +52,10 @@ public class TileMap {
         return enemy;
     }
 
+    /**
+     * Loads the text files which is the map of the game
+     * @param fileName
+     */
     public void loadMap(String fileName){
         File file = new File(fileName);
         try{
@@ -70,6 +75,9 @@ public class TileMap {
         }catch (IOException e){ }
     }
 
+    /**
+     * Checks the text file for any '@' and stores it in the sprites tile list
+     */
     public void loadEnemies(){
         for (int row = 0; row < map.length; row++){
             for (int col = 0; col < map[row].length(); col++){
@@ -88,6 +96,9 @@ public class TileMap {
         }
     }
 
+    /**
+     * Loads the images of the enemy
+     */
     public void loadEnemyImages(){
         BufferedImage enemy1 = loadImage("Images//EnemyImages//armor__0003_turn_1.png");
         BufferedImage enemy2 = loadImage("Images//EnemyImages//armor__0004_turn_2.png");
@@ -133,7 +144,6 @@ public class TileMap {
     }
 
     private void addSprites(Sprite sprite, int x, int y){
-        sprites = new LinkedList<>();
         Sprite alien = (Sprite) sprite.clone();
         alien.setX(x);
         alien.setY(y);
@@ -166,6 +176,7 @@ public class TileMap {
                     //g.setColor(Color.green);
                     //g.drawRect(col * 100, row * 100, 100, 100);
                 }
+
                 if (c == '@'){
                     Iterator i = getSprites();
                     while (i.hasNext()) {
@@ -173,6 +184,7 @@ public class TileMap {
                         g.drawImage(alien.getImage(), Math.round(alien.getX()), Math.round(alien.getY()), null);
                     }
                 }
+
             }
         }
     }

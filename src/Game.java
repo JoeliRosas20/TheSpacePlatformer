@@ -204,7 +204,7 @@ public class Game extends Canvas implements Runnable{
                 */
                 //----------------------------------------------------------------------------\\
             }
-            if ((map.valueAt(Top, Right) == '@') && map.valueAt(Bottom, Right) == '@'){
+            if ((map.valueAt(Top, Right) == '@') || map.valueAt(Bottom, Right) == '@'){
                 System.out.println("Hit");
             }
         }
