@@ -99,7 +99,7 @@ public class Game extends Canvas implements Runnable{
         checkSystemInput();
         if (!isPaused()){
             checkingPlayerCollision();
-            //checkingEnemyCollision();
+            checkingEnemyCollision();
             checkGameInput();
             playerT.update(elapsedTime);
             //--------------------------------------------------------------\\
@@ -191,17 +191,7 @@ public class Game extends Canvas implements Runnable{
             if (map.valueAt(Top-100, Right) == '#' && map.valueAt(Top-100, Left) == '#' && jump.isPressed() && playerT.getState() != PlayerTest2.STATE_JUMPING){
                 playerT.jump();
                 //----------------------------------------------------------------------------\\
-                /*
-                System.out.println(map.valueAt(Math.round(playerT.getY()), Math.round(playerT.getX())));
-                System.out.println("Top Right:"+map.valueAt(Top-100, Right));
-                System.out.println("Top Left:"+map.valueAt(Top-100, Left));
-                System.out.println("Bottom Right:"+map.valueAt(Bottom, Right));
-                System.out.println("Bottom Left:"+map.valueAt(Bottom, Left));
-                System.out.println("Player Right:"+map.valueAt(Math.round(playerT.getY()), Right));
-                System.out.println("Player y velocity:"+playerT.getDy());
-                check++;
-                System.out.println(check+"\n");
-                */
+
                 //----------------------------------------------------------------------------\\
             }
             if ((map.valueAt(Top, Right) == '@') || map.valueAt(Bottom, Right) == '@'){
@@ -216,24 +206,12 @@ public class Game extends Canvas implements Runnable{
     }
 
     public void checkingEnemyCollision(){
-        eTop = Math.round(enemy.getY());
-        eBottom = Math.round(enemy.getY() + enemy.getHeight());
-        eRight = Math.round(enemy.getX() + enemy.getWidth());
-        eLeft = Math.round(enemy.getX());
-        if (map.valueAt(eTop, eLeft) == '@' && map.valueAt(eBottom, eLeft) == 'R'){
-            enemy.setDx(-0.04f);
+        for (int i = 0; i < map.getSize(); i++){
+            int enemyX = Math.round(map.getSprite(i).getX());
+            int enemyY = Math.round(map.getSprite(i).getY());
+            System.out.println("Enemy X:"+ enemyX);
+            System.out.println("Enemy Y:"+ enemyY);
         }
-        if (map.valueAt(eTop, eRight) == '@' && map.valueAt(eBottom, eRight) == 'R'){
-            enemy.setDx(0.04f);
-        }
-
-        if (map.valueAt(eTop, eLeft) == '#' && map.valueAt(eBottom, eLeft) == 'R'){
-            enemy.setDx(-0.04f);
-        }
-        if (map.valueAt(eTop, eRight) == '#' && map.valueAt(eBottom, eRight) == 'R'){
-            enemy.setDx(0.04f);
-        }
-
     }
 
     public void checkingSpriteCollision(){ }

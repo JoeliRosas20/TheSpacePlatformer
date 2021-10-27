@@ -41,7 +41,7 @@ public class TileMap {
         loadTileImages();
         loadEnemyImages();
         loadEnemies();
-        System.out.println("Sprites:"+getSprites());
+        //System.out.println("Sprites:"+sprites.size());
     }
 
     /**
@@ -96,9 +96,6 @@ public class TileMap {
         }
     }
 
-    /**
-     * Loads the images of the enemy
-     */
     public void loadEnemyImages(){
         BufferedImage enemy1 = loadImage("Images//EnemyImages//armor__0003_turn_1.png");
         BufferedImage enemy2 = loadImage("Images//EnemyImages//armor__0004_turn_2.png");
@@ -150,6 +147,14 @@ public class TileMap {
         sprites.add(alien);
     }
 
+    public Sprite getSprite(int num){
+        return sprites.get(num);
+    }
+
+    public int getSize(){
+        return sprites.size();
+    }
+
     public Iterator getSprites(){
         return sprites.iterator();
     }
@@ -176,7 +181,6 @@ public class TileMap {
                     //g.setColor(Color.green);
                     //g.drawRect(col * 100, row * 100, 100, 100);
                 }
-
                 if (c == '@'){
                     Iterator i = getSprites();
                     while (i.hasNext()) {
@@ -184,7 +188,6 @@ public class TileMap {
                         g.drawImage(alien.getImage(), Math.round(alien.getX()), Math.round(alien.getY()), null);
                     }
                 }
-
             }
         }
     }
