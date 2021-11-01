@@ -6,7 +6,7 @@ import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.*;
 import java.io.*;
-//TODO Start creating the enemy class and add it to the game
+
 public class Game extends Canvas implements Runnable{
 
     public static int width = 300;
@@ -35,7 +35,6 @@ public class Game extends Canvas implements Runnable{
         resources = new Resources();//Calls the resources
         playerT = resources.getPlayer();//Gets the player object which originate from resources
         map = resources.getMap();//Get the map object with originates from resources
-        enemy = map.getEnemy();//Gets the enemy object which originates from TileMap
         bg = loadImage("Images//Space.jpg");//Loads the background of the game
         //---------------------------------------------------------------------------------\\
         /*
@@ -95,17 +94,18 @@ public class Game extends Canvas implements Runnable{
         stop();
     }
 
-    public void update(long elapsedTime){
-        checkSystemInput();
-        if (!isPaused()){
-            checkingPlayerCollision();
-            checkingEnemyCollision();
-            checkGameInput();
-            playerT.update(elapsedTime);
-            //--------------------------------------------------------------\\
-
-            //--------------------------------------------------------------\\
-            enemy.update(elapsedTime);
+    public void update(long elapsedTime) {
+        for (int i = 0; i < map.getSize(); i++) {
+            System.out.println(i);
+            enemy = map.getSprite(i);//Gets the enemy object which originates from TileMap
+            checkSystemInput();
+            if (!isPaused()) {
+                checkingPlayerCollision();
+                checkingEnemyCollision();
+                checkGameInput();
+                playerT.update(elapsedTime);
+                enemy.update(elapsedTime);
+            }
         }
     }
 
@@ -209,8 +209,37 @@ public class Game extends Canvas implements Runnable{
         for (int i = 0; i < map.getSize(); i++){
             int enemyX = Math.round(map.getSprite(i).getX());
             int enemyY = Math.round(map.getSprite(i).getY());
-            System.out.println("Enemy X:"+ enemyX);
+
+            //-------------------------------------------------------\\
+            /*
+            System.out.println(i);
+            System.out.print("Enemy X:"+ enemyX+", ");
             System.out.println("Enemy Y:"+ enemyY);
+            */
+            //-------------------------------------------------------\\
+
+            eTop = enemyY;
+            eBottom = enemyY + map.getSprite(i).getHeight();
+            eLeft = enemyX;
+            eRight = enemyX + map.getSprite(i).getWidth();
+
+            //-------------------------------------------------------\\
+            /*
+            System.out.print("Enemy Top:"+ eTop + ", ");
+            System.out.print("Enemy Bottom:"+ eBottom + ", ");
+            System.out.print("Enemy Left:"+ eLeft + ", ");
+            System.out.println("Enemy Right:"+ eRight);
+            System.out.println("Top Right "+map.valueAt(eTop, eRight) +", Bottom Right "+map.valueAt(eBottom, eRight));
+            */
+            //-------------------------------------------------------\\
+            if (map.valueAt(eTop, eRight) == '@' && map.valueAt(eBottom, eRight) == '@'){
+                map.getSprite(i).setDx(0.05f);
+                //System.out.println(i +"'s x velocity is "+map.getSprite(i).getDx());
+            }
+            /*
+            System.out.print("Enemy new X:"+ enemyX+", ");
+            System.out.println("Enemy new Y:"+ enemyY+"\n");
+            */
         }
     }
 

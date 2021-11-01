@@ -11,11 +11,6 @@ public class Enemy extends Sprite{
         this.left = left;
     }
 
-    public void move(){
-        setDx(1);
-        setDy(1);
-    }
-
     public void update(long elapsedTime){
         Animation nAnim = animation;
         if (getDx() < 0){//negative
@@ -33,5 +28,10 @@ public class Enemy extends Sprite{
             animation.update(elapsedTime);
         }
     }
+
+    public Object clone(){
+        return new Enemy(left, right);
+    }
+
 
 }

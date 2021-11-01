@@ -31,7 +31,7 @@ public class TileMap {
     /**
      * This is where the sprites like enemies are stored in
      */
-    public LinkedList<Sprite> sprites = new LinkedList<>();;
+    public LinkedList<Enemy> aSprites = new LinkedList<>();
     BufferedImage image;
     Animation eAnimation, eAnimation2;
     Enemy enemy;
@@ -42,14 +42,6 @@ public class TileMap {
         loadEnemyImages();
         loadEnemies();
         //System.out.println("Sprites:"+sprites.size());
-    }
-
-    /**
-     * Access to the enemy object
-     * @return enemy
-     */
-    public Enemy getEnemy(){
-        return enemy;
     }
 
     /**
@@ -114,18 +106,18 @@ public class TileMap {
         BufferedImage enemy17 = loadImage("Images//EnemyImages//armor__0011_walk_6_left.png");
         eAnimation = new Animation();
         eAnimation2 = new Animation();
-        eAnimation.addFrame(enemy4, 100);
-        eAnimation.addFrame(enemy5, 100);
-        eAnimation.addFrame(enemy6, 100);
-        eAnimation.addFrame(enemy7, 100);
-        eAnimation.addFrame(enemy8, 100);
-        eAnimation.addFrame(enemy9, 100);
-        eAnimation2.addFrame(enemy12, 100);
-        eAnimation2.addFrame(enemy13, 100);
-        eAnimation2.addFrame(enemy14, 100);
-        eAnimation2.addFrame(enemy15, 100);
-        eAnimation2.addFrame(enemy16, 100);
-        eAnimation2.addFrame(enemy17, 100);
+        eAnimation.addFrame(enemy4, 150);
+        eAnimation.addFrame(enemy5, 150);
+        eAnimation.addFrame(enemy6, 150);
+        eAnimation.addFrame(enemy7, 150);
+        eAnimation.addFrame(enemy8, 150);
+        eAnimation.addFrame(enemy9, 150);
+        eAnimation2.addFrame(enemy12, 150);
+        eAnimation2.addFrame(enemy13, 150);
+        eAnimation2.addFrame(enemy14, 150);
+        eAnimation2.addFrame(enemy15, 150);
+        eAnimation2.addFrame(enemy16, 150);
+        eAnimation2.addFrame(enemy17, 150);
         enemy = new Enemy(eAnimation, eAnimation2);
     }
 
@@ -140,23 +132,23 @@ public class TileMap {
         return image;
     }
 
-    private void addSprites(Sprite sprite, int x, int y){
-        Sprite alien = (Sprite) sprite.clone();
-        alien.setX(x);
-        alien.setY(y);
-        sprites.add(alien);
+    private void addSprites(Enemy sprite, int x, int y){
+        Enemy tAlien = (Enemy) sprite.clone();
+        tAlien.setX(x);
+        tAlien.setY(y);
+        aSprites.add(tAlien);
     }
 
-    public Sprite getSprite(int num){
-        return sprites.get(num);
+    public Enemy getSprite(int num){
+        return aSprites.get(num);
     }
 
     public int getSize(){
-        return sprites.size();
+        return aSprites.size();
     }
 
     public Iterator getSprites(){
-        return sprites.iterator();
+        return aSprites.iterator();
     }
 
     /**

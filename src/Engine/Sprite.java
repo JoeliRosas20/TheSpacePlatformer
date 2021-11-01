@@ -74,7 +74,5 @@ public class Sprite {
         return animation.getImage();
     }
 
-    public Object clone(){
-        return new Sprite(animation);
-    }
+    public void move() { setDx(0.5f); }
 }
