@@ -10,8 +10,8 @@ public class Resources {
 
     public static int width = 300;
     public static int height = width / 16 * 9;
-    BufferedImage image;
-    File f;
+    private BufferedImage image;
+    private File f;
     Animation animation, animation2;
     PlayerTest2 playerTest2;
     TileMap map = new TileMap("Maps//world1");
@@ -80,7 +80,7 @@ public class Resources {
 
     }
 
-    public BufferedImage loadImage(String name){
+    private BufferedImage loadImage(String name){
         try {
             f = new File(name);
             image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);

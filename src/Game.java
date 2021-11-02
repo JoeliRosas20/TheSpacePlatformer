@@ -14,17 +14,17 @@ public class Game extends Canvas implements Runnable{
     public static int scale = 3;
     private Thread thread;
     private boolean running = false;
-    BufferedImage image, bg;
-    File f;
+    private BufferedImage image, bg;
+    private File f;
     private boolean paused;
     protected InputManager inputManager;
     protected GameAction jump, exit, moveLeft, moveRight, pause;
     Resources resources;
     TileMap map;
     PlayerTest2 playerT;
+    Enemy enemy;
     int Top, Bottom, Right, Left;
     int eTop, eBottom, eRight, eLeft;
-    Enemy enemy;
 
     public Game(){
         Dimension size = new Dimension(width * scale, height * scale);
@@ -36,39 +36,9 @@ public class Game extends Canvas implements Runnable{
         playerT = resources.getPlayer();//Gets the player object which originate from resources
         map = resources.getMap();//Get the map object with originates from resources
         bg = loadImage("Images//Space.jpg");//Loads the background of the game
-        //---------------------------------------------------------------------------------\\
-        /*
-        Top = Math.round(playerT.getY() - 1);
-        Bottom = Math.round(playerT.getY() + (playerT.getHeight() + 2));
-        Right = Math.round(playerT.getX() + 1);
-        Left = Math.round(playerT.getX() - 1);
-        System.out.println("Top: "+Top+", Bottom: "+Bottom+", Left: "+Left+", Right: "+Right);
-
-        eTop = Math.round(enemy.getY());
-        eBottom = Math.round(enemy.getY() + enemy.getHeight());
-        eRight = Math.round(enemy.getX() + enemy.getWidth());
-        eLeft = Math.round(enemy.getX());
-        System.out.println("Enemy X: "+enemy.getX()+", Enemy Y: "+enemy.getY());
-        System.out.println("Enemy Height: "+enemy.getHeight()+", Enemy Width: "+enemy.getWidth());
-        System.out.println("Enemy Top " + eTop + ", Enemy Bottom " + eBottom +", Enemy Left " + eLeft + ", Enemy Right "+ eRight+"\n");
-        System.out.println("Enemy Top Right "+map.valueAt(eTop, eRight));
-        System.out.println("Enemy Bottom Right "+map.valueAt(eBottom, eRight));
-        System.out.println("Enemy Top Left "+map.valueAt(eTop, eLeft));
-        System.out.println("Enemy Bottom Left "+map.valueAt(eBottom, eLeft));
-        */
-        //---------------------------------------------------------------------------------\\
     }
 
-    private BufferedImage loadImage(String name){
-        try {
-            f = new File(name);
-            image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
-            image = ImageIO.read(f);
-        }catch (IOException e){
-            e.printStackTrace();
-        }
-        return image;
-    }
+    //-----The methods that are the game engine-----\\
 
     public synchronized void start(){
         running = true;
@@ -96,8 +66,7 @@ public class Game extends Canvas implements Runnable{
 
     public void update(long elapsedTime) {
         for (int i = 0; i < map.getSize(); i++) {
-            System.out.println(i);
-            enemy = map.getSprite(i);//Gets the enemy object which originates from TileMap
+            enemy = map.getEnemy(i);//Gets the enemy object which originates from TileMap
             checkSystemInput();
             if (!isPaused()) {
                 checkingPlayerCollision();
@@ -137,6 +106,8 @@ public class Game extends Canvas implements Runnable{
         //g.setColor(Color.red);
         //g.drawRect(Math.round(playerT.getX()), Math.round(playerT.getY()+10), playerT.getWidth(), playerT.getHeight());
     }
+
+    //-----Game Collision-----\\
 
     public void checkingPlayerCollision(){
         //Create the values for top, bottom, right and left
@@ -206,46 +177,33 @@ public class Game extends Canvas implements Runnable{
     }
 
     public void checkingEnemyCollision(){
+        //This loop will access the LinkedList which has the enemies
         for (int i = 0; i < map.getSize(); i++){
-            int enemyX = Math.round(map.getSprite(i).getX());
-            int enemyY = Math.round(map.getSprite(i).getY());
+            //Creating access for enemies' x and y
+            int enemyX = Math.round(map.getEnemy(i).getX());
+            int enemyY = Math.round(map.getEnemy(i).getY());
 
-            //-------------------------------------------------------\\
-            /*
-            System.out.println(i);
-            System.out.print("Enemy X:"+ enemyX+", ");
-            System.out.println("Enemy Y:"+ enemyY);
-            */
-            //-------------------------------------------------------\\
-
+            //Creating access to enemy top, bottom, left and right values
             eTop = enemyY;
-            eBottom = enemyY + map.getSprite(i).getHeight();
+            eBottom = enemyY + map.getEnemy(i).getHeight();
             eLeft = enemyX;
-            eRight = enemyX + map.getSprite(i).getWidth();
+            eRight = enemyX + map.getEnemy(i).getWidth();
 
-            //-------------------------------------------------------\\
-            /*
-            System.out.print("Enemy Top:"+ eTop + ", ");
-            System.out.print("Enemy Bottom:"+ eBottom + ", ");
-            System.out.print("Enemy Left:"+ eLeft + ", ");
-            System.out.println("Enemy Right:"+ eRight);
-            System.out.println("Top Right "+map.valueAt(eTop, eRight) +", Bottom Right "+map.valueAt(eBottom, eRight));
-            */
-            //-------------------------------------------------------\\
+            //Checking the tile collision for the enemy
             if (map.valueAt(eTop, eRight) == '@' && map.valueAt(eBottom, eRight) == '@'){
-                map.getSprite(i).setDx(0.05f);
-                //System.out.println(i +"'s x velocity is "+map.getSprite(i).getDx());
+                map.getEnemy(i).move();
             }
             /*
-            System.out.print("Enemy new X:"+ enemyX+", ");
-            System.out.println("Enemy new Y:"+ enemyY+"\n");
-            */
+            if (map.valueAt(eTop, eRight) == 'R' && map.valueAt(eBottom, eRight) == 'R'){
+                map.getEnemy(i).setX(eLeft);
+            }
+*/
         }
     }
 
     public void checkingSpriteCollision(){ }
 
-    //------------------------------------------------------------------------------//
+    //-----The Game Controls-----\\
 
     public boolean isPaused(){
         return paused;
@@ -289,7 +247,19 @@ public class Game extends Canvas implements Runnable{
             velocityX += PlayerTest2.SPEED;
         }
         playerT.setDx(velocityX);
-        //enemy.setDx(velocityX);
+    }
+
+    //-----The Helper Method-----\\
+
+    private BufferedImage loadImage(String name){
+        try {
+            f = new File(name);
+            image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
+            image = ImageIO.read(f);
+        }catch (IOException e){
+            e.printStackTrace();
+        }
+        return image;
     }
 
 }

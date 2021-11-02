@@ -12,22 +12,33 @@ public class Animation {
     private long totalDuration;
 
     public Animation(){
-        //System.out.println("Inside constructor(Animation.java)");
         frames = new ArrayList();
         totalDuration = 0;
         start();
     }
 
+    /**
+     * Adds every frame for the player and enemy
+     * @param image
+     * @param duration
+     */
     public synchronized void addFrame(BufferedImage image, long duration){
         totalDuration += duration;
         frames.add(new AnimFrame(image, totalDuration));
     }
 
+    /**
+     * Initializing the time for animation loop to start
+     */
     public synchronized void start(){
         animTime = 0;
         currFrameIndex = 0;
     }
 
+    /**
+     * The update method for the whole game
+     * @param elapsedTime
+     */
     public synchronized void update(long elapsedTime){
         if (frames.size() > 1){
             animTime += elapsedTime;

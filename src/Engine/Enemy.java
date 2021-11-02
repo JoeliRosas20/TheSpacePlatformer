@@ -11,6 +11,15 @@ public class Enemy extends Sprite{
         this.left = left;
     }
 
+    /**
+     * Enemy default walk speed
+     */
+    public void move() { setDx(0.05f); }
+
+    /**
+     * Enemy update
+     * @param elapsedTime
+     */
     public void update(long elapsedTime){
         Animation nAnim = animation;
         if (getDx() < 0){//negative
@@ -29,9 +38,12 @@ public class Enemy extends Sprite{
         }
     }
 
+    /**
+     * Creates another enemy
+     * @return another enemy
+     */
     public Object clone(){
         return new Enemy(left, right);
     }
-
 
 }

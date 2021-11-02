@@ -32,7 +32,7 @@ public class TileMap {
      * This is where the sprites like enemies are stored in
      */
     public LinkedList<Enemy> aSprites = new LinkedList<>();
-    BufferedImage image;
+    private BufferedImage image;
     Animation eAnimation, eAnimation2;
     Enemy enemy;
 
@@ -41,19 +41,16 @@ public class TileMap {
         loadTileImages();
         loadEnemyImages();
         loadEnemies();
-        //System.out.println("Sprites:"+sprites.size());
     }
 
-    /**
-     * Loads the text files which is the map of the game
-     * @param fileName
-     */
+    //-----Methods to load the map, images, and enemy-----\\
+
     public void loadMap(String fileName){
         File file = new File(fileName);
         try{
             BufferedReader reader = new BufferedReader(new FileReader(file));
             int n = Integer.parseInt(reader.readLine());//The number of rows the map txt has
-            map = new String[n];//creating map array
+            map = new String[n];//Creating map array
             for (int row = 0; row < n; row++){
                 map[row] = reader.readLine();//This takes all the words in the txt file and store it in map array
             }
@@ -67,9 +64,6 @@ public class TileMap {
         }catch (IOException e){ }
     }
 
-    /**
-     * Checks the text file for any '@' and stores it in the sprites tile list
-     */
     public void loadEnemies(){
         for (int row = 0; row < map.length; row++){
             for (int col = 0; col < map[row].length(); col++){
@@ -121,35 +115,34 @@ public class TileMap {
         enemy = new Enemy(eAnimation, eAnimation2);
     }
 
-    private BufferedImage loadImage(String name){
-        try {
-            File f = new File(name);
-            image = new BufferedImage(100, 100, BufferedImage.TYPE_INT_RGB);
-            image = ImageIO.read(f);
-        }catch (IOException e){
-            e.printStackTrace();
-        }
-        return image;
-    }
+    //-----Enemy stuff-----\\
 
-    private void addSprites(Enemy sprite, int x, int y){
-        Enemy tAlien = (Enemy) sprite.clone();
-        tAlien.setX(x);
-        tAlien.setY(y);
-        aSprites.add(tAlien);
-    }
-
-    public Enemy getSprite(int num){
+    /**
+     * This method helps us get access of the enemy that is stored in the List
+     * @param num
+     * @return enemy
+     */
+    public Enemy getEnemy(int num){
         return aSprites.get(num);
     }
 
+    /**
+     * Gets the size of the List storing the enemies
+     * @return list size
+     */
     public int getSize(){
         return aSprites.size();
     }
 
-    public Iterator getSprites(){
+    /**
+     * Gets access to all enemies within the list
+     * @return
+     */
+    public Iterator getEnemies(){
         return aSprites.iterator();
     }
+
+    //-----Tile Map stuff-----\\
 
     /**
      * Returns the value of y and x of requested tile
@@ -174,7 +167,7 @@ public class TileMap {
                     //g.drawRect(col * 100, row * 100, 100, 100);
                 }
                 if (c == '@'){
-                    Iterator i = getSprites();
+                    Iterator i = getEnemies();
                     while (i.hasNext()) {
                         Sprite alien = (Sprite)i.next();
                         g.drawImage(alien.getImage(), Math.round(alien.getX()), Math.round(alien.getY()), null);
@@ -182,6 +175,26 @@ public class TileMap {
                 }
             }
         }
+    }
+
+    //-----The helper methods-----\\
+
+    private BufferedImage loadImage(String name){
+        try {
+            File f = new File(name);
+            image = new BufferedImage(100, 100, BufferedImage.TYPE_INT_RGB);
+            image = ImageIO.read(f);
+        }catch (IOException e){
+            e.printStackTrace();
+        }
+        return image;
+    }
+
+    private void addSprites(Enemy sprite, int x, int y){
+        Enemy tAlien = (Enemy) sprite.clone();
+        tAlien.setX(x);
+        tAlien.setY(y);
+        aSprites.add(tAlien);
     }
 
 }

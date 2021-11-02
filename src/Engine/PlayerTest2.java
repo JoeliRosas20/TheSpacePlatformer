@@ -17,30 +17,47 @@ public class PlayerTest2 extends Sprite {
         this.jump = jump;
     }
 
+    /**
+     * Gets state of the player
+     * @return player current state
+     */
     public int getState() {
         return state;
     }
 
+    /**
+     * Sets the player state
+     * @param state
+     */
     public void setState(int state) {
         this.state = state;
     }
 
+    /**
+     * Setting the floor for the player
+     * @param floorY
+     */
     public void setFloorY(int floorY) {
         this.floorY = floorY;
         setY(floorY);
     }
 
+    /**
+     * Player jump
+     */
     public void jump(){
-        //System.out.println(("(Engine.PlayerTest2.java) jump()"));
         setDy(-0.8f);
         state = STATE_JUMPING;
     }
 
+    /**
+     * Player update
+     * @param elapsedTime
+     */
     public void update(long elapsedTime){
         Animation nAnim = animation;
         //Set the vertical velocity for jumping
         if (getState() == STATE_JUMPING){
-            //System.out.println("(PlayerTest2.java)Looks like the Player is in the jumping state");
             setDy(getDy() + GRAVITY * elapsedTime);
             nAnim = jump;
         }
@@ -48,7 +65,6 @@ public class PlayerTest2 extends Sprite {
         super.update(elapsedTime);
         //Check if player landed on floor
         if (getState() == STATE_JUMPING && getY() >= floorY){
-            //System.out.println("(PlayerTest2.java)Looks like the Player landed on floor");
             setDy(0);
             setY(floorY);
             setState(STATE_NORMAL);
