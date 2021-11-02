@@ -193,11 +193,10 @@ public class Game extends Canvas implements Runnable{
             if (map.valueAt(eTop, eRight) == '@' && map.valueAt(eBottom, eRight) == '@'){
                 map.getEnemy(i).move();
             }
-            /*
+
             if (map.valueAt(eTop, eRight) == 'R' && map.valueAt(eBottom, eRight) == 'R'){
                 map.getEnemy(i).setX(eLeft);
             }
-*/
         }
     }
 
