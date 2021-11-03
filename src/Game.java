@@ -25,6 +25,7 @@ public class Game extends Canvas implements Runnable{
     Enemy enemy;
     int Top, Bottom, Right, Left;
     int eTop, eBottom, eRight, eLeft;
+    boolean started = true;
 
     public Game(){
         Dimension size = new Dimension(width * scale, height * scale);
@@ -107,7 +108,7 @@ public class Game extends Canvas implements Runnable{
         //g.drawRect(Math.round(playerT.getX()), Math.round(playerT.getY()+10), playerT.getWidth(), playerT.getHeight());
     }
 
-    //-----Game Collision-----\\
+    //-----Game Collision and mechanics-----\\
 
     public void checkingPlayerCollision(){
         //Create the values for top, bottom, right and left
@@ -187,17 +188,22 @@ public class Game extends Canvas implements Runnable{
             eLeft = enemyX;
             eRight = enemyX + enemySprite.getWidth();
 
-            //System.out.println(i+" Top Right:"+map.valueAt(eTop, eRight)+", Top Left:"+map.valueAt(eTop, eLeft)+", Bottom Right:"+map.valueAt(eBottom, eRight)+", Bottom Left:"+map.valueAt(eBottom, eLeft)+"\n");
+            //System.out.println("VALUES:"+i+" Top Right:"+map.valueAt(eTop, eRight)+", Top Left:"+map.valueAt(eTop, eLeft)+", Bottom Right:"+map.valueAt(eBottom, eRight)+", Bottom Left:"+map.valueAt(eBottom, eLeft));
+            //System.out.println("LOCATION:"+i+" Top:"+eTop+", Bottom:"+eBottom+", Left:"+eLeft+", Right:"+eRight+"\n");
 
-            //Checking the tile collision for the enemy
-            if ((map.valueAt(eTop, eRight) == '@' && map.valueAt(eBottom, eRight) == '@')){
+            //Checking the tile collision for the enemy so it can begin walking
+            if ((map.valueAt(eTop, eRight) == '@' && map.valueAt(eBottom, eRight) == '@') && (map.valueAt(eTop, eLeft) == '@') && (map.valueAt(eBottom, eLeft) == '@') && started){
                 System.out.println("True 1");
                 enemySprite.setDx(0.05f);
             }
+
+            //Once the enemy hits the tile
             if ((map.valueAt(eTop, eRight) == 'R' && map.valueAt(eBottom, eRight) == 'R' && map.valueAt(eTop, eLeft) == '#' && map.valueAt(eBottom, eLeft) == '#')){
                 System.out.println("True 2");
                 enemySprite.setDx(-0.05f);
+                started = false;
             }
+
         }
     }
 
