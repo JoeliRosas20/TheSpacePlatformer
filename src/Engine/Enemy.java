@@ -12,11 +12,6 @@ public class Enemy extends Sprite{
     }
 
     /**
-     * Enemy default walk speed
-     */
-    public void move() { setDx(0.05f); }
-
-    /**
      * Enemy update
      * @param elapsedTime
      */

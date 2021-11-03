@@ -163,8 +163,6 @@ public class TileMap {
                 char c = map[row].charAt(col);
                 if (c != '#') {
                     g.drawImage(tile[c - '@'], col * 100, row * 100, null);
-                    //g.setColor(Color.green);
-                    //g.drawRect(col * 100, row * 100, 100, 100);
                 }
                 if (c == '@'){
                     Iterator i = getEnemies();

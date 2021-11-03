@@ -110,6 +110,11 @@ public class Sprite {
     }
 
     /**
+     * Enemy default walk speed
+     */
+    public void move() { setDx(0.05f); }
+
+    /**
      * Gets the image of the sprite
      * @return image
      */

@@ -116,11 +116,9 @@ public class Game extends Canvas implements Runnable{
         Right = Math.round(playerT.getX() + 99);
         Left = Math.round(playerT.getX());
 
-        //For checking if it has space all around
-        boolean notTopRightTile = map.valueAt(Top, Right) != '#';
-        boolean notBottomRightTile = map.valueAt(Bottom, Right) != '#';
-        boolean notTopLeftTile = map.valueAt(Top, Left) != '#';
-        boolean notBottomLeftTile = map.valueAt(Bottom, Left) != '#';
+        //For checking if it is on ground
+        boolean notBottomRightTileEmpty= map.valueAt(Bottom, Right) != '#';
+        boolean notBottomLeftTileEmpty = map.valueAt(Bottom, Left) != '#';
 
         //For checking if there is a tile on the right side
         boolean notTopRight = map.valueAt(Top, Right-30) != '#';
@@ -156,14 +154,11 @@ public class Game extends Canvas implements Runnable{
         }
 
         //Once the player is on the ground
-        if(notBottomLeftTile && notBottomRightTile){
+        if(notBottomLeftTileEmpty && notBottomRightTileEmpty){
             playerT.setFloorY(Bottom - (playerT.getHeight()+2));
             //This loop is for the player jump
             if (map.valueAt(Top-100, Right) == '#' && map.valueAt(Top-100, Left) == '#' && jump.isPressed() && playerT.getState() != PlayerTest2.STATE_JUMPING){
                 playerT.jump();
-                //----------------------------------------------------------------------------\\
-
-                //----------------------------------------------------------------------------\\
             }
             if ((map.valueAt(Top, Right) == '@') || map.valueAt(Bottom, Right) == '@'){
                 System.out.println("Hit");
@@ -179,23 +174,29 @@ public class Game extends Canvas implements Runnable{
     public void checkingEnemyCollision(){
         //This loop will access the LinkedList which has the enemies
         for (int i = 0; i < map.getSize(); i++){
-            //Creating access for enemies' x and y
-            int enemyX = Math.round(map.getEnemy(i).getX());
-            int enemyY = Math.round(map.getEnemy(i).getY());
+            //To access the enemy sprite easily
+            Sprite enemySprite = map.getEnemy(i);
+
+            //Creating access for enemies' x and y placement
+            int enemyX = Math.round(enemySprite.getX());
+            int enemyY = Math.round(enemySprite.getY());
 
             //Creating access to enemy top, bottom, left and right values
             eTop = enemyY;
-            eBottom = enemyY + map.getEnemy(i).getHeight();
+            eBottom = enemyY + enemySprite.getHeight();
             eLeft = enemyX;
-            eRight = enemyX + map.getEnemy(i).getWidth();
+            eRight = enemyX + enemySprite.getWidth();
+
+            //System.out.println(i+" Top Right:"+map.valueAt(eTop, eRight)+", Top Left:"+map.valueAt(eTop, eLeft)+", Bottom Right:"+map.valueAt(eBottom, eRight)+", Bottom Left:"+map.valueAt(eBottom, eLeft)+"\n");
 
             //Checking the tile collision for the enemy
-            if (map.valueAt(eTop, eRight) == '@' && map.valueAt(eBottom, eRight) == '@'){
-                map.getEnemy(i).move();
+            if ((map.valueAt(eTop, eRight) == '@' && map.valueAt(eBottom, eRight) == '@')){
+                System.out.println("True 1");
+                enemySprite.setDx(0.05f);
             }
-
-            if (map.valueAt(eTop, eRight) == 'R' && map.valueAt(eBottom, eRight) == 'R'){
-                map.getEnemy(i).setX(eLeft);
+            if ((map.valueAt(eTop, eRight) == 'R' && map.valueAt(eBottom, eRight) == 'R' && map.valueAt(eTop, eLeft) == '#' && map.valueAt(eBottom, eLeft) == '#')){
+                System.out.println("True 2");
+                enemySprite.setDx(-0.05f);
             }
         }
     }

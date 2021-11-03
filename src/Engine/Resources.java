@@ -20,6 +20,8 @@ public class Resources {
         loadPlayerImages();
     }
 
+    //-----Accessors-----\\
+
     public PlayerTest2 getPlayer(){
         return playerTest2;
     }
@@ -27,6 +29,8 @@ public class Resources {
     public TileMap getMap(){
         return map;
     }
+
+    //-----Loading the images-----\\
 
     /**
      * Loads the images of the player onto the game
