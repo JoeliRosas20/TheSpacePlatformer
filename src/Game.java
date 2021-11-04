@@ -74,6 +74,7 @@ public class Game extends Canvas implements Runnable{
                 checkingEnemyCollision();
                 checkGameInput();
                 playerT.update(elapsedTime);
+                Camera.update(elapsedTime);
                 enemy.update(elapsedTime);
             }
         }
@@ -104,6 +105,7 @@ public class Game extends Canvas implements Runnable{
         g.setColor(Color.GREEN);
         map.draw(g);
         g.drawImage(playerT.getImage(), Math.round(playerT.getX()), Math.round(playerT.getY()+10), null);
+        Camera.draw(g);
         //g.setColor(Color.red);
         //g.drawRect(Math.round(playerT.getX()), Math.round(playerT.getY()+10), playerT.getWidth(), playerT.getHeight());
     }
@@ -152,22 +154,27 @@ public class Game extends Canvas implements Runnable{
         if((map.valueAt(Top,Left) == '#') && (map.valueAt(Top,Right) == '#') && (map.valueAt(Bottom,Left) == '#') && (map.valueAt(Bottom, Right) == '#')){
             playerT.setDy(0.4f);
             playerT.setDx(0);
+            Camera.setDy(0.4f);
+            Camera.setDx(0);
         }
 
         //Once the player is on the ground
         if(notBottomLeftTileEmpty && notBottomRightTileEmpty){
             playerT.setFloorY(Bottom - (playerT.getHeight()+2));
+            Camera.setY(Bottom - (playerT.getHeight()+2));
             //This loop is for the player jump
             if (map.valueAt(Top-100, Right) == '#' && map.valueAt(Top-100, Left) == '#' && jump.isPressed() && playerT.getState() != PlayerTest2.STATE_JUMPING){
                 playerT.jump();
+                Camera.jump();
             }
             if ((map.valueAt(Top, Right) == '@') || map.valueAt(Bottom, Right) == '@'){
-                System.out.println("Hit");
+                //Something
             }
         }
         else{
             //When the player is airborne
             playerT.applyGravity();
+            Camera.applyGravity();
         }
 
     }
@@ -188,18 +195,13 @@ public class Game extends Canvas implements Runnable{
             eLeft = enemyX;
             eRight = enemyX + enemySprite.getWidth();
 
-            //System.out.println("VALUES:"+i+" Top Right:"+map.valueAt(eTop, eRight)+", Top Left:"+map.valueAt(eTop, eLeft)+", Bottom Right:"+map.valueAt(eBottom, eRight)+", Bottom Left:"+map.valueAt(eBottom, eLeft));
-            //System.out.println("LOCATION:"+i+" Top:"+eTop+", Bottom:"+eBottom+", Left:"+eLeft+", Right:"+eRight+"\n");
-
             //Checking the tile collision for the enemy so it can begin walking
             if ((map.valueAt(eTop, eRight) == '@' && map.valueAt(eBottom, eRight) == '@') && (map.valueAt(eTop, eLeft) == '@') && (map.valueAt(eBottom, eLeft) == '@') && started){
-                System.out.println("True 1");
                 enemySprite.setDx(0.05f);
             }
 
             //Once the enemy hits the tile
             if ((map.valueAt(eTop, eRight) == 'R' && map.valueAt(eBottom, eRight) == 'R' && map.valueAt(eTop, eLeft) == '#' && map.valueAt(eBottom, eLeft) == '#')){
-                System.out.println("True 2");
                 enemySprite.setDx(-0.05f);
                 started = false;
             }
@@ -253,6 +255,7 @@ public class Game extends Canvas implements Runnable{
             velocityX += PlayerTest2.SPEED;
         }
         playerT.setDx(velocityX);
+        Camera.setDx(velocityX);
     }
 
     //-----The Helper Method-----\\

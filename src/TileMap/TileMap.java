@@ -1,9 +1,6 @@
 package TileMap;
 
-import Engine.Animation;
-import Engine.Enemy;
-import Engine.Sprite;
-
+import Engine.*;
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.*;
@@ -163,6 +160,7 @@ public class TileMap {
                 char c = map[row].charAt(col);
                 if (c != '#') {
                     g.drawImage(tile[c - '@'], col * 100, row * 100, null);
+                    //g.drawImage(tile[c - '@'], col * 100 - (int) Camera.x, row * 100 - (int) Camera.y, null);
                 }
                 if (c == '@'){
                     Iterator i = getEnemies();
