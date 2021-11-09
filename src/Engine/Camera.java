@@ -16,10 +16,10 @@ public class Camera {
     public static PlayerTest2 playerT = resources.getPlayer();
 
     public static void update(long elapsedTime){
-        System.out.println("Updating");
+        //System.out.println("Updating");
         x += dx * elapsedTime;
         y += dy * elapsedTime;
-        System.out.println(x+" "+y);
+        //System.out.println(x+" "+y);
     }
 
     public static void setX(float newX){
