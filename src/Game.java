@@ -35,7 +35,8 @@ public class Game extends Canvas implements Runnable{
         createGameActions();//The commands for the user to move
         resources = new Resources();//Calls the resources
         playerT = resources.getPlayer();//Gets the player object which originate from resources
-        map = resources.getMap();//Get the map object with originates from resources
+        //map = resources.getMap();//Get the map object with originates from resources
+        map = resources.loadNextMap();
         bg = loadImage("Images//Space.jpg");//Loads the background of the game
     }
 
@@ -98,6 +99,10 @@ public class Game extends Canvas implements Runnable{
             g.dispose();
             strategy.show();
         }
+    }
+
+    public TileMap getMap(){
+        return map;
     }
 
     public void draw(Graphics g){
@@ -177,6 +182,10 @@ public class Game extends Canvas implements Runnable{
             Camera.applyGravity();
         }
 
+        if (map.valueAt(Top, Right) == '@'){
+
+        }
+
     }
 
     public void checkingEnemyCollision(){
@@ -202,7 +211,7 @@ public class Game extends Canvas implements Runnable{
             }
 
             //Checking the tile collision for the enemy so it can begin walking
-            if ((map.valueAt(eTop, eRight) == '@' && map.valueAt(eBottom, eRight) == '@') && (map.valueAt(eTop, eLeft) == '@') && (map.valueAt(eBottom, eLeft) == '@') && started){
+            if ((map.valueAt(eTop, eRight) == '?' && map.valueAt(eBottom, eRight) == '?') && (map.valueAt(eTop, eLeft) == '?') && (map.valueAt(eBottom, eLeft) == '?') && started){
                 enemySprite.setDx(0.05f);
             }
 

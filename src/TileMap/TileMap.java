@@ -65,7 +65,7 @@ public class TileMap {
         for (int row = 0; row < map.length; row++){
             for (int col = 0; col < map[row].length(); col++){
                 char c = map[row].charAt(col);
-                if (c == '@'){
+                if (c == '?'){
                     addSprites(enemy, col*100, row*100);
                 }
             }
@@ -160,9 +160,9 @@ public class TileMap {
                 char c = map[row].charAt(col);
                 if (c != '#') {
                     //g.drawImage(tile[c - '@'], col * 100, row * 100, null);
-                    g.drawImage(tile[c - '@'], col * 100 - (int) Camera.x, row * 100, null);
+                    g.drawImage(tile[c - '?'], col * 100 - (int) Camera.x, row * 100, null);
                 }
-                if (c == '@'){
+                if (c == '?'){
                     Iterator i = getEnemies();
                     while (i.hasNext()) {
                         Sprite alien = (Sprite)i.next();

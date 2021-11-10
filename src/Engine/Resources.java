@@ -12,9 +12,9 @@ public class Resources {
     public static int height = width / 16 * 9;
     private BufferedImage image;
     private File f;
+    private int currMap;
     Animation animation, animation2;
     PlayerTest2 playerTest2;
-    TileMap map = new TileMap("Maps//world1");
 
     public Resources(){
         loadPlayerImages();
@@ -26,8 +26,13 @@ public class Resources {
         return playerTest2;
     }
 
-    public TileMap getMap(){
-        return map;
+    public TileMap loadNextMap(){
+        TileMap nMap = null;
+        while (nMap == null){
+            currMap++;
+            nMap = new TileMap("Maps//world"+currMap);
+        }
+        return nMap;
     }
 
     //-----Loading the images-----\\
