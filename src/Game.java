@@ -104,7 +104,7 @@ public class Game extends Canvas implements Runnable{
         g.drawImage(bg, 0, 0, null);
         g.setColor(Color.GREEN);
         map.draw(g);
-        g.drawImage(playerT.getImage(), Math.round(playerT.getX()), Math.round(playerT.getY()+10), null);
+        g.drawImage(playerT.getImage(), Math.round(playerT.getX()- (int) Camera.x), Math.round(playerT.getY()+10), null);
         Camera.draw(g);
         //g.setColor(Color.red);
         //g.drawRect(Math.round(playerT.getX()), Math.round(playerT.getY()+10), playerT.getWidth(), playerT.getHeight());
@@ -194,6 +194,12 @@ public class Game extends Canvas implements Runnable{
             eBottom = enemyY + enemySprite.getHeight();
             eLeft = enemyX;
             eRight = enemyX + enemySprite.getWidth();
+
+            //Makes sure the player does not go out of bounds on left side
+            if (eLeft <= -20){
+                enemySprite.setDx(0.05f);
+                eLeft = (eLeft * -1) - 100;
+            }
 
             //Checking the tile collision for the enemy so it can begin walking
             if ((map.valueAt(eTop, eRight) == '@' && map.valueAt(eBottom, eRight) == '@') && (map.valueAt(eTop, eLeft) == '@') && (map.valueAt(eBottom, eLeft) == '@') && started){
