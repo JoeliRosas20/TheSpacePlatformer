@@ -1,5 +1,7 @@
 import Engine.*;
 import Input.*;
+import Sound.LoopingByteInputStream;
+import Sound.SimpleSoundPlayer;
 import TileMap.TileMap;
 import javax.imageio.*;
 import java.awt.*;
@@ -23,6 +25,8 @@ public class Game extends Canvas implements Runnable{
     TileMap map;
     PlayerTest2 playerT;
     Enemy enemy;
+    SimpleSoundPlayer soundPlayer;
+    LoopingByteInputStream stream;
     int Top, Bottom, Right, Left;
     int eTop, eBottom, eRight, eLeft;
     boolean started = true;
@@ -38,6 +42,8 @@ public class Game extends Canvas implements Runnable{
         map = resources.getMap();//Get the map object with originates from resources
         //map = resources.loadNextMap();
         bg = loadImage("Images//Space.jpg");//Loads the background of the game
+        soundPlayer = new SimpleSoundPlayer("Sound//Cyberpunk Moonlight Sonata.wav");
+        stream = new LoopingByteInputStream(soundPlayer.getSamples());
     }
 
     //-----The methods that are the game engine-----\\
@@ -46,14 +52,19 @@ public class Game extends Canvas implements Runnable{
         running = true;
         thread = new Thread(this, "Display");
         thread.start();
+        soundPlayer.play(stream);
     }
 
     public synchronized void stop(){
         running = false;
         try {
             thread.join();
+            stream.close();
         }
         catch (InterruptedException e){
+            e.printStackTrace();
+        }
+        catch (IOException e){
             e.printStackTrace();
         }
     }
