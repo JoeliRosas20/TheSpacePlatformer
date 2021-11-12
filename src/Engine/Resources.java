@@ -15,9 +15,16 @@ public class Resources {
     private int currMap;
     Animation animation, animation2;
     PlayerTest2 playerTest2;
+    TileMap map = new TileMap("Maps//world1");
+    TileMap map2 = new TileMap("Maps//world2");
+    TileMap[] maps = {map, map2};
 
     public Resources(){
         loadPlayerImages();
+    }
+
+    public TileMap getMap(){
+        return map;
     }
 
     //-----Accessors-----\\
@@ -28,9 +35,8 @@ public class Resources {
 
     public TileMap loadNextMap(){
         TileMap nMap = null;
-        while (nMap == null){
-            currMap++;
-            nMap = new TileMap("Maps//world"+currMap);
+        if (nMap == null){
+            nMap = map2;
         }
         return nMap;
     }

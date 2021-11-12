@@ -140,7 +140,6 @@ public class TileMap {
     }
 
     //-----Tile Map stuff-----\\
-
     /**
      * Returns the value of y and x of requested tile
      * @param y the x position of item

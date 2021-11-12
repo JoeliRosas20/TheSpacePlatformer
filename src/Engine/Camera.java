@@ -47,8 +47,8 @@ public class Camera {
     }
 
     public static void draw(Graphics g){
-        g.setColor(Color.GREEN);
-        g.drawRect(Math.round(playerT.getX()), Math.round(playerT.getY()), playerT.getWidth(), playerT.getHeight());
+        //g.setColor(Color.GREEN);
+        //g.drawRect(Math.round(playerT.getX()), Math.round(playerT.getY()), playerT.getWidth(), playerT.getHeight());
     }
 
 }

@@ -35,8 +35,8 @@ public class Game extends Canvas implements Runnable{
         createGameActions();//The commands for the user to move
         resources = new Resources();//Calls the resources
         playerT = resources.getPlayer();//Gets the player object which originate from resources
-        //map = resources.getMap();//Get the map object with originates from resources
-        map = resources.loadNextMap();
+        map = resources.getMap();//Get the map object with originates from resources
+        //map = resources.loadNextMap();
         bg = loadImage("Images//Space.jpg");//Loads the background of the game
     }
 
@@ -77,6 +77,7 @@ public class Game extends Canvas implements Runnable{
                 playerT.update(elapsedTime);
                 Camera.update(elapsedTime);
                 enemy.update(elapsedTime);
+                //System.out.println(resources.loadNextMap());
             }
         }
     }
@@ -111,8 +112,6 @@ public class Game extends Canvas implements Runnable{
         map.draw(g);
         g.drawImage(playerT.getImage(), Math.round(playerT.getX()- (int) Camera.x), Math.round(playerT.getY()+10), null);
         Camera.draw(g);
-        //g.setColor(Color.red);
-        //g.drawRect(Math.round(playerT.getX()), Math.round(playerT.getY()+10), playerT.getWidth(), playerT.getHeight());
     }
 
     //-----Game Collision and mechanics-----\\
@@ -142,6 +141,7 @@ public class Game extends Canvas implements Runnable{
         if (Left <= -20){
             playerT.setX(-19);
             playerT.setY(0);
+            Camera.setX(0);
             Left = (Left * -1) - 100;
         }
 
@@ -183,7 +183,8 @@ public class Game extends Canvas implements Runnable{
         }
 
         if (map.valueAt(Top, Right) == '@'){
-
+            resources.loadNextMap();
+            System.out.println("Something");
         }
 
     }
