@@ -127,6 +127,8 @@ public class Resources {
         bAnimation.addFrame(bullet10, 100);
         */
         bullet = new Bullet(bAnimation);
+        bullet.setX(-100);
+        bullet.setY(-100);
     }
 
     private BufferedImage loadImage(String name){

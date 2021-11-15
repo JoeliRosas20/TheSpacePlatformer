@@ -92,6 +92,8 @@ public class Game extends Canvas implements Runnable{
                 Camera.update(elapsedTime);
                 enemy.update(elapsedTime);
                 bullet.update(elapsedTime);
+                System.out.println(bullet.getX());
+                System.out.println(bullet.getY());
             }
         }
     }
@@ -125,7 +127,8 @@ public class Game extends Canvas implements Runnable{
         g.setColor(Color.GREEN);
         map.draw(g);
         g.drawImage(playerT.getImage(), Math.round(playerT.getX()- (int) Camera.x), Math.round(playerT.getY()+10), null);
-        g.drawImage(bullet.getImage(), Math.round(bullet.getX()- (int) Camera.x), Math.round(bullet.getY()+10), null);
+        //g.drawImage(bullet.getImage(), Math.round(bullet.getX()- (int) Camera.x), Math.round(bullet.getY()), null);
+        g.drawImage(bullet.getImage(), Math.round(bullet.getX()), Math.round(bullet.getY()), null);
         Camera.draw(g);
     }
 
@@ -242,6 +245,11 @@ public class Game extends Canvas implements Runnable{
 
     public void checkingSpriteCollision(){ }
 
+    public void launch(Bullet bullet){
+        bullet.setX(Math.round(playerT.getX()));
+        bullet.setDx(0.5f);
+    }
+
     //-----The Game Controls-----\\
 
     public boolean isPaused(){
@@ -289,8 +297,9 @@ public class Game extends Canvas implements Runnable{
         }
         if (shoot.isPressed()){
             System.out.println("Shoot was pressed!");
-            bullet.setDx(1);
-            //player.shoot(bullet);
+            //bullet.setDx(1);
+            playerT.shoot(bullet, Math.round(playerT.getX()), Math.round(playerT.getY()));
+            //playerT.launch(bullet);
             System.out.println(bullet.getDx());
             System.out.println(bullet.getX());
         }

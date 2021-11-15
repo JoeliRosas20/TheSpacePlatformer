@@ -1,5 +1,7 @@
 package Engine;
 
+import Characters.Bullet;
+
 public class PlayerTest2 extends Sprite {
 
     public static final int STATE_NORMAL = 0;
@@ -48,6 +50,14 @@ public class PlayerTest2 extends Sprite {
     public void jump(){
         setDy(-0.8f);
         state = STATE_JUMPING;
+    }
+
+    public void shoot(Bullet bullet, int playerX, int playerY){
+        System.out.println("The X is:"+playerX);
+        System.out.println("The Y is:"+playerY);
+        bullet.setX(playerX);
+        bullet.setY(playerY);
+        bullet.setDx(0.5f);
     }
 
     /**
