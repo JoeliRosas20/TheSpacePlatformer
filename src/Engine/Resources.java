@@ -1,5 +1,6 @@
 package Engine;
 
+import Characters.Bullet;
 import TileMap.TileMap;
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -13,14 +14,16 @@ public class Resources {
     private BufferedImage image;
     private File f;
     private int currMap;
-    Animation animation, animation2;
+    Animation animation, animation2, bAnimation;
     PlayerTest2 playerTest2;
+    Bullet bullet;
     TileMap map = new TileMap("Maps//world1");
     TileMap map2 = new TileMap("Maps//world2");
     TileMap[] maps = {map, map2};
 
     public Resources(){
         loadPlayerImages();
+        loadBulletImages();
     }
 
     public TileMap getMap(){
@@ -31,6 +34,10 @@ public class Resources {
 
     public PlayerTest2 getPlayer(){
         return playerTest2;
+    }
+
+    public Bullet getBullet(){
+        return bullet;
     }
 
     public TileMap loadNextMap(){
@@ -93,6 +100,31 @@ public class Resources {
         animation2.addFrame(player20, 200);
         playerTest2 = new PlayerTest2(animation, animation2);
 
+    }
+
+    public void loadBulletImages(){
+        BufferedImage bullet1 = loadImage("Images//BulletImages//Bullet_000.png");
+        BufferedImage bullet2 = loadImage("Images//BulletImages//Bullet_001.png");
+        BufferedImage bullet3 = loadImage("Images//BulletImages//Bullet_002.png");
+        BufferedImage bullet4 = loadImage("Images//BulletImages//Bullet_003.png");
+        BufferedImage bullet5 = loadImage("Images//BulletImages//Bullet_004.png");
+        BufferedImage bullet6 = loadImage("Images//BulletImages//Muzzle_000.png");
+        BufferedImage bullet7 = loadImage("Images//BulletImages//Muzzle_001.png");
+        BufferedImage bullet8 = loadImage("Images//BulletImages//Muzzle_002.png");
+        BufferedImage bullet9 = loadImage("Images//BulletImages//Muzzle_003.png");
+        BufferedImage bullet10 = loadImage("Images//BulletImages//Muzzle_004.png");
+        bAnimation = new Animation();
+        bAnimation.addFrame(bullet1, 100);
+        bAnimation.addFrame(bullet2, 100);
+        bAnimation.addFrame(bullet3, 100);
+        bAnimation.addFrame(bullet4, 100);
+        bAnimation.addFrame(bullet5, 100);
+        bAnimation.addFrame(bullet6, 100);
+        bAnimation.addFrame(bullet7, 100);
+        bAnimation.addFrame(bullet8, 100);
+        bAnimation.addFrame(bullet9, 100);
+        bAnimation.addFrame(bullet10, 100);
+        bullet = new Bullet(bAnimation);
     }
 
     private BufferedImage loadImage(String name){

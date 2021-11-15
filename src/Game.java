@@ -1,3 +1,4 @@
+import Characters.*;
 import Engine.*;
 import Input.*;
 import Sound.LoopingByteInputStream;
@@ -25,6 +26,7 @@ public class Game extends Canvas implements Runnable{
     TileMap map;
     PlayerTest2 playerT;
     Enemy enemy;
+    Bullet bullet;
     SimpleSoundPlayer soundPlayer;
     LoopingByteInputStream stream;
     int Top, Bottom, Right, Left;
@@ -39,6 +41,7 @@ public class Game extends Canvas implements Runnable{
         createGameActions();//The commands for the user to move
         resources = new Resources();//Calls the resources
         playerT = resources.getPlayer();//Gets the player object which originate from resources
+        bullet = resources.getBullet();
         map = resources.getMap();//Get the map object with originates from resources
         //map = resources.loadNextMap();
         bg = loadImage("Images//Space.jpg");//Loads the background of the game
@@ -88,6 +91,7 @@ public class Game extends Canvas implements Runnable{
                 playerT.update(elapsedTime);
                 Camera.update(elapsedTime);
                 enemy.update(elapsedTime);
+                bullet.update(elapsedTime);
                 //System.out.println(resources.loadNextMap());
             }
         }
@@ -122,6 +126,7 @@ public class Game extends Canvas implements Runnable{
         g.setColor(Color.GREEN);
         map.draw(g);
         g.drawImage(playerT.getImage(), Math.round(playerT.getX()- (int) Camera.x), Math.round(playerT.getY()+10), null);
+        g.drawImage(bullet.getImage(), 100, 100, null);
         Camera.draw(g);
     }
 
