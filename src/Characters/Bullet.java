@@ -14,12 +14,14 @@ public class Bullet extends Sprite {
 
     public void update(long elapsedTime){
         Animation nAnim = new Animation();
-        if (getDx() < 0){//negative
+        if (getDx() > 0){//negative
             nAnim = animation;
         }
+        /*
         else if (getDx() > 0){//positive
             nAnim = animation;
         }
+        */
         super.update(elapsedTime);
         if (animation != nAnim){
             animation = nAnim;

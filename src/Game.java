@@ -21,7 +21,7 @@ public class Game extends Canvas implements Runnable{
     private File f;
     private boolean paused;
     protected InputManager inputManager;
-    protected GameAction jump, exit, moveLeft, moveRight, pause;
+    protected GameAction jump, exit, moveLeft, moveRight, pause, shoot;
     Resources resources;
     TileMap map;
     PlayerTest2 playerT;
@@ -92,7 +92,6 @@ public class Game extends Canvas implements Runnable{
                 Camera.update(elapsedTime);
                 enemy.update(elapsedTime);
                 bullet.update(elapsedTime);
-                //System.out.println(resources.loadNextMap());
             }
         }
     }
@@ -126,7 +125,7 @@ public class Game extends Canvas implements Runnable{
         g.setColor(Color.GREEN);
         map.draw(g);
         g.drawImage(playerT.getImage(), Math.round(playerT.getX()- (int) Camera.x), Math.round(playerT.getY()+10), null);
-        g.drawImage(bullet.getImage(), 100, 100, null);
+        g.drawImage(bullet.getImage(), Math.round(bullet.getX()- (int) Camera.x), Math.round(bullet.getY()+10), null);
         Camera.draw(g);
     }
 
@@ -262,11 +261,13 @@ public class Game extends Canvas implements Runnable{
         moveLeft = new GameAction("moveLeft");
         moveRight = new GameAction("moveRight");
         pause = new GameAction("pause", GameAction.DETECT_INITIAL_PRESS_ONLY);
+        shoot = new GameAction("shoot", GameAction.DETECT_INITIAL_PRESS_ONLY);
         inputManager.mapToKey(exit, KeyEvent.VK_ESCAPE);
         inputManager.mapToKey(pause, KeyEvent.VK_P);
         inputManager.mapToKey(jump, KeyEvent.VK_SPACE);
         inputManager.mapToKey(moveLeft, KeyEvent.VK_LEFT);
         inputManager.mapToKey(moveRight, KeyEvent.VK_RIGHT);
+        inputManager.mapToKey(shoot, KeyEvent.VK_S);
     }
 
     public void checkSystemInput(){
@@ -285,6 +286,13 @@ public class Game extends Canvas implements Runnable{
         }
         if (moveRight.isPressed()){
             velocityX += PlayerTest2.SPEED;
+        }
+        if (shoot.isPressed()){
+            System.out.println("Shoot was pressed!");
+            bullet.setDx(1);
+            //player.shoot(bullet);
+            System.out.println(bullet.getDx());
+            System.out.println(bullet.getX());
         }
         playerT.setDx(velocityX);
         Camera.setDx(velocityX);

@@ -119,11 +119,13 @@ public class Resources {
         bAnimation.addFrame(bullet3, 100);
         bAnimation.addFrame(bullet4, 100);
         bAnimation.addFrame(bullet5, 100);
+        /*
         bAnimation.addFrame(bullet6, 100);
         bAnimation.addFrame(bullet7, 100);
         bAnimation.addFrame(bullet8, 100);
         bAnimation.addFrame(bullet9, 100);
         bAnimation.addFrame(bullet10, 100);
+        */
         bullet = new Bullet(bAnimation);
     }
 
