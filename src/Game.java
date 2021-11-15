@@ -92,8 +92,8 @@ public class Game extends Canvas implements Runnable{
                 Camera.update(elapsedTime);
                 enemy.update(elapsedTime);
                 bullet.update(elapsedTime);
-                System.out.println(bullet.getX());
-                System.out.println(bullet.getY());
+                //System.out.println(bullet.getX());
+                //System.out.println(bullet.getY());
             }
         }
     }
@@ -128,7 +128,7 @@ public class Game extends Canvas implements Runnable{
         map.draw(g);
         g.drawImage(playerT.getImage(), Math.round(playerT.getX()- (int) Camera.x), Math.round(playerT.getY()+10), null);
         //g.drawImage(bullet.getImage(), Math.round(bullet.getX()- (int) Camera.x), Math.round(bullet.getY()), null);
-        g.drawImage(bullet.getImage(), Math.round(bullet.getX()), Math.round(bullet.getY()), null);
+        g.drawImage(bullet.getImage(), Math.round(bullet.getX()- (int) Camera.x), Math.round(bullet.getY()), null);
         Camera.draw(g);
     }
 
