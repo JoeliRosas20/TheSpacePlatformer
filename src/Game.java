@@ -31,6 +31,7 @@ public class Game extends Canvas implements Runnable{
     LoopingByteInputStream stream;
     int Top, Bottom, Right, Left;
     int eTop, eBottom, eRight, eLeft;
+    int bLeft, bRight;
     boolean started = true;
 
     public Game(){
@@ -92,8 +93,6 @@ public class Game extends Canvas implements Runnable{
                 Camera.update(elapsedTime);
                 enemy.update(elapsedTime);
                 bullet.update(elapsedTime);
-                //System.out.println(bullet.getX());
-                //System.out.println(bullet.getY());
             }
         }
     }
@@ -127,7 +126,6 @@ public class Game extends Canvas implements Runnable{
         g.setColor(Color.GREEN);
         map.draw(g);
         g.drawImage(playerT.getImage(), Math.round(playerT.getX()- (int) Camera.x), Math.round(playerT.getY()+10), null);
-        //g.drawImage(bullet.getImage(), Math.round(bullet.getX()- (int) Camera.x), Math.round(bullet.getY()), null);
         g.drawImage(bullet.getImage(), Math.round(bullet.getX()- (int) Camera.x), Math.round(bullet.getY()), null);
         Camera.draw(g);
     }
@@ -135,6 +133,7 @@ public class Game extends Canvas implements Runnable{
     //-----Game Collision and mechanics-----\\
 
     public void checkingPlayerCollision(){
+        float velocityX = 0;
         //Create the values for top, bottom, right and left
         Top = Math.round(playerT.getY());
         Bottom = Math.round(playerT.getY() + (playerT.getHeight() + 2));
@@ -142,18 +141,23 @@ public class Game extends Canvas implements Runnable{
         Left = Math.round(playerT.getX());
 
         //For checking if it is on ground
-        boolean notBottomRightTileEmpty= map.valueAt(Bottom, Right) != '#';
+        boolean notBottomRightTileEmpty = map.valueAt(Bottom, Right) != '#';
         boolean notBottomLeftTileEmpty = map.valueAt(Bottom, Left) != '#';
 
         //For checking if there is a tile on the right side
         boolean notTopRight = map.valueAt(Top, Right-30) != '#';
         boolean notBottomRight = map.valueAt(Bottom, Right-30) != '#';
-        boolean thereIsATileOnRight = notTopRight & notBottomRight;
+        boolean thereIsATileOnRight = notTopRight && notBottomRight && map.valueAt(Top, Right-30) != '?';
 
         //For checking if there is a tile on the left side
         boolean notTopLeft = map.valueAt(Top, Left+20) != '#';
         boolean notBottomLeft = map.valueAt(Bottom, Left+20) != '#';
-        boolean thereIsATileOnLeft = notTopLeft && notBottomLeft;
+        boolean thereIsATileOnLeft = notTopLeft && notBottomLeft && map.valueAt(Top, Left+20) != '?';
+
+        System.out.println("Top Right " + map.valueAt(Top, Right));
+        System.out.println("Top Left " + map.valueAt(Top, Left));
+        System.out.println("Bottom Right " + map.valueAt(Bottom, Right));
+        System.out.println("Bottom Left " + map.valueAt(Bottom, Left));
 
         //Makes sure the player does not go out of bounds on left side
         if (Left <= -20){
@@ -189,9 +193,6 @@ public class Game extends Canvas implements Runnable{
             if (map.valueAt(Top-100, Right) == '#' && map.valueAt(Top-100, Left) == '#' && jump.isPressed() && playerT.getState() != PlayerTest2.STATE_JUMPING){
                 playerT.jump();
                 Camera.jump();
-            }
-            if ((map.valueAt(Top, Right) == '@') || map.valueAt(Bottom, Right) == '@'){
-                //Something
             }
         }
         else{
@@ -243,11 +244,25 @@ public class Game extends Canvas implements Runnable{
         }
     }
 
-    public void checkingSpriteCollision(){ }
-
-    public void launch(Bullet bullet){
-        bullet.setX(Math.round(playerT.getX()));
-        bullet.setDx(0.5f);
+    public void checkingSpriteCollision(){
+        for (int i = 0; i < map.getSize(); i++){
+            Sprite enemySprite = map.getEnemy(i);
+            //Creating access for enemies' x and y placement
+            int enemyX = Math.round(enemySprite.getX());
+            int enemyY = Math.round(enemySprite.getY());
+            //Create the values for top, bottom, right and left
+            Top = Math.round(playerT.getY());
+            Bottom = Math.round(playerT.getY() + (playerT.getHeight() + 2));
+            Right = Math.round(playerT.getX() + 99);
+            Left = Math.round(playerT.getX());
+            //Creating access to enemy top, bottom, left and right values
+            eTop = enemyY;
+            eBottom = enemyY + enemySprite.getHeight();
+            eLeft = enemyX;
+            eRight = enemyX + enemySprite.getWidth();
+            bLeft = Math.round(bullet.getX());
+            bRight = Math.round(bullet.getX() + bullet.getWidth());
+        }
     }
 
     //-----The Game Controls-----\\
@@ -289,6 +304,8 @@ public class Game extends Canvas implements Runnable{
 
     public void checkGameInput(){
         float velocityX = 0;
+        Top = Math.round(playerT.getY());
+        Right = Math.round(playerT.getX() + 99);
         if (moveLeft.isPressed()){
             velocityX -= PlayerTest2.SPEED;
         }
@@ -304,7 +321,7 @@ public class Game extends Canvas implements Runnable{
             System.out.println(bullet.getX());
         }
         playerT.setDx(velocityX);
-        Camera.setDx(velocityX);
+        //Camera.setDx(velocityX);
     }
 
     //-----The Helper Method-----\\
