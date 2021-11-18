@@ -23,13 +23,13 @@ public class Game extends Canvas implements Runnable{
     protected InputManager inputManager;
     protected GameAction jump, exit, moveLeft, moveRight, pause, shoot;
     Resources resources;
-    TileMap map;
+    TileMap map, map2;
     PlayerTest2 playerT;
     Enemy enemy;
     Bullet bullet;
     SimpleSoundPlayer soundPlayer;
     LoopingByteInputStream stream;
-    int Top, Bottom, Right, Left;
+    int Top, Bottom, Right, Left, n=1;
     int eTop, eBottom, eRight, eLeft;
     int bLeft, bRight;
     boolean started = true;
@@ -43,15 +43,14 @@ public class Game extends Canvas implements Runnable{
         resources = new Resources();//Calls the resources
         playerT = resources.getPlayer();//Gets the player object which originate from resources
         bullet = resources.getBullet();
-        map = resources.getMap();//Get the map object with originates from resources
-        //map = resources.loadNextMap();
+        //map = resources.getMap();//Get the map object with originates from resources
+        map = resources.loadNextMap(1);//Calls the first map
         bg = loadImage("Images//Space.jpg");//Loads the background of the game
         soundPlayer = new SimpleSoundPlayer("Sound//Cyberpunk Moonlight Sonata.wav");
         stream = new LoopingByteInputStream(soundPlayer.getSamples());
     }
 
     //-----The methods that are the game engine-----\\
-
     public synchronized void start(){
         running = true;
         thread = new Thread(this, "Display");
@@ -82,7 +81,9 @@ public class Game extends Canvas implements Runnable{
     }
 
     public void update(long elapsedTime) {
+        System.out.println("Entering");
         for (int i = 0; i < map.getSize(); i++) {
+            System.out.println("Inside this");
             enemy = map.getEnemy(i);//Gets the enemy object which originates from TileMap
             checkSystemInput();
             if (!isPaused()) {
@@ -93,8 +94,12 @@ public class Game extends Canvas implements Runnable{
                 Camera.update(elapsedTime);
                 enemy.update(elapsedTime);
                 bullet.update(elapsedTime);
+                //System.out.println(playerT.getX());
+                System.out.println("Map is: "+map);
             }
         }
+        System.out.println("True Map is: "+map);
+        //System.out.println("Player x is: "+playerT.getX());
     }
 
     public void render(){
@@ -117,10 +122,6 @@ public class Game extends Canvas implements Runnable{
         }
     }
 
-    public TileMap getMap(){
-        return map;
-    }
-
     public void draw(Graphics g){
         g.drawImage(bg, 0, 0, null);
         g.setColor(Color.GREEN);
@@ -132,8 +133,15 @@ public class Game extends Canvas implements Runnable{
 
     //-----Game Collision and mechanics-----\\
 
+    public void loadNextMap(int n){
+        map = resources.loadNextMap(n);
+        playerT.setX(0);
+        playerT.setY(0);
+        Camera.setX(0);
+        Camera.setY(0);
+    }
+
     public void checkingPlayerCollision(){
-        float velocityX = 0;
         //Create the values for top, bottom, right and left
         Top = Math.round(playerT.getY());
         Bottom = Math.round(playerT.getY() + (playerT.getHeight() + 2));
@@ -154,10 +162,7 @@ public class Game extends Canvas implements Runnable{
         boolean notBottomLeft = map.valueAt(Bottom, Left+20) != '#';
         boolean thereIsATileOnLeft = notTopLeft && notBottomLeft && map.valueAt(Top, Left+20) != '?';
 
-        System.out.println("Top Right " + map.valueAt(Top, Right));
-        System.out.println("Top Left " + map.valueAt(Top, Left));
-        System.out.println("Bottom Right " + map.valueAt(Bottom, Right));
-        System.out.println("Bottom Left " + map.valueAt(Bottom, Left));
+        System.out.println(map.valueAt(Bottom, Right));
 
         //Makes sure the player does not go out of bounds on left side
         if (Left <= -20){
@@ -170,11 +175,13 @@ public class Game extends Canvas implements Runnable{
         //Attempt to check the Right side of player if it is a tile
         if(thereIsATileOnRight){
             playerT.setX(Left-1);
+            Camera.setX(Left-1);
         }
 
         //Attempt to check the Left side of player if it is a tile
         if (thereIsATileOnLeft){
             playerT.setX(Left+1);
+            Camera.setX(Left+1);
         }
 
         //When the player is floating in the air at the start of level
@@ -202,7 +209,8 @@ public class Game extends Canvas implements Runnable{
         }
 
         if (map.valueAt(Top, Right) == '@'){
-            resources.loadNextMap();
+            n++;
+            loadNextMap(n);
             System.out.println("Something");
         }
 
@@ -321,7 +329,7 @@ public class Game extends Canvas implements Runnable{
             System.out.println(bullet.getX());
         }
         playerT.setDx(velocityX);
-        //Camera.setDx(velocityX);
+        Camera.setDx(velocityX);
     }
 
     //-----The Helper Method-----\\

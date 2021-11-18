@@ -13,13 +13,13 @@ public class Resources {
     public static int height = width / 16 * 9;
     private BufferedImage image;
     private File f;
-    private int currMap;
+    int curr = 1;
     Animation animation, animation2, bAnimation;
     PlayerTest2 playerTest2;
     Bullet bullet;
-    TileMap map = new TileMap("Maps//world1");
-    TileMap map2 = new TileMap("Maps//world2");
-    TileMap[] maps = {map, map2};
+    //TileMap map = new TileMap("Maps//world1");
+    //TileMap map2 = new TileMap("Maps//world2");
+    TileMap map;
 
     public Resources(){
         loadPlayerImages();
@@ -40,12 +40,14 @@ public class Resources {
         return bullet;
     }
 
-    public TileMap loadNextMap(){
-        TileMap nMap = null;
-        if (nMap == null){
-            nMap = map2;
+     public TileMap loadNextMap(int n){
+        if (curr != n){
+            System.out.println("True");
+            curr = n;
         }
-        return nMap;
+        System.out.println("Current is "+curr);
+        map = new TileMap("Maps//world"+curr);
+        return map;
     }
 
     //-----Loading the images-----\\

@@ -41,7 +41,6 @@ public class TileMap {
     }
 
     //-----Methods to load the map, images, and enemy-----\\
-
     public void loadMap(String fileName){
         File file = new File(fileName);
         try{
@@ -58,7 +57,9 @@ public class TileMap {
                 tileName[i] = reader.readLine();//The name of the tile images is stored in the tileName array
             }
             reader.close();
-        }catch (IOException e){ }
+        }catch (IOException e){
+            e.printStackTrace();
+        }
     }
 
     public void loadEnemies(){
@@ -113,7 +114,6 @@ public class TileMap {
     }
 
     //-----Enemy stuff-----\\
-
     /**
      * This method helps us get access of the enemy that is stored in the List
      * @param num
@@ -158,7 +158,6 @@ public class TileMap {
             for (int col = 0; col < map[row].length(); col++){
                 char c = map[row].charAt(col);
                 if (c != '#') {
-                    //g.drawImage(tile[c - '@'], col * 100, row * 100, null);
                     g.drawImage(tile[c - '?'], col * 100 - (int) Camera.x, row * 100, null);
                 }
                 if (c == '?'){
@@ -173,7 +172,6 @@ public class TileMap {
     }
 
     //-----The helper methods-----\\
-
     private BufferedImage loadImage(String name){
         try {
             File f = new File(name);
