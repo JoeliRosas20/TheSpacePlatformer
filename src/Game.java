@@ -81,9 +81,7 @@ public class Game extends Canvas implements Runnable{
     }
 
     public void update(long elapsedTime) {
-        System.out.println("Entering");
         for (int i = 0; i < map.getSize(); i++) {
-            System.out.println("Inside this");
             enemy = map.getEnemy(i);//Gets the enemy object which originates from TileMap
             checkSystemInput();
             if (!isPaused()) {
@@ -94,12 +92,8 @@ public class Game extends Canvas implements Runnable{
                 Camera.update(elapsedTime);
                 enemy.update(elapsedTime);
                 bullet.update(elapsedTime);
-                //System.out.println(playerT.getX());
-                System.out.println("Map is: "+map);
             }
         }
-        System.out.println("True Map is: "+map);
-        //System.out.println("Player x is: "+playerT.getX());
     }
 
     public void render(){
@@ -139,6 +133,7 @@ public class Game extends Canvas implements Runnable{
         playerT.setY(0);
         Camera.setX(0);
         Camera.setY(0);
+        started = true;
     }
 
     public void checkingPlayerCollision(){
