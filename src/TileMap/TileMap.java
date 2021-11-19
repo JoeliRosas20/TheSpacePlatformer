@@ -192,16 +192,16 @@ public class TileMap {
         aSprites.add(tAlien);
     }
 
-    public void addBullets(Bullet bullet){
-        bullets.add(bullet);
-    }
-
     public void removeSprite(Enemy sprite){
         aSprites.remove(sprite);
     }
 
-    public void removeBullet(Bullet bullet){
-        bullets.remove(bullet);
+    public int getTileSize(){
+        int row = 0;
+        for (int i = 0; i < map.length; i++){
+            row = map[i].length();
+        }
+        return row*100;
     }
 
 }

@@ -27,7 +27,7 @@ public class Game extends Canvas implements Runnable{
     Resources resources;
     TileMap map;
     PlayerTest2 playerT;
-    Enemy enemy;
+    //Enemy enemy;
     Bullet bullet;
     SimpleSoundPlayer soundPlayer;
     LoopingByteInputStream stream;
@@ -50,6 +50,7 @@ public class Game extends Canvas implements Runnable{
         bg = loadImage("Images//Space.jpg");//Loads the background of the game
         soundPlayer = new SimpleSoundPlayer("Sound//Cyberpunk Moonlight Sonata.wav");
         stream = new LoopingByteInputStream(soundPlayer.getSamples());
+        System.out.println(map.getTileSize());
     }
 
     //-----The methods that are the game engine-----\\
@@ -84,7 +85,7 @@ public class Game extends Canvas implements Runnable{
 
     public void update(long elapsedTime) {
         for (int i = 0; i < map.getSize(); i++) {
-            enemy = map.getEnemy(i);//Gets the enemy object which originates from TileMap
+            //enemy = map.getEnemy(i);//Gets the enemy object which originates from TileMap
             checkSystemInput();
             if (!isPaused()) {
                 checkingPlayerCollision();
@@ -93,7 +94,8 @@ public class Game extends Canvas implements Runnable{
                 checkGameInput();
                 playerT.update(elapsedTime);
                 Camera.update(elapsedTime);
-                enemy.update(elapsedTime);
+                //enemy.update(elapsedTime);
+                map.getEnemy(i).update(elapsedTime);
                 bullet.update(elapsedTime);
             }
         }
@@ -232,6 +234,10 @@ public class Game extends Canvas implements Runnable{
                 enemySprite.setDx(0.05f);
                 eLeft = (eLeft * -1) - 100;
             }
+            System.out.println(enemySprite+" "+eRight);
+            if (eRight == map.getTileSize()-10){
+                enemySprite.setDx(-0.05f);
+            }
 
             //Checking the tile collision for the enemy so it can begin walking
             if ((map.valueAt(eTop, eRight) == '?' && map.valueAt(eBottom, eRight) == '?') && (map.valueAt(eTop, eLeft) == '?') && (map.valueAt(eBottom, eLeft) == '?') && started){
@@ -276,7 +282,6 @@ public class Game extends Canvas implements Runnable{
                 bullet.setDx(0);
                 bullet.setX(-100);
                 bullet.setY(-100);
-                map.removeBullet(bullet);
             }
         }
     }
@@ -330,7 +335,6 @@ public class Game extends Canvas implements Runnable{
         }
         if (shoot.isPressed()){
             playerT.shoot(bullet, x, y);
-            map.addBullets(bullet);
         }
         playerT.setDx(velocityX);
         Camera.setDx(velocityX);
