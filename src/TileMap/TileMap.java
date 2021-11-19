@@ -1,5 +1,6 @@
 package TileMap;
 
+import Characters.Bullet;
 import Engine.*;
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -32,6 +33,7 @@ public class TileMap {
     private BufferedImage image;
     Animation eAnimation, eAnimation2;
     Enemy enemy;
+    LinkedList<Bullet> bullets = new LinkedList<>();
 
     public TileMap(String filename){
         loadMap(filename);
@@ -190,8 +192,16 @@ public class TileMap {
         aSprites.add(tAlien);
     }
 
+    public void addBullets(Bullet bullet){
+        bullets.add(bullet);
+    }
+
     public void removeSprite(Enemy sprite){
         aSprites.remove(sprite);
+    }
+
+    public void removeBullet(Bullet bullet){
+        bullets.remove(bullet);
     }
 
 }

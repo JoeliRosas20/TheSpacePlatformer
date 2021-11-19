@@ -1,6 +1,8 @@
 package Engine;
 
 import Characters.Bullet;
+import TileMap.TileMap;
+import java.util.LinkedList;
 
 public class PlayerTest2 extends Sprite {
 
@@ -12,6 +14,7 @@ public class PlayerTest2 extends Sprite {
     private int state;
     Animation idle;
     Animation jump;
+    LinkedList<Bullet> bullets = new LinkedList<>();
 
     public PlayerTest2(Animation idle, Animation jump) {
         super(idle);
@@ -56,6 +59,11 @@ public class PlayerTest2 extends Sprite {
         bullet.setX(playerX+50);
         bullet.setY(playerY+50);
         bullet.setDx(0.5f);
+        bullets.add(bullet);
+    }
+
+    public void removeBullet(Bullet bullet){
+
     }
 
     /**

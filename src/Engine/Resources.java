@@ -17,8 +17,6 @@ public class Resources {
     Animation animation, animation2, bAnimation;
     PlayerTest2 playerTest2;
     Bullet bullet;
-    //TileMap map = new TileMap("Maps//world1");
-    //TileMap map2 = new TileMap("Maps//world2");
     TileMap map;
 
     public Resources(){

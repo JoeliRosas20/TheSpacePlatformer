@@ -9,6 +9,8 @@ import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.*;
 import java.io.*;
+import java.util.ArrayList;
+import java.util.LinkedList;
 
 public class Game extends Canvas implements Runnable{
 
@@ -23,12 +25,13 @@ public class Game extends Canvas implements Runnable{
     protected InputManager inputManager;
     protected GameAction jump, exit, moveLeft, moveRight, pause, shoot;
     Resources resources;
-    TileMap map, map2;
+    TileMap map;
     PlayerTest2 playerT;
     Enemy enemy;
     Bullet bullet;
     SimpleSoundPlayer soundPlayer;
     LoopingByteInputStream stream;
+    LinkedList<Bullet> bullets = new LinkedList<>();
     int Top, Bottom, Right, Left, n=1;
     int eTop, eBottom, eRight, eLeft;
     int bLeft, bRight;
@@ -43,7 +46,6 @@ public class Game extends Canvas implements Runnable{
         resources = new Resources();//Calls the resources
         playerT = resources.getPlayer();//Gets the player object which originate from resources
         bullet = resources.getBullet();
-        //map = resources.getMap();//Get the map object with originates from resources
         map = resources.loadNextMap(1);//Calls the first map
         bg = loadImage("Images//Space.jpg");//Loads the background of the game
         soundPlayer = new SimpleSoundPlayer("Sound//Cyberpunk Moonlight Sonata.wav");
@@ -205,7 +207,6 @@ public class Game extends Canvas implements Runnable{
         if (map.valueAt(Top, Right) == '@'){
             n++;
             loadNextMap(n);
-            System.out.println("Something");
         }
 
     }
@@ -248,7 +249,7 @@ public class Game extends Canvas implements Runnable{
 
     public void checkingSpriteCollision(){
         for (int i = 0; i < map.getSize(); i++){
-            Sprite enemySprite = map.getEnemy(i);
+            Enemy enemySprite = map.getEnemy(i);
             //Creating access for enemies' x and y placement
             int enemyX = Math.round(enemySprite.getX());
             int enemyY = Math.round(enemySprite.getY());
@@ -264,11 +265,15 @@ public class Game extends Canvas implements Runnable{
             eRight = enemyX + enemySprite.getWidth();
             bLeft = Math.round(bullet.getX());
             bRight = Math.round(bullet.getX() + bullet.getWidth());
-            //System.out.println("Bullet X "+bullet.getX());
-            //System.out.println("Enemy X "+enemy.getX());
-            if (bullet.getX()+bullet.getWidth() == enemyX){
-                map.removeSprite(enemy);
+
+            if (bullet.getX()+bullet.getWidth() == enemyX && bullet.getY() - bullet.getWidth()-13 == enemyY){
+                map.removeSprite(enemySprite);
                 System.out.println("Hit");
+                System.out.println("Enemy X: "+enemyX);
+                System.out.println("Bullet X: "+(bullet.getX() + bullet.getWidth()));
+                System.out.println("Enemy Y: "+enemyY);
+                System.out.println("Bullet Y: "+(bullet.getY() - bullet.getWidth()-13));
+                playerT.removeBullet(bullet);
             }
         }
     }
