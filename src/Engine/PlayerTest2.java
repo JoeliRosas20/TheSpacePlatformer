@@ -53,10 +53,8 @@ public class PlayerTest2 extends Sprite {
     }
 
     public void shoot(Bullet bullet, int playerX, int playerY){
-        System.out.println("The X is:"+playerX);
-        System.out.println("The Y is:"+playerY);
-        bullet.setX(playerX);
-        bullet.setY(playerY);
+        bullet.setX(playerX+50);
+        bullet.setY(playerY+50);
         bullet.setDx(0.5f);
     }
 

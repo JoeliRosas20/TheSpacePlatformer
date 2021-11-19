@@ -87,6 +87,7 @@ public class Game extends Canvas implements Runnable{
             if (!isPaused()) {
                 checkingPlayerCollision();
                 checkingEnemyCollision();
+                checkingSpriteCollision();
                 checkGameInput();
                 playerT.update(elapsedTime);
                 Camera.update(elapsedTime);
@@ -156,8 +157,6 @@ public class Game extends Canvas implements Runnable{
         boolean notTopLeft = map.valueAt(Top, Left+20) != '#';
         boolean notBottomLeft = map.valueAt(Bottom, Left+20) != '#';
         boolean thereIsATileOnLeft = notTopLeft && notBottomLeft && map.valueAt(Top, Left+20) != '?';
-
-        System.out.println(map.valueAt(Bottom, Right));
 
         //Makes sure the player does not go out of bounds on left side
         if (Left <= -20){
@@ -265,6 +264,12 @@ public class Game extends Canvas implements Runnable{
             eRight = enemyX + enemySprite.getWidth();
             bLeft = Math.round(bullet.getX());
             bRight = Math.round(bullet.getX() + bullet.getWidth());
+            //System.out.println("Bullet X "+bullet.getX());
+            //System.out.println("Enemy X "+enemy.getX());
+            if (bullet.getX()+bullet.getWidth() == enemyX){
+                map.removeSprite(enemy);
+                System.out.println("Hit");
+            }
         }
     }
 
@@ -307,8 +312,8 @@ public class Game extends Canvas implements Runnable{
 
     public void checkGameInput(){
         float velocityX = 0;
-        Top = Math.round(playerT.getY());
-        Right = Math.round(playerT.getX() + 99);
+        int x = Math.round(playerT.getX());
+        int y = Math.round(playerT.getY());
         if (moveLeft.isPressed()){
             velocityX -= PlayerTest2.SPEED;
         }
@@ -316,12 +321,7 @@ public class Game extends Canvas implements Runnable{
             velocityX += PlayerTest2.SPEED;
         }
         if (shoot.isPressed()){
-            System.out.println("Shoot was pressed!");
-            //bullet.setDx(1);
-            playerT.shoot(bullet, Math.round(playerT.getX()), Math.round(playerT.getY()));
-            //playerT.launch(bullet);
-            System.out.println(bullet.getDx());
-            System.out.println(bullet.getX());
+            playerT.shoot(bullet, x, y);
         }
         playerT.setDx(velocityX);
         Camera.setDx(velocityX);

@@ -190,4 +190,8 @@ public class TileMap {
         aSprites.add(tAlien);
     }
 
+    public void removeSprite(Enemy sprite){
+        aSprites.remove(sprite);
+    }
+
 }
