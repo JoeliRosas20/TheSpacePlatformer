@@ -33,7 +33,7 @@ public class TileMap {
     private BufferedImage image;
     Animation eAnimation, eAnimation2;
     Enemy enemy;
-    LinkedList<Bullet> bullets = new LinkedList<>();
+    public LinkedList<Bullet> bullets = new LinkedList<>();
 
     public TileMap(String filename){
         loadMap(filename);

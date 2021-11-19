@@ -63,7 +63,7 @@ public class PlayerTest2 extends Sprite {
     }
 
     public void removeBullet(Bullet bullet){
-
+        bullets.remove(bullet);
     }
 
     /**

@@ -273,7 +273,10 @@ public class Game extends Canvas implements Runnable{
                 System.out.println("Bullet X: "+(bullet.getX() + bullet.getWidth()));
                 System.out.println("Enemy Y: "+enemyY);
                 System.out.println("Bullet Y: "+(bullet.getY() - bullet.getWidth()-13));
-                playerT.removeBullet(bullet);
+                bullet.setDx(0);
+                bullet.setX(-100);
+                bullet.setY(-100);
+                map.removeBullet(bullet);
             }
         }
     }
@@ -327,6 +330,7 @@ public class Game extends Canvas implements Runnable{
         }
         if (shoot.isPressed()){
             playerT.shoot(bullet, x, y);
+            map.addBullets(bullet);
         }
         playerT.setDx(velocityX);
         Camera.setDx(velocityX);
