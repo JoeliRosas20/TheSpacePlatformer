@@ -27,11 +27,10 @@ public class Game extends Canvas implements Runnable{
     Resources resources;
     TileMap map;
     PlayerTest2 playerT;
-    //Enemy enemy;
+    Enemy enemy;
     Bullet bullet;
     SimpleSoundPlayer soundPlayer;
     LoopingByteInputStream stream;
-    LinkedList<Bullet> bullets = new LinkedList<>();
     int Top, Bottom, Right, Left, n=1;
     int eTop, eBottom, eRight, eLeft;
     int bLeft, bRight;
@@ -84,20 +83,19 @@ public class Game extends Canvas implements Runnable{
     }
 
     public void update(long elapsedTime) {
-        for (int i = 0; i < map.getSize(); i++) {
-            //enemy = map.getEnemy(i);//Gets the enemy object which originates from TileMap
-            checkSystemInput();
-            if (!isPaused()) {
-                checkingPlayerCollision();
-                checkingEnemyCollision();
-                checkingSpriteCollision();
-                checkGameInput();
-                playerT.update(elapsedTime);
-                Camera.update(elapsedTime);
-                //enemy.update(elapsedTime);
-                map.getEnemy(i).update(elapsedTime);
-                bullet.update(elapsedTime);
-            }
+        for (int i = 0; i < map.getSize(); i++){
+            enemy = map.getEnemy(i);//Gets the enemy object which originates from TileMap
+            enemy.update(elapsedTime);
+        }
+        checkSystemInput();
+        if (!isPaused()) {
+            checkingPlayerCollision();
+            checkingEnemyCollision();
+            checkingSpriteCollision();
+            checkGameInput();
+            playerT.update(elapsedTime);
+            Camera.update(elapsedTime);
+            bullet.update(elapsedTime);
         }
     }
 
