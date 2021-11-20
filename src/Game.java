@@ -9,8 +9,6 @@ import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.*;
 import java.io.*;
-import java.util.ArrayList;
-import java.util.LinkedList;
 
 public class Game extends Canvas implements Runnable{
 
@@ -49,10 +47,9 @@ public class Game extends Canvas implements Runnable{
         bg = loadImage("Images//Space.jpg");//Loads the background of the game
         soundPlayer = new SimpleSoundPlayer("Sound//Cyberpunk Moonlight Sonata.wav");
         stream = new LoopingByteInputStream(soundPlayer.getSamples());
-        System.out.println(map.getTileSize());
     }
 
-    //-----The methods that are the game engine-----\\
+    //-----Game Engine-----\\
     public synchronized void start(){
         running = true;
         thread = new Thread(this, "Display");
@@ -83,15 +80,14 @@ public class Game extends Canvas implements Runnable{
     }
 
     public void update(long elapsedTime) {
-        for (int i = 0; i < map.getSize(); i++){
-            enemy = map.getEnemy(i);//Gets the enemy object which originates from TileMap
-            enemy.update(elapsedTime);
-        }
         checkSystemInput();
         if (!isPaused()) {
+            spriteSurroundings();
+            for (int i = 0; i < map.getSize(); i++){
+                enemy = map.getEnemy(i);//Gets the enemy object which originates from TileMap
+                enemy.update(elapsedTime);
+            }
             checkingPlayerCollision();
-            checkingEnemyCollision();
-            checkingSpriteCollision();
             checkGameInput();
             playerT.update(elapsedTime);
             Camera.update(elapsedTime);
@@ -129,6 +125,29 @@ public class Game extends Canvas implements Runnable{
     }
 
     //-----Game Collision and mechanics-----\\
+    public void spriteSurroundings(){
+        //Create the values for top, bottom, right and left
+        Top = Math.round(playerT.getY());
+        Bottom = Math.round(playerT.getY() + (playerT.getHeight() + 2));
+        Right = Math.round(playerT.getX() + 99);
+        Left = Math.round(playerT.getX());
+        //Bullet x and y
+        bLeft = Math.round(bullet.getX());
+        bRight = Math.round(bullet.getX() + bullet.getWidth());
+        //Creating access to enemy top, bottom, left and right values
+        for (int i = 0; i < map.getSize(); i++){
+            Enemy enemySprite = map.getEnemy(i);
+            //Creating access for enemies' x and y placement
+            int enemyX = Math.round(enemySprite.getX());
+            int enemyY = Math.round(enemySprite.getY());
+            eTop = enemyY;
+            eBottom = enemyY + enemySprite.getHeight();
+            eLeft = enemyX;
+            eRight = enemyX + enemySprite.getWidth();
+            checkingEnemyCollision(enemySprite);
+            checkingSpriteCollision(enemySprite, enemyX, enemyY);
+        }
+    }
 
     public void loadNextMap(int n){
         map = resources.loadNextMap(n);
@@ -140,12 +159,6 @@ public class Game extends Canvas implements Runnable{
     }
 
     public void checkingPlayerCollision(){
-        //Create the values for top, bottom, right and left
-        Top = Math.round(playerT.getY());
-        Bottom = Math.round(playerT.getY() + (playerT.getHeight() + 2));
-        Right = Math.round(playerT.getX() + 99);
-        Left = Math.round(playerT.getX());
-
         //For checking if it is on ground
         boolean notBottomRightTileEmpty = map.valueAt(Bottom, Right) != '#';
         boolean notBottomLeftTileEmpty = map.valueAt(Bottom, Left) != '#';
@@ -159,6 +172,10 @@ public class Game extends Canvas implements Runnable{
         boolean notTopLeft = map.valueAt(Top, Left+20) != '#';
         boolean notBottomLeft = map.valueAt(Bottom, Left+20) != '#';
         boolean thereIsATileOnLeft = notTopLeft && notBottomLeft && map.valueAt(Top, Left+20) != '?';
+
+        System.out.println("Bottom:"+Bottom);
+        System.out.println("Player place. X:"+playerT.getX()+". Y:"+playerT.getY());
+        System.out.println("Tile is:"+map.valueAt(Bottom, Left)+map.valueAt(Bottom, Right));
 
         //Makes sure the player does not go out of bounds on left side
         if (Left <= -20){
@@ -191,7 +208,10 @@ public class Game extends Canvas implements Runnable{
         //Once the player is on the ground
         if(notBottomLeftTileEmpty && notBottomRightTileEmpty){
             playerT.setFloorY(Bottom - (playerT.getHeight()+2));
-            Camera.setY(Bottom - (playerT.getHeight()+2));
+            if (playerT.getY() > 300){
+                playerT.setFloorY(300);
+            }
+            //Camera.setY(Bottom - (playerT.getHeight()+2));
             //This loop is for the player jump
             if (map.valueAt(Top-100, Right) == '#' && map.valueAt(Top-100, Left) == '#' && jump.isPressed() && playerT.getState() != PlayerTest2.STATE_JUMPING){
                 playerT.jump();
@@ -211,81 +231,40 @@ public class Game extends Canvas implements Runnable{
 
     }
 
-    public void checkingEnemyCollision(){
-        //This loop will access the LinkedList which has the enemies
-        for (int i = 0; i < map.getSize(); i++){
-            //To access the enemy sprite easily
-            Sprite enemySprite = map.getEnemy(i);
+    public void checkingEnemyCollision(Sprite enemy){
+        //Makes sure the player does not go out of bounds on left side
+        if (eLeft <= -20){
+            enemy.setDx(0.05f);
+            eLeft = (eLeft * -1) - 100;
+        }
 
-            //Creating access for enemies' x and y placement
-            int enemyX = Math.round(enemySprite.getX());
-            int enemyY = Math.round(enemySprite.getY());
+        //Makes sure the player does not go out of bounds on right side
+        if (eRight == map.getTileSize()-10){
+            enemy.setDx(-0.05f);
+        }
 
-            //Creating access to enemy top, bottom, left and right values
-            eTop = enemyY;
-            eBottom = enemyY + enemySprite.getHeight();
-            eLeft = enemyX;
-            eRight = enemyX + enemySprite.getWidth();
+        //Checking the tile collision for the enemy so it can begin walking
+        if ((map.valueAt(eTop, eRight) == '?' && map.valueAt(eBottom, eRight) == '?') && (map.valueAt(eTop, eLeft) == '?') && (map.valueAt(eBottom, eLeft) == '?') && started){
+            enemy.setDx(0.05f);
+        }
 
-            //Makes sure the player does not go out of bounds on left side
-            if (eLeft <= -20){
-                enemySprite.setDx(0.05f);
-                eLeft = (eLeft * -1) - 100;
-            }
-            System.out.println(enemySprite+" "+eRight);
-            if (eRight == map.getTileSize()-10){
-                enemySprite.setDx(-0.05f);
-            }
-
-            //Checking the tile collision for the enemy so it can begin walking
-            if ((map.valueAt(eTop, eRight) == '?' && map.valueAt(eBottom, eRight) == '?') && (map.valueAt(eTop, eLeft) == '?') && (map.valueAt(eBottom, eLeft) == '?') && started){
-                enemySprite.setDx(0.05f);
-            }
-
-            //Once the enemy hits the tile
-            if ((map.valueAt(eTop, eRight) == 'R' && map.valueAt(eBottom, eRight) == 'R' && map.valueAt(eTop, eLeft) == '#' && map.valueAt(eBottom, eLeft) == '#')){
-                enemySprite.setDx(-0.05f);
-                started = false;
-            }
-
+        //Once the enemy hits the tile
+        if ((map.valueAt(eTop, eRight) == 'R' && map.valueAt(eBottom, eRight) == 'R' && map.valueAt(eTop, eLeft) == '#' && map.valueAt(eBottom, eLeft) == '#')){
+            enemy.setDx(-0.05f);
+            started = false;
         }
     }
 
-    public void checkingSpriteCollision(){
-        for (int i = 0; i < map.getSize(); i++){
-            Enemy enemySprite = map.getEnemy(i);
-            //Creating access for enemies' x and y placement
-            int enemyX = Math.round(enemySprite.getX());
-            int enemyY = Math.round(enemySprite.getY());
-            //Create the values for top, bottom, right and left
-            Top = Math.round(playerT.getY());
-            Bottom = Math.round(playerT.getY() + (playerT.getHeight() + 2));
-            Right = Math.round(playerT.getX() + 99);
-            Left = Math.round(playerT.getX());
-            //Creating access to enemy top, bottom, left and right values
-            eTop = enemyY;
-            eBottom = enemyY + enemySprite.getHeight();
-            eLeft = enemyX;
-            eRight = enemyX + enemySprite.getWidth();
-            bLeft = Math.round(bullet.getX());
-            bRight = Math.round(bullet.getX() + bullet.getWidth());
-
-            if (bullet.getX()+bullet.getWidth() == enemyX && bullet.getY() - bullet.getWidth()-13 == enemyY){
-                map.removeSprite(enemySprite);
-                System.out.println("Hit");
-                System.out.println("Enemy X: "+enemyX);
-                System.out.println("Bullet X: "+(bullet.getX() + bullet.getWidth()));
-                System.out.println("Enemy Y: "+enemyY);
-                System.out.println("Bullet Y: "+(bullet.getY() - bullet.getWidth()-13));
-                bullet.setDx(0);
-                bullet.setX(-100);
-                bullet.setY(-100);
-            }
+    public void checkingSpriteCollision(Enemy enemy, int x, int y){
+        if (bullet.getX()+bullet.getWidth() == x && bullet.getY() - bullet.getWidth()-13 == y){
+            map.removeSprite(enemy);
+            bullet.setDx(0);
+            bullet.setX(-100);
+            bullet.setY(-100);
         }
     }
 
     //-----The Game Controls-----\\
-
     public boolean isPaused(){
         return paused;
     }
@@ -339,7 +318,6 @@ public class Game extends Canvas implements Runnable{
     }
 
     //-----The Helper Method-----\\
-
     private BufferedImage loadImage(String name){
         try {
             f = new File(name);

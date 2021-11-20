@@ -1,6 +1,5 @@
 package TileMap;
 
-import Characters.Bullet;
 import Engine.*;
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -33,7 +32,6 @@ public class TileMap {
     private BufferedImage image;
     Animation eAnimation, eAnimation2;
     Enemy enemy;
-    public LinkedList<Bullet> bullets = new LinkedList<>();
 
     public TileMap(String filename){
         loadMap(filename);
@@ -151,7 +149,6 @@ public class TileMap {
     public char valueAt(int y, int x){
         int row = (y / 100);
         int col = (x / 100);
-        //System.out.println("(TileMap.java)Row "+row+" and Col "+col);
         return map[row].charAt(col);
     }
 

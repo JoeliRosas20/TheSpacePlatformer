@@ -13,7 +13,7 @@ public class Enemy extends Sprite{
 
     /**
      * Enemy update
-     * @param elapsedTime
+     * @param elapsedTime Time passed
      */
     public void update(long elapsedTime){
         Animation nAnim = animation;
