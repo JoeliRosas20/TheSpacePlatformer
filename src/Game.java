@@ -160,45 +160,44 @@ public class Game extends Canvas implements Runnable{
 
     public void checkingPlayerCollision(){
         //For checking if it is on ground
-        boolean notBottomRightTileEmpty = map.valueAt(Bottom, Right) != '#';
-        boolean notBottomLeftTileEmpty = map.valueAt(Bottom, Left) != '#';
-
+        boolean notBottomRightTileEmpty = map.valueAt(Bottom, Right) != '#';//R
+        boolean notBottomLeftTileEmpty = map.valueAt(Bottom, Left) != '#';//R
+        boolean thereIsTileOnBottom = notBottomLeftTileEmpty && notBottomRightTileEmpty;
         //For checking if there is a tile on the right side
         boolean notTopRight = map.valueAt(Top, Right-30) != '#';
         boolean notBottomRight = map.valueAt(Bottom, Right-30) != '#';
-        boolean thereIsATileOnRight = notTopRight && notBottomRight && map.valueAt(Top, Right-30) != '?';
-
+        boolean thereIsATileOnRightSide = notTopRight && notBottomRight && map.valueAt(Top, Right-30) != '?';
         //For checking if there is a tile on the left side
         boolean notTopLeft = map.valueAt(Top, Left+20) != '#';
         boolean notBottomLeft = map.valueAt(Bottom, Left+20) != '#';
-        boolean thereIsATileOnLeft = notTopLeft && notBottomLeft && map.valueAt(Top, Left+20) != '?';
+        boolean thereIsATileOnLeftSide = notTopLeft && notBottomLeft && map.valueAt(Top, Left+20) != '?';
+        boolean spaceAllAround = (map.valueAt(Top,Left) == '#') && (map.valueAt(Top,Right) == '#') && (map.valueAt(Bottom,Left) == '#') && (map.valueAt(Bottom, Right) == '#');
+        boolean leftIsOutOfBounds = Left <= -20;
+        boolean doorIsThere = map.valueAt(Top, Right) == '@';
 
         System.out.println("Bottom:"+Bottom);
         System.out.println("Player place. X:"+playerT.getX()+". Y:"+playerT.getY());
-        System.out.println("Tile is:"+map.valueAt(Bottom, Left)+map.valueAt(Bottom, Right));
+        System.out.println("Bottom Tiles are:"+map.valueAt(Bottom, Left)+map.valueAt(Bottom, Right));
+        System.out.println("Tile Y:"+map.getRow()+", Tile X:"+map.getCol()+"\n");
 
-        //Makes sure the player does not go out of bounds on left side
-        if (Left <= -20){
+        if(leftIsOutOfBounds){
             playerT.setX(-19);
             playerT.setY(0);
             Camera.setX(0);
             Left = (Left * -1) - 100;
         }
 
-        //Attempt to check the Right side of player if it is a tile
-        if(thereIsATileOnRight){
+        if(thereIsATileOnRightSide){
             playerT.setX(Left-1);
             Camera.setX(Left-1);
         }
 
-        //Attempt to check the Left side of player if it is a tile
-        if (thereIsATileOnLeft){
+        if(thereIsATileOnLeftSide){
             playerT.setX(Left+1);
             Camera.setX(Left+1);
         }
 
-        //When the player is floating in the air at the start of level
-        if((map.valueAt(Top,Left) == '#') && (map.valueAt(Top,Right) == '#') && (map.valueAt(Bottom,Left) == '#') && (map.valueAt(Bottom, Right) == '#')){
+        if(spaceAllAround){
             playerT.setDy(0.4f);
             playerT.setDx(0);
             Camera.setDy(0.4f);
@@ -206,16 +205,14 @@ public class Game extends Canvas implements Runnable{
         }
 
         //Once the player is on the ground
-        if(notBottomLeftTileEmpty && notBottomRightTileEmpty){
+        if(thereIsTileOnBottom){
             playerT.setFloorY(Bottom - (playerT.getHeight()+2));
-            if (playerT.getY() > 300){
-                playerT.setFloorY(300);
+            if (playerT.getY() > (map.getRow()*100)-100){
+                playerT.setFloorY((map.getRow()*100)-100);
             }
-            //Camera.setY(Bottom - (playerT.getHeight()+2));
             //This loop is for the player jump
             if (map.valueAt(Top-100, Right) == '#' && map.valueAt(Top-100, Left) == '#' && jump.isPressed() && playerT.getState() != PlayerTest2.STATE_JUMPING){
                 playerT.jump();
-                Camera.jump();
             }
         }
         else{
@@ -224,7 +221,7 @@ public class Game extends Canvas implements Runnable{
             Camera.applyGravity();
         }
 
-        if (map.valueAt(Top, Right) == '@'){
+        if (doorIsThere){
             n++;
             loadNextMap(n);
         }

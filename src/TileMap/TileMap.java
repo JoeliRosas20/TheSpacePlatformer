@@ -32,6 +32,7 @@ public class TileMap {
     private BufferedImage image;
     Animation eAnimation, eAnimation2;
     Enemy enemy;
+    int row, col;
 
     public TileMap(String filename){
         loadMap(filename);
@@ -147,9 +148,17 @@ public class TileMap {
      * @return the tile located at that position
      */
     public char valueAt(int y, int x){
-        int row = (y / 100);
-        int col = (x / 100);
+        row = (y / 100);
+        col = (x / 100);
         return map[row].charAt(col);
+    }
+
+    public int getRow(){
+        return row;
+    }
+
+    public int getCol(){
+        return col;
     }
 
     public void draw(Graphics g){
