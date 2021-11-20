@@ -160,8 +160,8 @@ public class Game extends Canvas implements Runnable{
 
     public void checkingPlayerCollision(){
         //For checking if it is on ground
-        boolean notBottomRightTileEmpty = map.valueAt(Bottom, Right) != '#';//R
         boolean notBottomLeftTileEmpty = map.valueAt(Bottom, Left) != '#';//R
+        boolean notBottomRightTileEmpty = map.valueAt(Bottom, Right) != '#';//R
         boolean thereIsTileOnBottom = notBottomLeftTileEmpty && notBottomRightTileEmpty;
         //For checking if there is a tile on the right side
         boolean notTopRight = map.valueAt(Top, Right-30) != '#';
@@ -174,11 +174,6 @@ public class Game extends Canvas implements Runnable{
         boolean spaceAllAround = (map.valueAt(Top,Left) == '#') && (map.valueAt(Top,Right) == '#') && (map.valueAt(Bottom,Left) == '#') && (map.valueAt(Bottom, Right) == '#');
         boolean leftIsOutOfBounds = Left <= -20;
         boolean doorIsThere = map.valueAt(Top, Right) == '@';
-
-        System.out.println("Bottom:"+Bottom);
-        System.out.println("Player place. X:"+playerT.getX()+". Y:"+playerT.getY());
-        System.out.println("Bottom Tiles are:"+map.valueAt(Bottom, Left)+map.valueAt(Bottom, Right));
-        System.out.println("Tile Y:"+map.getRow()+", Tile X:"+map.getCol()+"\n");
 
         if(leftIsOutOfBounds){
             playerT.setX(-19);
@@ -207,8 +202,8 @@ public class Game extends Canvas implements Runnable{
         //Once the player is on the ground
         if(thereIsTileOnBottom){
             playerT.setFloorY(Bottom - (playerT.getHeight()+2));
-            if (playerT.getY() > (map.getRow()*100)-100){
-                playerT.setFloorY((map.getRow()*100)-100);
+            if (playerT.getY() > (map.getRow()*100)){//Prevents player from sinking in ground
+                playerT.setFloorY((map.getRow()*100));
             }
             //This loop is for the player jump
             if (map.valueAt(Top-100, Right) == '#' && map.valueAt(Top-100, Left) == '#' && jump.isPressed() && playerT.getState() != PlayerTest2.STATE_JUMPING){
