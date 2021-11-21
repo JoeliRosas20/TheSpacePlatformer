@@ -38,7 +38,7 @@ public class Resources {
         return bullet;
     }
 
-     public TileMap loadNextMap(int n){
+    public TileMap loadNextMap(int n){
         if (curr != n){
             System.out.println("True");
             curr = n;
@@ -46,6 +46,15 @@ public class Resources {
         System.out.println("Current is "+curr);
         map = new TileMap("Maps//world"+curr);
         return map;
+    }
+
+    public TileMap reloadMap(){
+        try {
+            return map;
+        }catch (Exception e){
+            e.printStackTrace();
+            return null;
+        }
     }
 
     //-----Loading the images-----\\

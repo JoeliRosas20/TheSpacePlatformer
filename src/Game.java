@@ -248,11 +248,24 @@ public class Game extends Canvas implements Runnable{
     }
 
     public void checkingSpriteCollision(Enemy enemy, int x, int y){
+        //System.out.println("Inside this");
         if (bullet.getX()+bullet.getWidth() == x && bullet.getY() - bullet.getWidth()-13 == y){
             map.removeSprite(enemy);
             bullet.setDx(0);
             bullet.setX(-100);
             bullet.setY(-100);
+        }
+        //System.out.println("Player dimensions " + playerT.getX()+ playerT.getWidth());
+        //System.out.println("Enemy dimensions " + x);
+        if ((playerT.getX() + playerT.getWidth()) >= x){
+            System.out.println("Hit");
+/*
+            playerT.setX(0);
+            playerT.setY(0);
+            Camera.setX(0);
+            Camera.setY(0);
+            */
+
         }
     }
 
