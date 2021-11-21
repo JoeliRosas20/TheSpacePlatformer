@@ -30,14 +30,26 @@ public class Player extends Sprite {
         this.deadR = deadR;
     }
 
+    /**
+     * Gets state of the player
+     * @return player current state
+     */
     public int getState(){
         return state;
     }
 
+    /**
+     * Sets the player state
+     * @param state current position of player
+     */
     public void setState(int state){
         this.state = state;
     }
 
+    /**
+     * Setting the floor for the player
+     * @param floorY y position of player
+     */
     public void setFloorY(int floorY){
         this.floorY = floorY;
         setY(floorY);
@@ -54,6 +66,10 @@ public class Player extends Sprite {
         bullet.setDx(0.5f);
     }
 
+    /**
+     * Player update
+     * @param elapsedTime amount of time passed
+     */
     public void update(int elapsedTime){
         Animation nAnim = animation;
         //Set the vertical velocity for jumping left
