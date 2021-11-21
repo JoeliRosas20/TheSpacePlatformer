@@ -255,8 +255,6 @@ public class Game extends Canvas implements Runnable{
             bullet.setX(-100);
             bullet.setY(-100);
         }
-        //System.out.println("Player dimensions " + playerT.getX()+ playerT.getWidth());
-        //System.out.println("Enemy dimensions " + x);
         if ((playerT.getX() + playerT.getWidth()) >= x){
             System.out.println("Hit");
 /*
