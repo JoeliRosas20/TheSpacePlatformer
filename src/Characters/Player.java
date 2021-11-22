@@ -11,8 +11,10 @@ public class Player extends Sprite {
     public static final int STATE_DEAD = 4;
     public static final float SPEED = .3f;
     public static final float GRAVITY = .002f;
+    private static final int DIE_TIME = 1000;
     private int floorY;
     private int state;
+    private long stateTime;
     Animation idleL, idleR, jumpL, jumpR, walkL, walkR, shootL, shootR, deadL, deadR;
 
     public Player(Animation idleL, Animation idleR, Animation jumpL, Animation jumpR, Animation walkL,
@@ -28,6 +30,7 @@ public class Player extends Sprite {
         this.shootR = shootR;
         this.deadL = deadL;
         this.deadR = deadR;
+        state = STATE_NORMAL;
     }
 
     /**
@@ -44,6 +47,10 @@ public class Player extends Sprite {
      */
     public void setState(int state){
         this.state = state;
+        if (state == STATE_DYING){
+            setDx(0);
+            setDy(0);
+        }
     }
 
     /**
@@ -131,6 +138,10 @@ public class Player extends Sprite {
         }
         else{
             animation.update(elapsedTime);
+        }
+        stateTime += elapsedTime;
+        if (state == STATE_DYING && stateTime >= DIE_TIME){
+            setState(STATE_DEAD);
         }
     }
 

@@ -1,5 +1,6 @@
 package TileMap;
 
+import Characters.Alien;
 import Engine.*;
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -29,9 +30,11 @@ public class TileMap {
      * This is where the sprites like enemies are stored in
      */
     public LinkedList<Enemy> aSprites = new LinkedList<>();
+    public LinkedList<Alien> aliens = new LinkedList<>();
     private BufferedImage image;
     Animation eAnimation, eAnimation2;
     Enemy enemy;
+    Alien alien;
     int row, col;
 
     public TileMap(String filename){
@@ -81,10 +84,46 @@ public class TileMap {
         }
     }
 
+    public void loadEnemyImages2(){
+        BufferedImage[][] images = new BufferedImage[4][];
+        images[0] = new BufferedImage[]{
+                loadImage("Images//EnemyImages//armor__0006_walk_1_left.png"),
+                loadImage("Images//EnemyImages//armor__0007_walk_2_left.png"),
+                loadImage("Images//EnemyImages//armor__0008_walk_3_left.png"),
+                loadImage("Images//EnemyImages//armor__0009_walk_4_left.png"),
+                loadImage("Images//EnemyImages//armor__0010_walk_5_left.png"),
+                loadImage("Images//EnemyImages//armor__0011_walk_6_left.png")
+        };
+        images[1] = new BufferedImage[]{
+                loadImage("Images//EnemyImages//armor__0006_walk_1.png"),
+                loadImage("Images//EnemyImages//armor__0007_walk_2.png"),
+                loadImage("Images//EnemyImages//armor__0008_walk_3.png"),
+                loadImage("Images//EnemyImages//armor__0009_walk_4.png"),
+                loadImage("Images//EnemyImages//armor__0010_walk_5.png"),
+                loadImage("Images//EnemyImages//armor__0011_walk_6.png")
+        };
+        images[2] = new BufferedImage[]{
+                loadImage("Images//EnemyImages//Larmor__0022_dead_1.png"),
+                loadImage("Images//EnemyImages//Larmor__0023_dead_2.png"),
+                loadImage("Images//EnemyImages//Larmor__0024_dead_3.png"),
+                loadImage("Images//EnemyImages//Larmor__0025_dead_4.png"),
+                loadImage("Images//EnemyImages//Larmor__0026_dead_5.png")
+        };
+        images[3] = new BufferedImage[]{
+                loadImage("Images//EnemyImages//armor__0022_dead_1.png"),
+                loadImage("Images//EnemyImages//armor__0023_dead_2.png"),
+                loadImage("Images//EnemyImages//armor__0024_dead_3.png"),
+                loadImage("Images//EnemyImages//armor__0025_dead_4.png"),
+                loadImage("Images//EnemyImages//armor__0026_dead_5.png")
+        };
+        Animation[] alienAnim = new Animation[4];
+        alienAnim[0] = createAlienLeftAnim(images[0][0], images[0][1], images[0][2], images[0][3], images[0][4], images[0][5]);
+        alienAnim[1] = createAlienRightAnim(images[1][0], images[1][1], images[1][2], images[1][3], images[1][4], images[1][5]);
+        alienAnim[2] = createAlienDeadLAnim(images[2][0], images[2][1], images[2][2], images[2][3], images[2][4]);
+        alienAnim[3] = createAlienDeadRAnim(images[3][0], images[3][1], images[3][2], images[3][3], images[3][4]);
+        alien = new Alien(alienAnim[0], alienAnim[1], alienAnim[2], alienAnim[3]);
+    }
     public void loadEnemyImages(){
-        BufferedImage enemy1 = loadImage("Images//EnemyImages//armor__0003_turn_1.png");
-        BufferedImage enemy2 = loadImage("Images//EnemyImages//armor__0004_turn_2.png");
-        BufferedImage enemy3 = loadImage("Images//EnemyImages//armor__0005_turn_3.png");
         BufferedImage enemy4 = loadImage("Images//EnemyImages//armor__0006_walk_1.png");
         BufferedImage enemy5 = loadImage("Images//EnemyImages//armor__0007_walk_2.png");
         BufferedImage enemy6 = loadImage("Images//EnemyImages//armor__0008_walk_3.png");
@@ -117,7 +156,7 @@ public class TileMap {
     //-----Enemy stuff-----\\
     /**
      * This method helps us get access of the enemy that is stored in the List
-     * @param num
+     * @param num this is the enemy you want to call
      * @return enemy
      */
     public Enemy getEnemy(int num){
@@ -134,7 +173,7 @@ public class TileMap {
 
     /**
      * Gets access to all enemies within the list
-     * @return
+     * @return gets the list of enemies
      */
     public Iterator getEnemies(){
         return aSprites.iterator();
@@ -204,10 +243,56 @@ public class TileMap {
 
     public int getTileSize(){
         int row = 0;
-        for (int i = 0; i < map.length; i++){
-            row = map[i].length();
+        for (String s : map) {
+            row = s.length();
         }
         return row*100;
+    }
+
+    private Animation createAlienLeftAnim(BufferedImage alien1, BufferedImage alien2, BufferedImage alien3,
+                                          BufferedImage alien4, BufferedImage alien5, BufferedImage alien6){
+        Animation animation = new Animation();
+        animation.addFrame(alien1, 100);
+        animation.addFrame(alien2, 100);
+        animation.addFrame(alien3, 100);
+        animation.addFrame(alien4, 100);
+        animation.addFrame(alien5, 100);
+        animation.addFrame(alien6, 100);
+        return animation;
+    }
+
+    private Animation createAlienRightAnim(BufferedImage alien1, BufferedImage alien2, BufferedImage alien3,
+                                           BufferedImage alien4, BufferedImage alien5, BufferedImage alien6){
+        Animation animation = new Animation();
+        animation.addFrame(alien1, 100);
+        animation.addFrame(alien2, 100);
+        animation.addFrame(alien3, 100);
+        animation.addFrame(alien4, 100);
+        animation.addFrame(alien5, 100);
+        animation.addFrame(alien6, 100);
+        return animation;
+    }
+
+    private Animation createAlienDeadLAnim(BufferedImage alien1, BufferedImage alien2, BufferedImage alien3,
+                                           BufferedImage alien4, BufferedImage alien5){
+        Animation animation = new Animation();
+        animation.addFrame(alien1, 100);
+        animation.addFrame(alien2, 100);
+        animation.addFrame(alien3, 100);
+        animation.addFrame(alien4, 100);
+        animation.addFrame(alien5, 100);
+        return animation;
+    }
+
+    private Animation createAlienDeadRAnim(BufferedImage alien1, BufferedImage alien2, BufferedImage alien3,
+                                           BufferedImage alien4, BufferedImage alien5){
+        Animation animation = new Animation();
+        animation.addFrame(alien1, 100);
+        animation.addFrame(alien2, 100);
+        animation.addFrame(alien3, 100);
+        animation.addFrame(alien4, 100);
+        animation.addFrame(alien5, 100);
+        return animation;
     }
 
 }

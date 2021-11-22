@@ -42,7 +42,7 @@ public class Game extends Canvas implements Runnable{
         createGameActions();//The commands for the user to move
         resources = new Resources();//Calls the resources
         playerT = resources.getPlayer();//Gets the player object which originate from resources
-        bullet = resources.getBullet();
+        //bullet = resources.getBullet();
         map = resources.loadNextMap(1);//Calls the first map
         bg = loadImage("Images//Space.jpg");//Loads the background of the game
         soundPlayer = new SimpleSoundPlayer("Sound//Cyberpunk Moonlight Sonata.wav");
@@ -91,7 +91,7 @@ public class Game extends Canvas implements Runnable{
             checkGameInput();
             playerT.update(elapsedTime);
             Camera.update(elapsedTime);
-            bullet.update(elapsedTime);
+            //bullet.update(elapsedTime);
         }
     }
 
@@ -120,7 +120,7 @@ public class Game extends Canvas implements Runnable{
         g.setColor(Color.GREEN);
         map.draw(g);
         g.drawImage(playerT.getImage(), Math.round(playerT.getX()- (int) Camera.x), Math.round(playerT.getY()+10), null);
-        g.drawImage(bullet.getImage(), Math.round(bullet.getX()- (int) Camera.x), Math.round(bullet.getY()), null);
+        //g.drawImage(bullet.getImage(), Math.round(bullet.getX()- (int) Camera.x), Math.round(bullet.getY()), null);
         Camera.draw(g);
     }
 
@@ -132,8 +132,8 @@ public class Game extends Canvas implements Runnable{
         Right = Math.round(playerT.getX() + 99);
         Left = Math.round(playerT.getX());
         //Bullet x and y
-        bLeft = Math.round(bullet.getX());
-        bRight = Math.round(bullet.getX() + bullet.getWidth());
+        //bLeft = Math.round(bullet.getX());
+        //bRight = Math.round(bullet.getX() + bullet.getWidth());
         //Creating access to enemy top, bottom, left and right values
         for (int i = 0; i < map.getSize(); i++){
             Enemy enemySprite = map.getEnemy(i);
@@ -248,13 +248,14 @@ public class Game extends Canvas implements Runnable{
     }
 
     public void checkingSpriteCollision(Enemy enemy, int x, int y){
-        //System.out.println("Inside this");
+        /*
         if (bullet.getX()+bullet.getWidth() == x && bullet.getY() - bullet.getWidth()-13 == y){
             map.removeSprite(enemy);
             bullet.setDx(0);
             bullet.setX(-100);
             bullet.setY(-100);
         }
+        */
         if ((playerT.getX() + playerT.getWidth()) >= x){
             System.out.println("Hit");
 /*
@@ -314,7 +315,8 @@ public class Game extends Canvas implements Runnable{
             velocityX += PlayerTest2.SPEED;
         }
         if (shoot.isPressed()){
-            playerT.shoot(bullet, x, y);
+            //playerT.shoot(bullet, x, y);
+            System.out.println("S was pressed");
         }
         playerT.setDx(velocityX);
         Camera.setDx(velocityX);
