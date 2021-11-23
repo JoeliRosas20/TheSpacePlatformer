@@ -1,7 +1,6 @@
 package Characters;
 
-import Engine.Animation;
-import Engine.Sprite;
+import Engine.*;
 
 public class Bullet extends Sprite {
 
@@ -14,12 +13,12 @@ public class Bullet extends Sprite {
         this.muzzle = muzzle;
     }
 
-    public void update(long elapsedTime, Player player){
+    public void update(long elapsedTime, int dx){
         Animation nAnim = new Animation();
-        if (getDx() < 0){//negative
+        if (dx < 0){//negative
             nAnim = left;
         }
-        else if (getDx() > 0){//positive
+        else if (dx > 0){//positive
             nAnim = right;
         }
         super.update(elapsedTime);

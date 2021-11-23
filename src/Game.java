@@ -91,6 +91,7 @@ public class Game extends Canvas implements Runnable{
             player.update(elapsedTime);
             Camera.update(elapsedTime);
             bullet.update(elapsedTime);
+            //bullet.update(elapsedTime, Math.round(player.getDx()));
             //System.out.println(player.getX()+" Y = "+player.getY());
 //            System.out.println("Velocity "+player.getDy());
         }
@@ -252,11 +253,9 @@ public class Game extends Canvas implements Runnable{
             bullet.setY(-100);
             player.setState(Player.STATE_NORMAL);
         }
-        if (map.valueAt(bTop, bRight) == 'R'){
-            System.out.println("Yes");
-        }
+
         if ((player.getX() + player.getWidth()) >= x){
-            System.out.println("Hit");
+            //System.out.println("Hit");
 /*
             playerT.setX(0);
             playerT.setY(0);

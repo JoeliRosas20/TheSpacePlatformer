@@ -100,26 +100,26 @@ public class Player extends Sprite {
             nAnim = walkR;
         }
         //Shooting
-        if (getState() == STATE_SHOOTING && (nAnim == walkL || nAnim == idleL)){
+        if (getState() == STATE_SHOOTING && nAnim == idleL){
             nAnim = shootL;
         }
-        else if (getState() == STATE_SHOOTING && (nAnim == walkR || nAnim == idleR)){
+        else if (getState() == STATE_SHOOTING && nAnim == idleR){
             nAnim = shootR;
         }
         //Idle
-        if (getDx() == 0 && (nAnim == walkL || nAnim == jumpL || nAnim == shootL)){
+        if (getDx() == 0 &&(nAnim == walkL || nAnim == jumpL)){
             nAnim = idleL;
             setState(STATE_NORMAL);
         }
-        if (getDx() == 0 && (nAnim == walkR || nAnim == jumpR || nAnim == shootR)){
+        else if (getDx() == 0 && (nAnim == walkR || nAnim == jumpR)){
             nAnim = idleR;
             setState(STATE_NORMAL);
         }
         //Dead
-        if (state == STATE_DYING && nAnim == idleL){
+        if (state == STATE_DYING && (nAnim == idleL || nAnim == walkL)){
             nAnim = deadL;
         }
-        else if (state == STATE_DYING && nAnim == idleR){
+        else if (state == STATE_DYING && (nAnim == idleR || nAnim == walkR)){
             nAnim = deadR;
         }
         //super.update(elapsedTime);
