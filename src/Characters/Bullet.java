@@ -4,7 +4,11 @@ import Engine.*;
 
 public class Bullet extends Sprite {
 
+    public static final int LEFT = 0;
+    public static final int RIGHT = 1;
+    private int state;
     Animation left, right, muzzle;
+    Player player;
 
     public Bullet(Animation left, Animation right, Animation muzzle) {
         super(right);
@@ -13,12 +17,16 @@ public class Bullet extends Sprite {
         this.muzzle = muzzle;
     }
 
-    public void update(long elapsedTime, int dx){
+    public void setFace(int num){
+        state = num;
+    }
+
+    public void update(long elapsedTime){
         Animation nAnim = new Animation();
-        if (dx < 0){//negative
+        if (state == LEFT){//negative
             nAnim = left;
         }
-        else if (dx > 0){//positive
+        if (state == RIGHT){//positive
             nAnim = right;
         }
         super.update(elapsedTime);

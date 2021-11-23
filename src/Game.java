@@ -306,6 +306,7 @@ public class Game extends Canvas implements Runnable{
         float velocityX = 0;
         int x = Math.round(player.getX());
         int y = Math.round(player.getY());
+        int dx = Math.round(player.getDx());
         if (moveLeft.isPressed()){
             velocityX -= Player.SPEED;
         }
@@ -313,7 +314,7 @@ public class Game extends Canvas implements Runnable{
             velocityX += Player.SPEED;
         }
         if (shoot.isPressed()){
-            player.shoot(bullet, x, y);
+            player.shoot(bullet, x, y, dx);
             //System.out.println("S was pressed");
         }
         if (jump.isPressed() && player.getState() != Player.STATE_JUMPING){

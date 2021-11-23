@@ -70,10 +70,17 @@ public class Player extends Sprite {
         state = STATE_JUMPING;
     }
 
-    public void shoot(Bullet bullet, int playerX, int playerY){
+    public void shoot(Bullet bullet, int playerX, int playerY, int dx){
         bullet.setX(playerX+50);
         bullet.setY(playerY+50);
-        bullet.setDx(0.5f);
+        if (animation == idleR || animation == walkR){
+            bullet.setDx(0.5f);
+            bullet.setFace(1);
+        }
+        if (animation == idleL || animation == walkL){
+            bullet.setDx(-0.5f);
+            bullet.setFace(0);
+        }
         setState(STATE_SHOOTING);
     }
 
