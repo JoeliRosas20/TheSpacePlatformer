@@ -249,9 +249,12 @@ public class Game extends Canvas implements Runnable{
         if (bullet.getX()+bullet.getWidth() == x && bullet.getY() - bullet.getWidth()-13 == y){
             map.removeSprite(enemy);
             bullet.setDx(0);
-            bullet.setX(-100);
-            bullet.setY(-100);
+            //bullet.setX(-100);
+            //bullet.setY(-100);
             player.setState(Player.STATE_NORMAL);
+            bullet.setFace(Bullet.HIT);
+            bullet.setX(bullet.getX()+50);
+            bullet.setY(bullet.getY()-45);
         }
 
         if ((player.getX() + player.getWidth()) >= x){

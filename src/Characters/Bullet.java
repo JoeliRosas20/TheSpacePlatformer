@@ -6,9 +6,9 @@ public class Bullet extends Sprite {
 
     public static final int LEFT = 0;
     public static final int RIGHT = 1;
+    public static final int HIT = 2;
     private int state;
     Animation left, right, muzzle;
-    Player player;
 
     public Bullet(Animation left, Animation right, Animation muzzle) {
         super(right);
@@ -28,6 +28,9 @@ public class Bullet extends Sprite {
         }
         if (state == RIGHT){//positive
             nAnim = right;
+        }
+        if (state == HIT){
+            nAnim = muzzle;
         }
         super.update(elapsedTime);
         if (animation != nAnim){

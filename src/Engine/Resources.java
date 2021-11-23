@@ -423,11 +423,11 @@ public class Resources {
     private Animation createBulletMuzzleAnim(BufferedImage bullet1, BufferedImage bullet2, BufferedImage bullet3,
                                              BufferedImage bullet4, BufferedImage bullet5){
         Animation animation = new Animation();
-        animation.addFrame(bullet1, 100);
-        animation.addFrame(bullet2, 100);
-        animation.addFrame(bullet3, 100);
-        animation.addFrame(bullet4, 100);
-        animation.addFrame(bullet5, 100);
+        animation.addFrame(bullet1, 300);
+        animation.addFrame(bullet2, 300);
+        animation.addFrame(bullet3, 300);
+        animation.addFrame(bullet4, 300);
+        animation.addFrame(bullet5, 300);
         return animation;
     }
 }
