@@ -16,10 +16,10 @@ public class Bullet extends Sprite {
 
     public void update(long elapsedTime, Player player){
         Animation nAnim = new Animation();
-        if (player.getDx() < 0){//negative
+        if (getDx() < 0){//negative
             nAnim = left;
         }
-        else if (player.getDx() > 0){//positive
+        else if (getDx() > 0){//positive
             nAnim = right;
         }
         super.update(elapsedTime);

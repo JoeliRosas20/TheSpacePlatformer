@@ -24,14 +24,14 @@ public class Game extends Canvas implements Runnable{
     protected GameAction jump, exit, moveLeft, moveRight, pause, shoot;
     Resources resources;
     TileMap map;
-    PlayerTest2 playerT;
+    Player player;
     Enemy enemy;
     Bullet bullet;
     SimpleSoundPlayer soundPlayer;
     LoopingByteInputStream stream;
     int Top, Bottom, Right, Left, n=1;
     int eTop, eBottom, eRight, eLeft;
-    int bLeft, bRight;
+    int bTop, bBottom, bLeft, bRight;
     boolean started = true;
 
     public Game(){
@@ -41,8 +41,8 @@ public class Game extends Canvas implements Runnable{
         inputManager= new InputManager(this);
         createGameActions();//The commands for the user to move
         resources = new Resources();//Calls the resources
-        playerT = resources.getPlayer();//Gets the player object which originate from resources
-        //bullet = resources.getBullet();
+        player = resources.getPlayer();//Gets the player object which originate from resources
+        bullet = resources.getBullet();
         map = resources.loadNextMap(1);//Calls the first map
         bg = loadImage("Images//Space.jpg");//Loads the background of the game
         soundPlayer = new SimpleSoundPlayer("Sound//Cyberpunk Moonlight Sonata.wav");
@@ -87,17 +87,17 @@ public class Game extends Canvas implements Runnable{
                 enemy = map.getEnemy(i);//Gets the enemy object which originates from TileMap
                 enemy.update(elapsedTime);
             }
-            checkingPlayerCollision();
             checkGameInput();
-            playerT.update(elapsedTime);
+            player.update(elapsedTime);
             Camera.update(elapsedTime);
-            //bullet.update(elapsedTime);
+            bullet.update(elapsedTime);
+            //System.out.println(player.getX()+" Y = "+player.getY());
+//            System.out.println("Velocity "+player.getDy());
         }
     }
 
     public void render(){
-        long startTime = System.currentTimeMillis();
-        long currTime = startTime;
+        long currTime = System.currentTimeMillis();
         while (true) {
             long elapsedTime = System.currentTimeMillis() - currTime;
             currTime += elapsedTime;
@@ -119,21 +119,21 @@ public class Game extends Canvas implements Runnable{
         g.drawImage(bg, 0, 0, null);
         g.setColor(Color.GREEN);
         map.draw(g);
-        g.drawImage(playerT.getImage(), Math.round(playerT.getX()- (int) Camera.x), Math.round(playerT.getY()+10), null);
-        //g.drawImage(bullet.getImage(), Math.round(bullet.getX()- (int) Camera.x), Math.round(bullet.getY()), null);
+        g.drawImage(player.getImage(), Math.round(player.getX()- (int) Camera.x), Math.round(player.getY()+10), null);
+        g.drawImage(bullet.getImage(), Math.round(bullet.getX()- (int) Camera.x), Math.round(bullet.getY()), null);
         Camera.draw(g);
     }
 
     //-----Game Collision and mechanics-----\\
     public void spriteSurroundings(){
         //Create the values for top, bottom, right and left
-        Top = Math.round(playerT.getY());
-        Bottom = Math.round(playerT.getY() + (playerT.getHeight() + 2));
-        Right = Math.round(playerT.getX() + 99);
-        Left = Math.round(playerT.getX());
+        Top = Math.round(player.getY());
+        Bottom = Math.round(player.getY() + (player.getHeight() + 2));
+        Right = Math.round(player.getX() + 99);
+        Left = Math.round(player.getX());
         //Bullet x and y
-        //bLeft = Math.round(bullet.getX());
-        //bRight = Math.round(bullet.getX() + bullet.getWidth());
+        bLeft = Math.round(bullet.getX());
+        bRight = Math.round(bullet.getX() + bullet.getWidth());
         //Creating access to enemy top, bottom, left and right values
         for (int i = 0; i < map.getSize(); i++){
             Enemy enemySprite = map.getEnemy(i);
@@ -147,12 +147,13 @@ public class Game extends Canvas implements Runnable{
             checkingEnemyCollision(enemySprite);
             checkingSpriteCollision(enemySprite, enemyX, enemyY);
         }
+        checkingPlayerCollision();
     }
 
     public void loadNextMap(int n){
         map = resources.loadNextMap(n);
-        playerT.setX(0);
-        playerT.setY(0);
+        player.setX(0);
+        player.setY(0);
         Camera.setX(0);
         Camera.setY(0);
         started = true;
@@ -174,45 +175,41 @@ public class Game extends Canvas implements Runnable{
         boolean spaceAllAround = (map.valueAt(Top,Left) == '#') && (map.valueAt(Top,Right) == '#') && (map.valueAt(Bottom,Left) == '#') && (map.valueAt(Bottom, Right) == '#');
         boolean leftIsOutOfBounds = Left <= -20;
         boolean doorIsThere = map.valueAt(Top, Right) == '@';
-
         if(leftIsOutOfBounds){
-            playerT.setX(-19);
-            playerT.setY(0);
+            player.setX(-19);
+            player.setY(0);
             Camera.setX(0);
             Left = (Left * -1) - 100;
         }
 
         if(thereIsATileOnRightSide){
-            playerT.setX(Left-1);
+            player.setX(Left-1);
             Camera.setX(Left-1);
         }
 
         if(thereIsATileOnLeftSide){
-            playerT.setX(Left+1);
+            player.setX(Left+1);
             Camera.setX(Left+1);
         }
 
         if(spaceAllAround){
-            playerT.setDy(0.4f);
-            playerT.setDx(0);
+            player.setDy(0.4f);
+            player.setDx(0);
             Camera.setDy(0.4f);
             Camera.setDx(0);
         }
 
         //Once the player is on the ground
         if(thereIsTileOnBottom){
-            playerT.setFloorY(Bottom - (playerT.getHeight()+2));
-            if (playerT.getY() > (map.getRow()*100)){//Prevents player from sinking in ground
-                playerT.setFloorY((map.getRow()*100));
-            }
-            //This loop is for the player jump
-            if (map.valueAt(Top-100, Right) == '#' && map.valueAt(Top-100, Left) == '#' && jump.isPressed() && playerT.getState() != PlayerTest2.STATE_JUMPING){
-                playerT.jump();
+            player.setFloorY(Bottom - (player.getHeight()+2));
+            player.setDy(0);
+            if (player.getY() > (map.getRow()*100)){//Prevents player from sinking in ground
+                player.setFloorY((map.getRow()*100));
             }
         }
         else{
             //When the player is airborne
-            playerT.applyGravity();
+            player.applyGravity();
             Camera.applyGravity();
         }
 
@@ -248,15 +245,17 @@ public class Game extends Canvas implements Runnable{
     }
 
     public void checkingSpriteCollision(Enemy enemy, int x, int y){
-        /*
         if (bullet.getX()+bullet.getWidth() == x && bullet.getY() - bullet.getWidth()-13 == y){
             map.removeSprite(enemy);
             bullet.setDx(0);
             bullet.setX(-100);
             bullet.setY(-100);
+            player.setState(Player.STATE_NORMAL);
         }
-        */
-        if ((playerT.getX() + playerT.getWidth()) >= x){
+        if (map.valueAt(bTop, bRight) == 'R'){
+            System.out.println("Yes");
+        }
+        if ((player.getX() + player.getWidth()) >= x){
             System.out.println("Hit");
 /*
             playerT.setX(0);
@@ -306,19 +305,22 @@ public class Game extends Canvas implements Runnable{
 
     public void checkGameInput(){
         float velocityX = 0;
-        int x = Math.round(playerT.getX());
-        int y = Math.round(playerT.getY());
+        int x = Math.round(player.getX());
+        int y = Math.round(player.getY());
         if (moveLeft.isPressed()){
-            velocityX -= PlayerTest2.SPEED;
+            velocityX -= Player.SPEED;
         }
         if (moveRight.isPressed()){
-            velocityX += PlayerTest2.SPEED;
+            velocityX += Player.SPEED;
         }
         if (shoot.isPressed()){
-            //playerT.shoot(bullet, x, y);
-            System.out.println("S was pressed");
+            player.shoot(bullet, x, y);
+            //System.out.println("S was pressed");
         }
-        playerT.setDx(velocityX);
+        if (jump.isPressed() && player.getState() != Player.STATE_JUMPING){
+            player.jump();
+        }
+        player.setDx(velocityX);
         Camera.setDx(velocityX);
     }
 

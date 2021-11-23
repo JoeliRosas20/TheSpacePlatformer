@@ -6,13 +6,13 @@ import java.util.ArrayList;
 
 public class Animation {
 
-    private ArrayList frames;
+    private ArrayList<AnimFrame> frames;
     private int currFrameIndex;
     private long animTime;
     private long totalDuration;
 
     public Animation(){
-        frames = new ArrayList();
+        frames = new ArrayList<>();
         totalDuration = 0;
         start();
     }

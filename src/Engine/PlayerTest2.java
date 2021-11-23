@@ -61,7 +61,7 @@ public class PlayerTest2 extends Sprite {
     }
 
     /**
-     * Player update
+     * Old Player update
      * @param elapsedTime
      */
     public void update(long elapsedTime){

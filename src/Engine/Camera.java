@@ -12,8 +12,6 @@ public class Camera {
     public static int xOrigin = 0;
     public static int yOrigin = 0;
     public static final int GRAVITY = 1;
-    public static Resources resources = new Resources();
-    public static PlayerTest2 playerT = resources.getPlayer();
 
     public static void update(long elapsedTime){
         //System.out.println("Updating");
