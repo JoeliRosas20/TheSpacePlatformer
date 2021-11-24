@@ -82,7 +82,7 @@ public class TileMap {
     }
 
     public void loadAlienImages(){
-        BufferedImage[][] images = new BufferedImage[4][];
+        BufferedImage[][] images = new BufferedImage[2][];
         images[0] = new BufferedImage[]{
                 loadImage("Images//EnemyImages//armor__0006_walk_1_left.png"),
                 loadImage("Images//EnemyImages//armor__0007_walk_2_left.png"),
@@ -99,26 +99,10 @@ public class TileMap {
                 loadImage("Images//EnemyImages//armor__0010_walk_5.png"),
                 loadImage("Images//EnemyImages//armor__0011_walk_6.png")
         };
-        images[2] = new BufferedImage[]{
-                loadImage("Images//EnemyImages//Larmor__0022_dead_1.png"),
-                loadImage("Images//EnemyImages//Larmor__0023_dead_2.png"),
-                loadImage("Images//EnemyImages//Larmor__0024_dead_3.png"),
-                loadImage("Images//EnemyImages//Larmor__0025_dead_4.png"),
-                loadImage("Images//EnemyImages//Larmor__0026_dead_5.png")
-        };
-        images[3] = new BufferedImage[]{
-                loadImage("Images//EnemyImages//armor__0022_dead_1.png"),
-                loadImage("Images//EnemyImages//armor__0023_dead_2.png"),
-                loadImage("Images//EnemyImages//armor__0024_dead_3.png"),
-                loadImage("Images//EnemyImages//armor__0025_dead_4.png"),
-                loadImage("Images//EnemyImages//armor__0026_dead_5.png")
-        };
-        Animation[] alienAnim = new Animation[4];
+        Animation[] alienAnim = new Animation[2];
         alienAnim[0] = createAlienLeftAnim(images[0][0], images[0][1], images[0][2], images[0][3], images[0][4], images[0][5]);
         alienAnim[1] = createAlienRightAnim(images[1][0], images[1][1], images[1][2], images[1][3], images[1][4], images[1][5]);
-        alienAnim[2] = createAlienDeadLAnim(images[2][0], images[2][1], images[2][2], images[2][3], images[2][4]);
-        alienAnim[3] = createAlienDeadRAnim(images[3][0], images[3][1], images[3][2], images[3][3], images[3][4]);
-        alien = new Alien(alienAnim[0], alienAnim[1], alienAnim[2], alienAnim[3]);
+        alien = new Alien(alienAnim[0], alienAnim[1]);
     }
 
     //-----Enemy stuff-----\\
@@ -238,28 +222,6 @@ public class TileMap {
         animation.addFrame(alien4, 100);
         animation.addFrame(alien5, 100);
         animation.addFrame(alien6, 100);
-        return animation;
-    }
-
-    private Animation createAlienDeadLAnim(BufferedImage alien1, BufferedImage alien2, BufferedImage alien3,
-                                           BufferedImage alien4, BufferedImage alien5){
-        Animation animation = new Animation();
-        animation.addFrame(alien1, 100);
-        animation.addFrame(alien2, 100);
-        animation.addFrame(alien3, 100);
-        animation.addFrame(alien4, 100);
-        animation.addFrame(alien5, 100);
-        return animation;
-    }
-
-    private Animation createAlienDeadRAnim(BufferedImage alien1, BufferedImage alien2, BufferedImage alien3,
-                                           BufferedImage alien4, BufferedImage alien5){
-        Animation animation = new Animation();
-        animation.addFrame(alien1, 100);
-        animation.addFrame(alien2, 100);
-        animation.addFrame(alien3, 100);
-        animation.addFrame(alien4, 100);
-        animation.addFrame(alien5, 100);
         return animation;
     }
 

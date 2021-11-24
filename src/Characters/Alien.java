@@ -3,15 +3,14 @@ package Characters;
 import Engine.*;
 
 public class Alien extends Sprite{
-    Animation left,deadL;
-    Animation right, deadR;
+    Animation left;
+    Animation right;
 
-    public Alien(Animation left, Animation right, Animation deadL, Animation deadR) {
+    public Alien(Animation left, Animation right) {
         super(right);
         this.left = left;
         this.right = right;
-        this.deadL = deadL;
-        this.deadR = deadR;
+
     }
 
     /**
@@ -41,6 +40,6 @@ public class Alien extends Sprite{
      * @return another enemy
      */
     public Object clone(){
-        return new Alien(left, right, deadL, deadR);
+        return new Alien(left, right);
     }
 }
