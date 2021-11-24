@@ -89,11 +89,18 @@ public class Game extends Canvas implements Runnable{
                 alien = map.getAlien(i);
                 alien.update(elapsedTime/n);
             }
-            System.out.println(n);
             checkGameInput();
             player.update(elapsedTime);
             Camera.update(elapsedTime);
             bullet.update(elapsedTime);
+            if (player.getState() == Player.STATE_DEAD){
+                map = resources.reloadMap();
+                player.setX(0);
+                player.setY(0);
+                Camera.setX(0);
+                player.setState(Player.STATE_NORMAL);
+            }
+            System.out.println("X = "+player.getX()+" Y = "+player.getY());
             //bullet.update(elapsedTime, Math.round(player.getDx()));
             //System.out.println(player.getX()+" Y = "+player.getY());
 //            System.out.println("Velocity "+player.getDy());
@@ -260,13 +267,13 @@ public class Game extends Canvas implements Runnable{
 
         if ((player.getX() + player.getWidth()) >= x){
             //System.out.println("Hit");
-/*
-            playerT.setX(0);
-            playerT.setY(0);
+            player.setState(Player.STATE_DYING);
+            /*
+            map = resources.reloadMap();
+            player.setX(0);
+            player.setY(0);
             Camera.setX(0);
-            Camera.setY(0);
             */
-
         }
     }
 

@@ -11,7 +11,7 @@ public class Player extends Sprite {
     public static final int STATE_DEAD = 4;
     public static final float SPEED = .3f;
     public static final float GRAVITY = .002f;
-    private static final int DIE_TIME = 1000;
+    private static final int DIE_TIME = 1500;
     private int floorY;
     private int state;
     private long stateTime;
@@ -152,7 +152,9 @@ public class Player extends Sprite {
             animation.update(elapsedTime);
         }
         stateTime += elapsedTime;
+        System.out.println("First:"+stateTime);
         if (state == STATE_DYING && stateTime >= DIE_TIME){
+            System.out.println(stateTime);
             setState(STATE_DEAD);
         }
     }
