@@ -87,7 +87,8 @@ public class Game extends Canvas implements Runnable{
             for (int i = 0; i < map.getSize(); i++){
                 n++;
                 alien = map.getAlien(i);
-                alien.update(elapsedTime/n);
+                alien.check(n);
+                alien.update(elapsedTime);
             }
             checkGameInput();
             player.update(elapsedTime);
@@ -100,7 +101,7 @@ public class Game extends Canvas implements Runnable{
                 Camera.setX(0);
                 player.setState(Player.STATE_NORMAL);
             }
-            System.out.println("X = "+player.getX()+" Y = "+player.getY());
+            //System.out.println("X = "+player.getX()+" Y = "+player.getY());
             //bullet.update(elapsedTime, Math.round(player.getDx()));
             //System.out.println(player.getX()+" Y = "+player.getY());
 //            System.out.println("Velocity "+player.getDy());
@@ -183,6 +184,7 @@ public class Game extends Canvas implements Runnable{
         boolean notTopLeft = map.valueAt(Top, Left+20) != '#';
         boolean notBottomLeft = map.valueAt(Bottom, Left+20) != '#';
         boolean thereIsATileOnLeftSide = notTopLeft && notBottomLeft && map.valueAt(Top, Left+20) != '?';
+
         boolean spaceAllAround = (map.valueAt(Top,Left) == '#') && (map.valueAt(Top,Right) == '#') && (map.valueAt(Bottom,Left) == '#') && (map.valueAt(Bottom, Right) == '#');
         boolean leftIsOutOfBounds = Left <= -20;
         boolean doorIsThere = map.valueAt(Top, Right) == '@';
@@ -265,9 +267,11 @@ public class Game extends Canvas implements Runnable{
             bullet.setY(bullet.getY()-45);
         }
 
-        if ((player.getX() + player.getWidth()) >= x){
+        if ((player.getX() + 60) >= x && (player.getY()+1) >= y){
             //System.out.println("Hit");
             player.setState(Player.STATE_DYING);
+            //System.out.println("Player Y: "+player.getY());
+            //System.out.println("Alien Y: "+alien.getY());
             /*
             map = resources.reloadMap();
             player.setX(0);

@@ -152,9 +152,9 @@ public class Player extends Sprite {
             animation.update(elapsedTime);
         }
         stateTime += elapsedTime;
-        System.out.println("First:"+stateTime);
+        //System.out.println("First:"+stateTime);
         if (state == STATE_DYING && stateTime >= DIE_TIME){
-            System.out.println(stateTime);
+            //System.out.println("Inside:"+stateTime);
             setState(STATE_DEAD);
         }
     }

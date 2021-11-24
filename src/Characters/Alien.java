@@ -3,13 +3,21 @@ package Characters;
 import Engine.*;
 
 public class Alien extends Sprite{
+
     Animation left;
     Animation right;
+    int a = 0;
+    public static final int STATE_DYING = 0;
+    public static final int STATE_DEAD = 1;
 
     public Alien(Animation left, Animation right) {
         super(right);
         this.left = left;
         this.right = right;
+    }
+
+    public void check(int n){
+        a = n;
     }
 
     /**
@@ -30,7 +38,7 @@ public class Alien extends Sprite{
             animation.start();
         }
         else{
-            animation.update(elapsedTime);
+            animation.update(elapsedTime/a);
         }
     }
 
