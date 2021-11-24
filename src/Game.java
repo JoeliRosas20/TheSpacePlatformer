@@ -99,12 +99,7 @@ public class Game extends Canvas implements Runnable{
                 player.setX(0);
                 player.setY(0);
                 Camera.setX(0);
-                player.setState(Player.STATE_NORMAL);
             }
-            //System.out.println("X = "+player.getX()+" Y = "+player.getY());
-            //bullet.update(elapsedTime, Math.round(player.getDx()));
-            //System.out.println(player.getX()+" Y = "+player.getY());
-//            System.out.println("Velocity "+player.getDy());
         }
     }
 
@@ -268,16 +263,7 @@ public class Game extends Canvas implements Runnable{
         }
 
         if ((player.getX() + 60) >= x && (player.getY()+1) >= y){
-            //System.out.println("Hit");
             player.setState(Player.STATE_DYING);
-            //System.out.println("Player Y: "+player.getY());
-            //System.out.println("Alien Y: "+alien.getY());
-            /*
-            map = resources.reloadMap();
-            player.setX(0);
-            player.setY(0);
-            Camera.setX(0);
-            */
         }
     }
 
@@ -322,15 +308,14 @@ public class Game extends Canvas implements Runnable{
         int x = Math.round(player.getX());
         int y = Math.round(player.getY());
         int dx = Math.round(player.getDx());
-        if (moveLeft.isPressed()){
+        if (moveLeft.isPressed() && player.isAlive()){
             velocityX -= Player.SPEED;
         }
-        if (moveRight.isPressed()){
+        if (moveRight.isPressed() && player.isAlive()){
             velocityX += Player.SPEED;
         }
         if (shoot.isPressed()){
             player.shoot(bullet, x, y, dx);
-            //System.out.println("S was pressed");
         }
         if (jump.isPressed() && player.getState() != Player.STATE_JUMPING){
             player.jump();

@@ -7,8 +7,6 @@ public class Alien extends Sprite{
     Animation left;
     Animation right;
     int a = 0;
-    public static final int STATE_DYING = 0;
-    public static final int STATE_DEAD = 1;
 
     public Alien(Animation left, Animation right) {
         super(right);

@@ -11,7 +11,7 @@ public class Player extends Sprite {
     public static final int STATE_DEAD = 4;
     public static final float SPEED = .3f;
     public static final float GRAVITY = .002f;
-    private static final int DIE_TIME = 1500;
+    private static final int DIE_TIME = 2000;
     private int floorY;
     private int state;
     private long stateTime;
@@ -82,6 +82,10 @@ public class Player extends Sprite {
             bullet.setFace(0);
         }
         setState(STATE_SHOOTING);
+    }
+
+    public boolean isAlive(){
+        return state != Player.STATE_DYING;
     }
 
     /**

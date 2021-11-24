@@ -45,6 +45,7 @@ public class Resources {
 
     public TileMap reloadMap(){
         map = new TileMap("Maps//world"+curr);
+        player.setState(Player.STATE_NORMAL);
         return map;
     }
 
