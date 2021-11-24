@@ -80,13 +80,16 @@ public class Game extends Canvas implements Runnable{
     }
 
     public void update(long elapsedTime) {
+        int n = 0;
         checkSystemInput();
         if (!isPaused()) {
             spriteSurroundings();
             for (int i = 0; i < map.getSize(); i++){
+                n++;
                 alien = map.getAlien(i);
-                alien.update(elapsedTime);
+                alien.update(elapsedTime/n);
             }
+            System.out.println(n);
             checkGameInput();
             player.update(elapsedTime);
             Camera.update(elapsedTime);

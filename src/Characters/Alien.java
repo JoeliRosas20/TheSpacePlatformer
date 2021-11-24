@@ -10,7 +10,6 @@ public class Alien extends Sprite{
         super(right);
         this.left = left;
         this.right = right;
-
     }
 
     /**

@@ -163,7 +163,7 @@ public class TileMap {
                     Iterator i = getAliens();
                     while (i.hasNext()) {
                         Sprite alien = (Sprite)i.next();
-                        g.drawImage(alien.getImage(), Math.round(alien.getX()- (int) Camera.x), Math.round(alien.getY()), null);
+                        g.drawImage(alien.getImage(), Math.round(alien.getX()- (int) Camera.x), Math.round(alien.getY()+5), null);
                     }
                 }
             }

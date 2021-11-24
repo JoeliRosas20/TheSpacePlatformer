@@ -367,16 +367,16 @@ public class Resources {
                                             BufferedImage player7, BufferedImage player8, BufferedImage player9,
                                             BufferedImage player10) {
         Animation animation = new Animation();
-        animation.addFrame(player1, 100);
-        animation.addFrame(player2, 100);
-        animation.addFrame(player3, 100);
-        animation.addFrame(player4, 100);
-        animation.addFrame(player5, 100);
-        animation.addFrame(player6, 100);
-        animation.addFrame(player7, 100);
-        animation.addFrame(player8, 100);
-        animation.addFrame(player9, 100);
-        animation.addFrame(player10, 100);
+        animation.addFrame(player1, 300);
+        animation.addFrame(player2, 300);
+        animation.addFrame(player3, 300);
+        animation.addFrame(player4, 300);
+        animation.addFrame(player5, 300);
+        animation.addFrame(player6, 300);
+        animation.addFrame(player7, 300);
+        animation.addFrame(player8, 300);
+        animation.addFrame(player9, 300);
+        animation.addFrame(player10, 300);
         return animation;
     }
 

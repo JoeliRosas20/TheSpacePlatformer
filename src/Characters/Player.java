@@ -149,7 +149,6 @@ public class Player extends Sprite {
             animation.start();
         }
         else{
-            //System.out.println("Pika");
             animation.update(elapsedTime);
         }
         stateTime += elapsedTime;
