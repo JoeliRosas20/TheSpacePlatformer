@@ -25,12 +25,12 @@ public class Game extends Canvas implements Runnable{
     Resources resources;
     TileMap map;
     Player player;
-    Enemy enemy;
+    Alien alien;
     Bullet bullet;
     SimpleSoundPlayer soundPlayer;
     LoopingByteInputStream stream;
     int Top, Bottom, Right, Left, n=1;
-    int eTop, eBottom, eRight, eLeft;
+    int aTop, aBottom, aRight, aLeft;
     int bTop, bBottom, bLeft, bRight;
     boolean started = true;
 
@@ -84,8 +84,8 @@ public class Game extends Canvas implements Runnable{
         if (!isPaused()) {
             spriteSurroundings();
             for (int i = 0; i < map.getSize(); i++){
-                enemy = map.getEnemy(i);//Gets the enemy object which originates from TileMap
-                enemy.update(elapsedTime);
+                alien = map.getAlien(i);
+                alien.update(elapsedTime);
             }
             checkGameInput();
             player.update(elapsedTime);
@@ -137,16 +137,16 @@ public class Game extends Canvas implements Runnable{
         bRight = Math.round(bullet.getX() + bullet.getWidth());
         //Creating access to enemy top, bottom, left and right values
         for (int i = 0; i < map.getSize(); i++){
-            Enemy enemySprite = map.getEnemy(i);
+            Alien alien = map.getAlien(i);
             //Creating access for enemies' x and y placement
-            int enemyX = Math.round(enemySprite.getX());
-            int enemyY = Math.round(enemySprite.getY());
-            eTop = enemyY;
-            eBottom = enemyY + enemySprite.getHeight();
-            eLeft = enemyX;
-            eRight = enemyX + enemySprite.getWidth();
-            checkingEnemyCollision(enemySprite);
-            checkingSpriteCollision(enemySprite, enemyX, enemyY);
+            int alienX = Math.round(alien.getX());
+            int alienY = Math.round(alien.getY());
+            aTop = alienY;
+            aBottom = alienY + alien.getHeight();
+            aLeft = alienX;
+            aRight = alienX + alien.getWidth();
+            checkingEnemyCollision(alien);
+            checkingSpriteCollision(alien, alienX, alienY);
         }
         checkingPlayerCollision();
     }
@@ -221,33 +221,33 @@ public class Game extends Canvas implements Runnable{
 
     }
 
-    public void checkingEnemyCollision(Sprite enemy){
+    public void checkingEnemyCollision(Sprite alien){
         //Makes sure the player does not go out of bounds on left side
-        if (eLeft <= -20){
-            enemy.setDx(0.05f);
-            eLeft = (eLeft * -1) - 100;
+        if (aLeft <= -20){
+            alien.setDx(0.05f);
+            aLeft = (aLeft * -1) - 100;
         }
 
         //Makes sure the player does not go out of bounds on right side
-        if (eRight == map.getTileSize()-10){
-            enemy.setDx(-0.05f);
+        if (aRight == map.getTileSize()-10){
+            alien.setDx(-0.05f);
         }
 
         //Checking the tile collision for the enemy so it can begin walking
-        if ((map.valueAt(eTop, eRight) == '?' && map.valueAt(eBottom, eRight) == '?') && (map.valueAt(eTop, eLeft) == '?') && (map.valueAt(eBottom, eLeft) == '?') && started){
-            enemy.setDx(0.05f);
+        if ((map.valueAt(aTop, aRight) == '?' && map.valueAt(aBottom, aRight) == '?') && (map.valueAt(aTop, aLeft) == '?') && (map.valueAt(aBottom, aLeft) == '?') && started){
+            alien.setDx(0.05f);
         }
 
         //Once the enemy hits the tile
-        if ((map.valueAt(eTop, eRight) == 'R' && map.valueAt(eBottom, eRight) == 'R' && map.valueAt(eTop, eLeft) == '#' && map.valueAt(eBottom, eLeft) == '#')){
-            enemy.setDx(-0.05f);
+        if ((map.valueAt(aTop, aRight) == 'R' && map.valueAt(aBottom, aRight) == 'R' && map.valueAt(aTop, aLeft) == '#' && map.valueAt(aBottom, aLeft) == '#')){
+            alien.setDx(-0.05f);
             started = false;
         }
     }
 
-    public void checkingSpriteCollision(Enemy enemy, int x, int y){
+    public void checkingSpriteCollision(Alien alien, int x, int y){
         if (bullet.getX()+bullet.getWidth() == x && bullet.getY() - bullet.getWidth()-13 == y){
-            map.removeSprite(enemy);
+            map.removeAlien(alien);
             bullet.setDx(0);
             //bullet.setX(-100);
             //bullet.setY(-100);

@@ -29,18 +29,15 @@ public class TileMap {
     /**
      * This is where the sprites like enemies are stored in
      */
-    public LinkedList<Enemy> aSprites = new LinkedList<>();
     public LinkedList<Alien> aliens = new LinkedList<>();
     private BufferedImage image;
-    Animation eAnimation, eAnimation2;
-    Enemy enemy;
     Alien alien;
     int row, col;
 
     public TileMap(String filename){
         loadMap(filename);
         loadTileImages();
-        loadEnemyImages();
+        loadAlienImages();
         loadEnemies();
     }
 
@@ -71,7 +68,7 @@ public class TileMap {
             for (int col = 0; col < map[row].length(); col++){
                 char c = map[row].charAt(col);
                 if (c == '?'){
-                    addSprites(enemy, col*100, row*100);
+                    addAliens(alien, col*100, row*100);
                 }
             }
         }
@@ -84,7 +81,7 @@ public class TileMap {
         }
     }
 
-    public void loadEnemyImages2(){
+    public void loadAlienImages(){
         BufferedImage[][] images = new BufferedImage[4][];
         images[0] = new BufferedImage[]{
                 loadImage("Images//EnemyImages//armor__0006_walk_1_left.png"),
@@ -123,35 +120,6 @@ public class TileMap {
         alienAnim[3] = createAlienDeadRAnim(images[3][0], images[3][1], images[3][2], images[3][3], images[3][4]);
         alien = new Alien(alienAnim[0], alienAnim[1], alienAnim[2], alienAnim[3]);
     }
-    public void loadEnemyImages(){
-        BufferedImage enemy4 = loadImage("Images//EnemyImages//armor__0006_walk_1.png");
-        BufferedImage enemy5 = loadImage("Images//EnemyImages//armor__0007_walk_2.png");
-        BufferedImage enemy6 = loadImage("Images//EnemyImages//armor__0008_walk_3.png");
-        BufferedImage enemy7 = loadImage("Images//EnemyImages//armor__0009_walk_4.png");
-        BufferedImage enemy8 = loadImage("Images//EnemyImages//armor__0010_walk_5.png");
-        BufferedImage enemy9 = loadImage("Images//EnemyImages//armor__0011_walk_6.png");
-        BufferedImage enemy12 = loadImage("Images//EnemyImages//armor__0006_walk_1_left.png");
-        BufferedImage enemy13 = loadImage("Images//EnemyImages//armor__0007_walk_2_left.png");
-        BufferedImage enemy14 = loadImage("Images//EnemyImages//armor__0008_walk_3_left.png");
-        BufferedImage enemy15 = loadImage("Images//EnemyImages//armor__0009_walk_4_left.png");
-        BufferedImage enemy16 = loadImage("Images//EnemyImages//armor__0010_walk_5_left.png");
-        BufferedImage enemy17 = loadImage("Images//EnemyImages//armor__0011_walk_6_left.png");
-        eAnimation = new Animation();
-        eAnimation2 = new Animation();
-        eAnimation.addFrame(enemy4, 150);
-        eAnimation.addFrame(enemy5, 150);
-        eAnimation.addFrame(enemy6, 150);
-        eAnimation.addFrame(enemy7, 150);
-        eAnimation.addFrame(enemy8, 150);
-        eAnimation.addFrame(enemy9, 150);
-        eAnimation2.addFrame(enemy12, 150);
-        eAnimation2.addFrame(enemy13, 150);
-        eAnimation2.addFrame(enemy14, 150);
-        eAnimation2.addFrame(enemy15, 150);
-        eAnimation2.addFrame(enemy16, 150);
-        eAnimation2.addFrame(enemy17, 150);
-        enemy = new Enemy(eAnimation, eAnimation2);
-    }
 
     //-----Enemy stuff-----\\
     /**
@@ -159,8 +127,8 @@ public class TileMap {
      * @param num this is the enemy you want to call
      * @return enemy
      */
-    public Enemy getEnemy(int num){
-        return aSprites.get(num);
+    public Alien getAlien(int num){
+        return aliens.get(num);
     }
 
     /**
@@ -168,15 +136,15 @@ public class TileMap {
      * @return list size
      */
     public int getSize(){
-        return aSprites.size();
+        return aliens.size();
     }
 
     /**
      * Gets access to all enemies within the list
      * @return gets the list of enemies
      */
-    public Iterator getEnemies(){
-        return aSprites.iterator();
+    public Iterator getAliens(){
+        return aliens.iterator();
     }
 
     //-----Tile Map stuff-----\\
@@ -208,7 +176,7 @@ public class TileMap {
                     g.drawImage(tile[c - '?'], col * 100 - (int) Camera.x, row * 100, null);
                 }
                 if (c == '?'){
-                    Iterator i = getEnemies();
+                    Iterator i = getAliens();
                     while (i.hasNext()) {
                         Sprite alien = (Sprite)i.next();
                         g.drawImage(alien.getImage(), Math.round(alien.getX()- (int) Camera.x), Math.round(alien.getY()), null);
@@ -230,15 +198,15 @@ public class TileMap {
         return image;
     }
 
-    private void addSprites(Enemy sprite, int x, int y){
-        Enemy tAlien = (Enemy) sprite.clone();
-        tAlien.setX(x);
-        tAlien.setY(y);
-        aSprites.add(tAlien);
+    private void addAliens(Alien sprite, int x, int y){
+        Alien alien = (Alien) sprite.clone();
+        alien.setX(x);
+        alien.setY(y);
+        aliens.add(alien);
     }
 
-    public void removeSprite(Enemy sprite){
-        aSprites.remove(sprite);
+    public void removeAlien(Alien sprite){
+        aliens.remove(sprite);
     }
 
     public int getTileSize(){
