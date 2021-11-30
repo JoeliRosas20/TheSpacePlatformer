@@ -128,19 +128,6 @@ public class Player extends Sprite {
         if (nAnim == shootR && stateTime >= 1000){
             nAnim = idleR;
         }
-        /*
-        //Idle
-        if (getDx() == 0 && (nAnim == walkL || nAnim == jumpL)){
-            System.out.println("Idle left");
-            nAnim = idleL;
-            setState(STATE_NORMAL);
-        }
-        else if (getDx() == 0 && (nAnim == walkR || nAnim == jumpR)){
-            System.out.println("Idle Right");
-            nAnim = idleR;
-            setState(STATE_NORMAL);
-        }
-*/
         //Idle
         if (getY() >= floorY-100 && getDx() == 0 && getDy() == 0 && nAnim == walkL || nAnim == jumpL){
             System.out.println("Test Idle left");

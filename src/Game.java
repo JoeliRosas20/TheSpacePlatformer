@@ -89,6 +89,7 @@ public class Game extends Canvas implements Runnable{
                 alien = map.getAlien(i);
                 alien.check(n);
                 alien.update(elapsedTime);
+                //alien.setDx(0.05f);
             }
             checkGameInput();
             player.update(elapsedTime);
@@ -99,6 +100,7 @@ public class Game extends Canvas implements Runnable{
                 player.setX(0);
                 player.setY(0);
                 Camera.setX(0);
+                started = true;
             }
         }
     }
@@ -230,6 +232,9 @@ public class Game extends Canvas implements Runnable{
     }
 
     public void checkingEnemyCollision(Sprite alien){
+        System.out.println("Alien X: "+alien.getX()+", Alien Y:"+alien.getY());
+        System.out.println("Alien DX: "+alien.getDx());
+        System.out.println(map.valueAt(aBottom, aRight) +" "+map.valueAt(aBottom, aLeft));
         //Makes sure the player does not go out of bounds on left side
         if (aLeft <= -20){
             alien.setDx(0.05f);

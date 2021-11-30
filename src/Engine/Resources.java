@@ -1,5 +1,6 @@
 package Engine;
 
+import Characters.Alien;
 import Characters.Bullet;
 import Characters.Player;
 import TileMap.TileMap;
