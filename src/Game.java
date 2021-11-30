@@ -164,6 +164,7 @@ public class Game extends Canvas implements Runnable{
         Camera.setX(0);
         Camera.setY(0);
         started = true;
+
     }
 
     public void checkingPlayerCollision(){

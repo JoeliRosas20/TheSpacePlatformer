@@ -96,56 +96,93 @@ public class Player extends Sprite {
         Animation nAnim = animation;
         //Set the vertical velocity for jumping left
         if (getState() == STATE_JUMPING && (nAnim == walkL || nAnim == idleL)){
+            System.out.println("Jump Left");
             setDy(getDy() + GRAVITY * elapsedTime);
+            System.out.println("Player DY "+getDy());
             nAnim = jumpL;
         }
         else if (getState() == STATE_JUMPING && (nAnim == walkR || nAnim == idleR)){
+            System.out.println("Jump Right");
             setDy(getDy() + GRAVITY * elapsedTime);
+            System.out.println("Player DY "+getDy());
             nAnim = jumpR;
         }
         //Walking
         if (getDx() < 0){
+            System.out.println("Walk Left");
             nAnim = walkL;
         }
         else if (getDx() > 0){
+            System.out.println("Walk Right");
             nAnim = walkR;
         }
         //Shooting
         if (getState() == STATE_SHOOTING && nAnim == idleL){
+            System.out.println("Shoot Left");
             nAnim = shootL;
         }
         else if (getState() == STATE_SHOOTING && nAnim == idleR){
+            System.out.println("Shoot Right");
             nAnim = shootR;
         }
+        if (nAnim == shootR && stateTime >= 1000){
+            nAnim = idleR;
+        }
+        /*
         //Idle
-        if (getDx() == 0 &&(nAnim == walkL || nAnim == jumpL)){
+        if (getDx() == 0 && (nAnim == walkL || nAnim == jumpL)){
+            System.out.println("Idle left");
             nAnim = idleL;
             setState(STATE_NORMAL);
         }
         else if (getDx() == 0 && (nAnim == walkR || nAnim == jumpR)){
+            System.out.println("Idle Right");
             nAnim = idleR;
             setState(STATE_NORMAL);
         }
+*/
+        //Idle
+        if (getY() >= floorY-100 && getDx() == 0 && getDy() == 0 && nAnim == walkL || nAnim == jumpL){
+            System.out.println("Test Idle left");
+            nAnim = idleL;
+            setState(STATE_NORMAL);
+        }
+        else if (getY() >= floorY-100 && getDx() == 0 && getDy() == 0 && nAnim == walkR || nAnim == jumpR){
+            System.out.println("Test Idle Right");
+            nAnim = idleR;
+            setState(STATE_NORMAL);
+        }
+
         //Dead
         if (state == STATE_DYING && (nAnim == idleL || nAnim == walkL)){
+            System.out.println("Dead Left");
             nAnim = deadL;
         }
         else if (state == STATE_DYING && (nAnim == idleR || nAnim == walkR)){
+            System.out.println("Dead Right");
             nAnim = deadR;
         }
         //super.update(elapsedTime);
         //Check if player landed on floor
+        /*
         if (getState() == STATE_JUMPING && getY() >= floorY && nAnim == jumpL){
+            System.out.println("Finished jumping left");
             setDy(0);
             setY(floorY);
             setState(STATE_NORMAL);
             nAnim = idleL;
         }
         else if (getState() == STATE_JUMPING && getY() >= floorY && nAnim == jumpR){
+            System.out.println("Finished jumping right");
             setDy(0);
             setY(floorY);
             setState(STATE_NORMAL);
             nAnim = idleR;
+        }
+        */
+        if (getY() <= floorY-100){
+            System.out.println("True");
+            nAnim = jumpR;
         }
         super.update(elapsedTime);
         if (animation != nAnim){
@@ -158,9 +195,9 @@ public class Player extends Sprite {
         stateTime += elapsedTime;
         //System.out.println("First:"+stateTime);
         if (state == STATE_DYING && stateTime >= DIE_TIME){
-            //System.out.println("Inside:"+stateTime);
             setState(STATE_DEAD);
         }
+        //System.out.println("Player DX "+getDx()+" and Player DY "+getDy());
     }
 
 }

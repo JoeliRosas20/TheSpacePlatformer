@@ -279,16 +279,16 @@ public class Resources {
                                             BufferedImage player7, BufferedImage player8, BufferedImage player9,
                                             BufferedImage player10) {
         Animation animation = new Animation();
-        animation.addFrame(player1, 50);
-        animation.addFrame(player2, 50);
-        animation.addFrame(player3, 50);
-        animation.addFrame(player4, 50);
-        animation.addFrame(player5, 50);
-        animation.addFrame(player6, 50);
-        animation.addFrame(player7, 50);
-        animation.addFrame(player8, 50);
-        animation.addFrame(player9, 50);
-        animation.addFrame(player10, 50);
+        animation.addFrame(player1, 100);
+        animation.addFrame(player2, 100);
+        animation.addFrame(player3, 100);
+        animation.addFrame(player4, 100);
+        animation.addFrame(player5, 100);
+        animation.addFrame(player6, 100);
+        animation.addFrame(player7, 100);
+        animation.addFrame(player8, 100);
+        animation.addFrame(player9, 100);
+        animation.addFrame(player10, 100);
         return animation;
     }
 
@@ -297,16 +297,16 @@ public class Resources {
                                             BufferedImage player7, BufferedImage player8, BufferedImage player9,
                                             BufferedImage player10) {
         Animation animation = new Animation();
-        animation.addFrame(player1, 50);
-        animation.addFrame(player2, 50);
-        animation.addFrame(player3, 50);
-        animation.addFrame(player4, 50);
-        animation.addFrame(player5, 50);
-        animation.addFrame(player6, 50);
-        animation.addFrame(player7, 50);
-        animation.addFrame(player8, 50);
-        animation.addFrame(player9, 50);
-        animation.addFrame(player10, 50);
+        animation.addFrame(player1, 100);
+        animation.addFrame(player2, 100);
+        animation.addFrame(player3, 100);
+        animation.addFrame(player4, 100);
+        animation.addFrame(player5, 100);
+        animation.addFrame(player6, 100);
+        animation.addFrame(player7, 100);
+        animation.addFrame(player8, 100);
+        animation.addFrame(player9, 100);
+        animation.addFrame(player10, 100);
 
         return animation;
     }
