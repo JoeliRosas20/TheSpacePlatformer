@@ -254,6 +254,8 @@ public class Game extends Canvas implements Runnable{
     }
 
     public void checkingSpriteCollision(Alien alien, int x, int y){
+        int playerX = Math.round(player.getX());
+        int playerY = Math.round(player.getY());
         if (bullet.getX()+bullet.getWidth() == x && bullet.getY() - bullet.getWidth()-13 == y){
             map.removeAlien(alien);
             bullet.setDx(0);
@@ -262,8 +264,7 @@ public class Game extends Canvas implements Runnable{
             bullet.setX(bullet.getX()+50);
             bullet.setY(bullet.getY()-45);
         }
-
-        if ((player.getX() + 60) >= x && (player.getY()+1) >= y){
+        if (playerX+60 == x && playerY == y) {
             player.setState(Player.STATE_DYING);
         }
     }
