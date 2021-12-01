@@ -188,7 +188,7 @@ public class Game extends Canvas implements Runnable{
         if(leftIsOutOfBounds){
             player.setX(-19);
             player.setY(0);
-            Camera.setX(0);
+            //Camera.setX(0);
             Left = (Left * -1) - 100;
         }
 
@@ -231,10 +231,6 @@ public class Game extends Canvas implements Runnable{
     }
 
     public void checkingEnemyCollision(Sprite alien){
-        //System.out.println("Alien right "+aRight);
-        //System.out.println("Right value "+map.getTileSize());
-        //System.out.println(map.valueAt(aTop, aLeft) +" "+map.valueAt(aTop, aRight));
-        //System.out.println(map.valueAt(aBottom, aLeft) +" "+map.valueAt(aBottom, aRight)+"\n");
         //Makes sure the player does not go out of bounds on left side
         if (aLeft <= -20){
             alien.setDx(0.05f);
@@ -243,13 +239,12 @@ public class Game extends Canvas implements Runnable{
 
         //Makes sure the player does not go out of bounds on right side
         if (aRight == map.getTileSize()-10){
-            //System.out.println("YES");
             alien.setDx(-0.05f);
         }
 
         //Checking the tile collision for the enemy so it can begin walking
         if ((map.valueAt(aTop, aRight) == '?' && map.valueAt(aBottom, aRight) == 'R') && (map.valueAt(aTop, aLeft) == '?') && (map.valueAt(aBottom, aLeft) == 'R') && started){
-            alien.setDx(0.05f);
+            alien.setDx(-0.05f);
         }
 
         //Once the enemy hits the tile
@@ -258,8 +253,13 @@ public class Game extends Canvas implements Runnable{
             started = false;
         }
 
-        if (map.valueAt(aBottom, aLeft) == '#' && map.valueAt(aBottom, aRight) == '#'){
-            System.out.println("True");
+        //For aliens that are on upper platform
+        if (map.valueAt(aBottom, aLeft) == '#' && map.valueAt(aTop, aLeft) == '#'){
+            alien.setDx(0.05f);
+            started = false;
+        }
+        if (map.valueAt(aBottom, aRight) == '#' && map.valueAt(aTop, aRight) == '#'){
+            alien.setDx(-0.05f);
         }
     }
 
