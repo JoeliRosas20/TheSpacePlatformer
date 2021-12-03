@@ -31,7 +31,6 @@ public class Game extends Canvas implements Runnable{
     LoopingByteInputStream stream;
     int Top, Bottom, Right, Left, n=1;
     int aTop, aBottom, aRight, aLeft;
-    int bTop, bBottom, bLeft, bRight;
     boolean started = true;
 
     public Game(){
@@ -139,9 +138,6 @@ public class Game extends Canvas implements Runnable{
         Bottom = Math.round(player.getY() + (player.getHeight() + 2));
         Right = Math.round(player.getX() + 99);
         Left = Math.round(player.getX());
-        //Bullet x and y
-        bLeft = Math.round(bullet.getX());
-        bRight = Math.round(bullet.getX() + bullet.getWidth());
         //Creating access to enemy top, bottom, left and right values
         for (int i = 0; i < map.getSize(); i++){
             Alien alien = map.getAlien(i);
