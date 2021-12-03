@@ -125,8 +125,12 @@ public class Player extends Sprite {
             //System.out.println("Shoot Right");
             nAnim = shootR;
         }
-        if (nAnim == shootR && stateTime >= 1000){
+        //Transition from shooting to idle stage
+        if (nAnim == shootR && stateTime >= 700){
             nAnim = idleR;
+        }
+        else if (nAnim == shootL && stateTime >= 700){
+            nAnim = idleL;
         }
         //Idle
         if (getY() >= floorY-100 && getDx() == 0 && getDy() == 0 && nAnim == walkL || nAnim == jumpL){
@@ -139,7 +143,6 @@ public class Player extends Sprite {
             nAnim = idleR;
             setState(STATE_NORMAL);
         }
-
         //Dead
         if (state == STATE_DYING && (nAnim == idleL || nAnim == walkL)){
             //System.out.println("Dead Left");
@@ -151,7 +154,7 @@ public class Player extends Sprite {
         }
         //super.update(elapsedTime);
         //Check if player landed on floor
-        /*
+
         if (getState() == STATE_JUMPING && getY() >= floorY && nAnim == jumpL){
             System.out.println("Finished jumping left");
             setDy(0);
@@ -166,9 +169,8 @@ public class Player extends Sprite {
             setState(STATE_NORMAL);
             nAnim = idleR;
         }
-        */
+
         if (getY() <= floorY-100){
-            //System.out.println("True");
             nAnim = jumpR;
         }
         super.update(elapsedTime);

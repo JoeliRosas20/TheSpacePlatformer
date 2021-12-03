@@ -185,10 +185,12 @@ public class Game extends Canvas implements Runnable{
         boolean spaceAllAround = (map.valueAt(Top,Left) == '#') && (map.valueAt(Top,Right) == '#') && (map.valueAt(Bottom,Left) == '#') && (map.valueAt(Bottom, Right) == '#');
         boolean leftIsOutOfBounds = Left <= -20;
         boolean doorIsThere = map.valueAt(Top, Right) == '@';
+        boolean acid = map.valueAt(Bottom, Left) == 'A' && map.valueAt(Bottom, Right) == 'A';
+
         if(leftIsOutOfBounds){
             player.setX(-19);
             player.setY(0);
-            //Camera.setX(0);
+            Camera.setX(0);
             Left = (Left * -1) - 100;
         }
 
@@ -213,7 +215,8 @@ public class Game extends Canvas implements Runnable{
         if(thereIsTileOnBottom){
             player.setFloorY(Bottom - (player.getHeight()+2));
             player.setDy(0);
-            if (player.getY() > (map.getRow()*100)){//Prevents player from sinking in ground
+            if (player.getY() > (map.getRow()*100)){//Puts the player properly on top
+                System.out.println("True");
                 player.setFloorY((map.getRow()*100));
             }
         }
@@ -221,6 +224,10 @@ public class Game extends Canvas implements Runnable{
             //When the player is airborne
             player.applyGravity();
             Camera.applyGravity();
+        }
+
+        if (acid){
+            player.setState(Player.STATE_DYING);
         }
 
         if (doorIsThere){
@@ -231,6 +238,11 @@ public class Game extends Canvas implements Runnable{
     }
 
     public void checkingEnemyCollision(Sprite alien){
+        boolean tileRightOfAlien = (map.valueAt(aTop, aRight) == 'N'||map.valueAt(aTop, aRight) == 'O' || map.valueAt(aTop, aRight) == 'Q' || map.valueAt(aTop, aRight) == 'R') && map.valueAt(aBottom, aRight) == 'R';
+        boolean tileRightOfAlienLeft = (map.valueAt(aTop, aLeft) == '#' || map.valueAt(aTop, aLeft) == '?') && (map.valueAt(aBottom, aLeft) == 'R' || map.valueAt(aBottom, aLeft) == 'A');
+        boolean tileLeftOfAlien = (map.valueAt(aTop, aLeft) == 'O' || map.valueAt(aTop, aLeft) == 'P' ||map.valueAt(aTop, aLeft) == 'R' || map.valueAt(aTop, aLeft) == 'S') && map.valueAt(aBottom, aLeft) == 'R';
+        boolean tileLeftOfAlienRight = (map.valueAt(aTop, aRight) == '#' || map.valueAt(aTop, aRight) == '?') && (map.valueAt(aBottom, aRight) == 'R' || map.valueAt(aBottom, aRight) == 'A');
+
         //Makes sure the player does not go out of bounds on left side
         if (aLeft <= -20){
             alien.setDx(0.05f);
@@ -247,9 +259,15 @@ public class Game extends Canvas implements Runnable{
             alien.setDx(-0.05f);
         }
 
-        //Once the enemy hits the tile
-        if ((map.valueAt(aTop, aRight) == 'R' && map.valueAt(aBottom, aRight) == 'R' && (map.valueAt(aTop, aLeft) == '#' || map.valueAt(aTop, aLeft) == '?') && map.valueAt(aBottom, aLeft) == 'R')){
+        //Once the enemy hits the tile on right side
+        if ((tileRightOfAlien && tileRightOfAlienLeft)){
             alien.setDx(-0.05f);
+            started = false;
+        }
+
+        //Once the enemy hits the tile on right side
+        if (tileLeftOfAlien && tileLeftOfAlienRight){
+            alien.setDx(0.05f);
             started = false;
         }
 
@@ -266,6 +284,8 @@ public class Game extends Canvas implements Runnable{
     public void checkingSpriteCollision(Alien alien, int x, int y){
         int playerX = Math.round(player.getX());
         int playerY = Math.round(player.getY());
+        boolean bulletHitAlien;
+        boolean playerHitAlien;
         if (bullet.getX()+bullet.getWidth() == x && bullet.getY() - bullet.getWidth()-13 == y){
             map.removeAlien(alien);
             bullet.setDx(0);

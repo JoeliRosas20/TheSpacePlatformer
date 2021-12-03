@@ -344,19 +344,19 @@ public class Resources {
 
     private Animation createPlayerShootLAnim(BufferedImage player1, BufferedImage player2, BufferedImage player3, BufferedImage player4) {
         Animation animation = new Animation();
-        animation.addFrame(player1, 200);
-        animation.addFrame(player2, 200);
-        animation.addFrame(player3, 200);
-        animation.addFrame(player4, 200);
+        animation.addFrame(player1, 400);
+        animation.addFrame(player2, 400);
+        animation.addFrame(player3, 400);
+        animation.addFrame(player4, 400);
         return animation;
     }
 
     private Animation createPlayerShootRAnim(BufferedImage player1, BufferedImage player2, BufferedImage player3, BufferedImage player4) {
         Animation animation = new Animation();
-        animation.addFrame(player1, 200);
-        animation.addFrame(player2, 200);
-        animation.addFrame(player3, 200);
-        animation.addFrame(player4, 200);
+        animation.addFrame(player1, 400);
+        animation.addFrame(player2, 400);
+        animation.addFrame(player3, 400);
+        animation.addFrame(player4, 400);
         return animation;
     }
 

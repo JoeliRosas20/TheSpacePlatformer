@@ -30,7 +30,7 @@ public class Alien extends Sprite{
         else if (getDx() > 0){//positive
             nAnim = right;
         }
-        super.update(elapsedTime);
+        super.update(elapsedTime/a);
         if (animation != nAnim){
             animation = nAnim;
             animation.start();
