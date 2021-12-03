@@ -178,7 +178,8 @@ public class Game extends Canvas implements Runnable{
         boolean notBottomLeft = map.valueAt(Bottom, Left+20) != '#';
         boolean thereIsATileOnLeftSide = notTopLeft && notBottomLeft && map.valueAt(Top, Left+20) != '?';
 
-        boolean spaceAllAround = (map.valueAt(Top,Left) == '#') && (map.valueAt(Top,Right) == '#') && (map.valueAt(Bottom,Left) == '#') && (map.valueAt(Bottom, Right) == '#');
+        boolean spaceAllAround = ((map.valueAt(Top,Left) == '#') && (map.valueAt(Top,Right) == '#') && (map.valueAt(Bottom,Left) == '#') && (map.valueAt(Bottom, Right) == '#') ||
+                (map.valueAt(Top,Left) == '?') && (map.valueAt(Top,Right) == '?') && (map.valueAt(Bottom,Left) == '?') && (map.valueAt(Bottom, Right) == '?'));
         boolean leftIsOutOfBounds = Left <= -20;
         boolean doorIsThere = map.valueAt(Top, Right) == '@';
         boolean acid = map.valueAt(Bottom, Left) == 'A' && map.valueAt(Bottom, Right) == 'A';
