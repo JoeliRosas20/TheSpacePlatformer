@@ -240,6 +240,9 @@ public class Game extends Canvas implements Runnable{
         boolean tileLeftOfAlien = (map.valueAt(aTop, aLeft) == 'O' || map.valueAt(aTop, aLeft) == 'P' ||map.valueAt(aTop, aLeft) == 'R' || map.valueAt(aTop, aLeft) == 'S') && map.valueAt(aBottom, aLeft) == 'R';
         boolean tileLeftOfAlienRight = (map.valueAt(aTop, aRight) == '#' || map.valueAt(aTop, aRight) == '?') && (map.valueAt(aBottom, aRight) == 'R' || map.valueAt(aBottom, aRight) == 'A');
 
+        boolean startingRight = (map.valueAt(aTop, aRight) == '?' && (map.valueAt(aBottom, aRight) == 'R' || map.valueAt(aBottom, aRight) == 'O' || map.valueAt(aBottom, aRight) == 'P'));
+        boolean startingLeft = (map.valueAt(aTop, aLeft) == '?') && (map.valueAt(aBottom, aLeft) == 'R' || map.valueAt(aBottom, aLeft) == 'O' || map.valueAt(aBottom, aLeft) == 'P');
+
         //Makes sure the player does not go out of bounds on left side
         if (aLeft <= -20){
             alien.setDx(0.05f);
@@ -252,7 +255,7 @@ public class Game extends Canvas implements Runnable{
         }
 
         //Checking the tile collision for the enemy so it can begin walking
-        if ((map.valueAt(aTop, aRight) == '?' && map.valueAt(aBottom, aRight) == 'R') && (map.valueAt(aTop, aLeft) == '?') && (map.valueAt(aBottom, aLeft) == 'R') && started){
+        if (startingRight && startingLeft && started){
             alien.setDx(-0.05f);
         }
 
