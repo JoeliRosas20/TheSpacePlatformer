@@ -1,8 +1,7 @@
 import Characters.*;
 import Engine.*;
 import Input.*;
-import Sound.LoopingByteInputStream;
-import Sound.SimpleSoundPlayer;
+import Sound.*;
 import TileMap.TileMap;
 import javax.imageio.*;
 import java.awt.*;
@@ -71,14 +70,14 @@ public class Game extends Canvas implements Runnable{
     }
 
     @Override
-    public void run() {
+    public void run() {//Run the whole game
         while (running){
             render();
         }
         stop();
     }
 
-    public void update(long elapsedTime) {
+    public void update(long elapsedTime) {//The movement of the game characters
         int n = 0;
         checkSystemInput();
         if (!isPaused()) {
@@ -103,7 +102,7 @@ public class Game extends Canvas implements Runnable{
         }
     }
 
-    public void render(){
+    public void render(){//Where the drawing and movement occurs
         long currTime = System.currentTimeMillis();
         while (true) {
             long elapsedTime = System.currentTimeMillis() - currTime;
@@ -132,7 +131,7 @@ public class Game extends Canvas implements Runnable{
     }
 
     //-----Game Collision and mechanics-----\\
-    public void spriteSurroundings(){
+    public void spriteSurroundings(){//Get top, bottom, left and right values of player and alien
         //Create the values for top, bottom, right and left
         Top = Math.round(player.getY());
         Bottom = Math.round(player.getY() + (player.getHeight() + 2));
@@ -164,7 +163,7 @@ public class Game extends Canvas implements Runnable{
 
     }
 
-    public void checkingPlayerCollision(){
+    public void checkingPlayerCollision(){//Player Tile collision
         //For checking if it is on ground
         boolean notBottomLeftTileEmpty = map.valueAt(Bottom, Left) != '#';//R
         boolean notBottomRightTileEmpty = map.valueAt(Bottom, Right) != '#';//R
@@ -212,9 +211,6 @@ public class Game extends Canvas implements Runnable{
         if(thereIsTileOnBottom){
             player.setFloorY(Bottom - (player.getHeight()+2));
             player.setDy(0);
-            if (player.getY() > (map.getRow()*100)){//Puts the player properly on top
-                player.setFloorY((map.getRow()*100));
-            }
         }
         else{
             //When the player is airborne
@@ -235,7 +231,7 @@ public class Game extends Canvas implements Runnable{
 
     }
 
-    public void checkingEnemyCollision(Sprite alien){
+    public void checkingEnemyCollision(Sprite alien){//Alien Tile Collision
         boolean tileRightOfAlien = (map.valueAt(aTop, aRight) == 'N'||map.valueAt(aTop, aRight) == 'O' || map.valueAt(aTop, aRight) == 'Q' || map.valueAt(aTop, aRight) == 'R') && map.valueAt(aBottom, aRight) == 'R';
         boolean tileRightOfAlienLeft = (map.valueAt(aTop, aLeft) == '#' || map.valueAt(aTop, aLeft) == '?') && (map.valueAt(aBottom, aLeft) == 'R' || map.valueAt(aBottom, aLeft) == 'A');
         boolean tileLeftOfAlien = (map.valueAt(aTop, aLeft) == 'O' || map.valueAt(aTop, aLeft) == 'P' ||map.valueAt(aTop, aLeft) == 'R' || map.valueAt(aTop, aLeft) == 'S') && map.valueAt(aBottom, aLeft) == 'R';
@@ -288,11 +284,13 @@ public class Game extends Canvas implements Runnable{
         }
     }
 
-    public void checkingSpriteCollision(Alien alien, int x, int y){
+    public void checkingSpriteCollision(Alien alien, int x, int y){//Collision between player, alien and bullet
         int playerX = Math.round(player.getX());
         int playerY = Math.round(player.getY());
         boolean bulletHitAlien = bullet.getX()+bullet.getWidth() == x && bullet.getY() - bullet.getWidth()-13 == y;
         boolean playerHitAlien = playerX+60 == x && playerY == y;
+
+        //Bullet hitting the alien
         if (bulletHitAlien){
             map.removeAlien(alien);
             bullet.setDx(0);
@@ -301,6 +299,8 @@ public class Game extends Canvas implements Runnable{
             bullet.setX(bullet.getX()+50);
             bullet.setY(bullet.getY()-45);
         }
+
+        //Player colliding with the alien
         if (playerHitAlien) {
             player.setState(Player.STATE_DYING);
         }
@@ -318,7 +318,7 @@ public class Game extends Canvas implements Runnable{
         }
     }
 
-    public void createGameActions(){
+    public void createGameActions(){//Creating action for player once buttons are pressed
         jump = new GameAction("jump", GameAction.DETECT_INITIAL_PRESS_ONLY);
         exit = new GameAction("exit", GameAction.DETECT_INITIAL_PRESS_ONLY);
         moveLeft = new GameAction("moveLeft");
@@ -333,7 +333,7 @@ public class Game extends Canvas implements Runnable{
         inputManager.mapToKey(shoot, KeyEvent.VK_S);
     }
 
-    public void checkSystemInput(){
+    public void checkSystemInput(){//Check to see if player pressed pause
         if (pause.isPressed()){
             setPaused(!isPaused());
         }
@@ -342,11 +342,10 @@ public class Game extends Canvas implements Runnable{
         }
     }
 
-    public void checkGameInput(){
+    public void checkGameInput(){//Checks what buttons were pressed and does action of button pressed
         float velocityX = 0;
         int x = Math.round(player.getX());
         int y = Math.round(player.getY());
-        int dx = Math.round(player.getDx());
         if (moveLeft.isPressed() && player.isAlive()){
             velocityX -= Player.SPEED;
         }

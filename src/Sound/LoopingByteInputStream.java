@@ -2,7 +2,7 @@ package Sound;
 
 import java.io.*;
 
-public class LoopingByteInputStream extends ByteArrayInputStream{
+public class LoopingByteInputStream extends ByteArrayInputStream{//To help keep the music running infinitely
 
     private boolean closed;
 

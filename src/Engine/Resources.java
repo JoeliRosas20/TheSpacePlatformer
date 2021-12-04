@@ -1,13 +1,10 @@
 package Engine;
 
-import Characters.Alien;
-import Characters.Bullet;
-import Characters.Player;
+import Characters.*;
 import TileMap.TileMap;
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 
 public class Resources {
 

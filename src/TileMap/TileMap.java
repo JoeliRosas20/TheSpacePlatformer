@@ -5,12 +5,8 @@ import Engine.*;
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.*;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
-import java.util.Iterator;
-import java.util.LinkedList;
+import java.io.*;
+import java.util.*;
 
 public class TileMap {
 
@@ -142,10 +138,6 @@ public class TileMap {
         row = (y / 100);
         col = (x / 100);
         return map[row].charAt(col);
-    }
-
-    public int getRow(){
-        return row;
     }
 
     public void draw(Graphics g){
