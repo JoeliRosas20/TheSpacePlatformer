@@ -148,10 +148,6 @@ public class TileMap {
         return row;
     }
 
-    public int getCol(){
-        return col;
-    }
-
     public void draw(Graphics g){
         for (int row = 0; row < map.length; row++){
             for (int col = 0; col < map[row].length(); col++){

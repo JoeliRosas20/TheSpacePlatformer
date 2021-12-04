@@ -9,15 +9,11 @@ public class Camera {
     public static float dx;
     public static float dy;
     public static float ay = 0;
-    public static int xOrigin = 0;
-    public static int yOrigin = 0;
     public static final int GRAVITY = 1;
 
     public static void update(long elapsedTime){
-        //System.out.println("Updating");
         x += dx * elapsedTime;
         y += dy * elapsedTime;
-        //System.out.println(x+" "+y);
     }
 
     public static void setX(float newX){
@@ -36,17 +32,10 @@ public class Camera {
         dx = newDx;
     }
 
-    public static void jump(){
-        setDy(-0.8f);
-    }
-
     public static void applyGravity(){
         ay = GRAVITY;
     }
 
-    public static void draw(Graphics g){
-        //g.setColor(Color.GREEN);
-        //g.drawRect(Math.round(playerT.getX()), Math.round(playerT.getY()), playerT.getWidth(), playerT.getHeight());
-    }
+    public static void draw(Graphics g){ }
 
 }

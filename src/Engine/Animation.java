@@ -1,6 +1,5 @@
 package Engine;
 
-import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
@@ -19,8 +18,8 @@ public class Animation {
 
     /**
      * Adds every frame for the player and enemy
-     * @param image
-     * @param duration
+     * @param image image
+     * @param duration how long image will display
      */
     public synchronized void addFrame(BufferedImage image, long duration){
         totalDuration += duration;
@@ -37,7 +36,7 @@ public class Animation {
 
     /**
      * The update method for the whole game
-     * @param elapsedTime
+     * @param elapsedTime time passed
      */
     public synchronized void update(long elapsedTime){
         if (frames.size() > 1){
@@ -54,7 +53,7 @@ public class Animation {
 
     /**
      * Returns the image
-     * @return
+     * @return the image
      */
     public synchronized BufferedImage getImage(){
         if (frames.size() == 0){
@@ -66,7 +65,7 @@ public class Animation {
     }
 
     private AnimFrame getFrame(int i){
-        return (AnimFrame) frames.get(i);
+        return frames.get(i);
     }
 
     private class AnimFrame{

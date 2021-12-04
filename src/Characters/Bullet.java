@@ -33,7 +33,6 @@ public class Bullet extends Sprite {
             nAnim = right;
         }
         stateTime += elapsedTime;
-        //System.out.println("Bullet "+stateTime);
         if (state == HIT){
             nAnim = muzzle;
         }
@@ -46,9 +45,7 @@ public class Bullet extends Sprite {
             animation.update(elapsedTime);
         }
         stateTime += elapsedTime;
-        //System.out.println("FIRST "+stateTime);
         if (state == HIT && stateTime >= HIT_TIME){
-            //System.out.println("Now");
             setX(-100);
             setY(-100);
         }

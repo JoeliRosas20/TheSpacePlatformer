@@ -32,21 +32,13 @@ public class GameAction {
 
     /**
      * Creates new GameAction with specified behavior
-     * @param name
-     * @param behavior
+     * @param name of action
+     * @param behavior what is the action
      */
     public GameAction(String name, int behavior){
         this.name = name;
         this.behavior = behavior;
         reset();
-    }
-
-    /**
-     * Get name of the action
-     * @return
-     */
-    public String getName() {
-        return name;
     }
 
     /**
@@ -58,14 +50,6 @@ public class GameAction {
     }
 
     /**
-     * When someone taps a button
-     */
-    public synchronized void tap(){
-        press();
-        released();
-    }
-
-    /**
      * Signals that key is pressed
      */
     public synchronized void press(){
@@ -74,10 +58,9 @@ public class GameAction {
 
     /**
      * Signals that key was pressed a number of times
-     * @param amount
+     * @param amount number of the key
      */
     public synchronized void press(int amount){
-        //System.out.println("(GameAction.java) press()");
         if (state != STATE_WAITING_FOR_RELEASE){
             this.amount += amount;
             state = STATE_PRESSED;
@@ -88,13 +71,12 @@ public class GameAction {
      * Signals that key was released
      */
     public synchronized void released(){
-        //System.out.println("(GameAction.java) released()");
         state = STATE_RELEASED;
     }
 
     /**
      * Returns whether key was pressed or not
-     * @return
+     * @return key pressed
      */
     public synchronized boolean isPressed(){
         return (getAmount() != 0);
@@ -102,7 +84,7 @@ public class GameAction {
 
     /**
      * This is the number of times the key was pressed since last checked
-     * @return
+     * @return number of key pressed
      */
     public synchronized int getAmount(){
         int returnVal = amount;

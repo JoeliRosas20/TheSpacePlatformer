@@ -213,7 +213,6 @@ public class Game extends Canvas implements Runnable{
             player.setFloorY(Bottom - (player.getHeight()+2));
             player.setDy(0);
             if (player.getY() > (map.getRow()*100)){//Puts the player properly on top
-                System.out.println("True");
                 player.setFloorY((map.getRow()*100));
             }
         }
@@ -223,10 +222,12 @@ public class Game extends Canvas implements Runnable{
             Camera.applyGravity();
         }
 
+        //If the player step in the acid
         if (acid){
             player.setState(Player.STATE_DYING);
         }
 
+        //Once the player reaches the end of the level
         if (doorIsThere){
             n++;
             loadNextMap(n);
@@ -240,17 +241,23 @@ public class Game extends Canvas implements Runnable{
         boolean tileLeftOfAlien = (map.valueAt(aTop, aLeft) == 'O' || map.valueAt(aTop, aLeft) == 'P' ||map.valueAt(aTop, aLeft) == 'R' || map.valueAt(aTop, aLeft) == 'S') && map.valueAt(aBottom, aLeft) == 'R';
         boolean tileLeftOfAlienRight = (map.valueAt(aTop, aRight) == '#' || map.valueAt(aTop, aRight) == '?') && (map.valueAt(aBottom, aRight) == 'R' || map.valueAt(aBottom, aRight) == 'A');
 
-        boolean startingRight = (map.valueAt(aTop, aRight) == '?' && (map.valueAt(aBottom, aRight) == 'R' || map.valueAt(aBottom, aRight) == 'O' || map.valueAt(aBottom, aRight) == 'P'));
-        boolean startingLeft = (map.valueAt(aTop, aLeft) == '?') && (map.valueAt(aBottom, aLeft) == 'R' || map.valueAt(aBottom, aLeft) == 'O' || map.valueAt(aBottom, aLeft) == 'P');
+        boolean startingRight = (map.valueAt(aTop, aRight) == '?' && (map.valueAt(aBottom, aRight) == 'R' || map.valueAt(aBottom, aRight) == 'N' || map.valueAt(aBottom, aRight) == 'O' || map.valueAt(aBottom, aRight) == 'P'));
+        boolean startingLeft = (map.valueAt(aTop, aLeft) == '?') && (map.valueAt(aBottom, aLeft) == 'R' || map.valueAt(aBottom, aLeft) == 'N' || map.valueAt(aBottom, aLeft) == 'O' || map.valueAt(aBottom, aLeft) == 'P');
+
+        boolean leftIsOutOfBounds = aLeft <= -20;
+        boolean rightIsOutOfBounds = aRight == map.getTileSize()-10;
+
+        boolean leftIsSpace = map.valueAt(aBottom, aLeft) == '#' && map.valueAt(aTop, aLeft) == '#';
+        boolean rightIsSpace = map.valueAt(aBottom, aRight) == '#' && map.valueAt(aTop, aRight) == '#';
 
         //Makes sure the player does not go out of bounds on left side
-        if (aLeft <= -20){
+        if (leftIsOutOfBounds){
             alien.setDx(0.05f);
             aLeft = (aLeft * -1) - 100;
         }
 
         //Makes sure the player does not go out of bounds on right side
-        if (aRight == map.getTileSize()-10){
+        if (rightIsOutOfBounds){
             alien.setDx(-0.05f);
         }
 
@@ -272,11 +279,11 @@ public class Game extends Canvas implements Runnable{
         }
 
         //For aliens that are on upper platform
-        if (map.valueAt(aBottom, aLeft) == '#' && map.valueAt(aTop, aLeft) == '#'){
+        if (leftIsSpace){
             alien.setDx(0.05f);
             started = false;
         }
-        if (map.valueAt(aBottom, aRight) == '#' && map.valueAt(aTop, aRight) == '#'){
+        if (rightIsSpace){
             alien.setDx(-0.05f);
         }
     }
@@ -284,9 +291,9 @@ public class Game extends Canvas implements Runnable{
     public void checkingSpriteCollision(Alien alien, int x, int y){
         int playerX = Math.round(player.getX());
         int playerY = Math.round(player.getY());
-        boolean bulletHitAlien;
-        boolean playerHitAlien;
-        if (bullet.getX()+bullet.getWidth() == x && bullet.getY() - bullet.getWidth()-13 == y){
+        boolean bulletHitAlien = bullet.getX()+bullet.getWidth() == x && bullet.getY() - bullet.getWidth()-13 == y;
+        boolean playerHitAlien = playerX+60 == x && playerY == y;
+        if (bulletHitAlien){
             map.removeAlien(alien);
             bullet.setDx(0);
             player.setState(Player.STATE_NORMAL);
@@ -294,7 +301,7 @@ public class Game extends Canvas implements Runnable{
             bullet.setX(bullet.getX()+50);
             bullet.setY(bullet.getY()-45);
         }
-        if (playerX+60 == x && playerY == y) {
+        if (playerHitAlien) {
             player.setState(Player.STATE_DYING);
         }
     }
@@ -347,7 +354,7 @@ public class Game extends Canvas implements Runnable{
             velocityX += Player.SPEED;
         }
         if (shoot.isPressed()){
-            player.shoot(bullet, x, y, dx);
+            player.shoot(bullet, x, y);
         }
         if (jump.isPressed() && player.getState() != Player.STATE_JUMPING){
             player.jump();

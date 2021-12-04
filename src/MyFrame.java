@@ -6,7 +6,6 @@ public class MyFrame extends JFrame{
     Game game = new Game();
 
     public MyFrame(){
-        //System.out.println("Inside constructor(MyFrame.java)");
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setVisible(true);
         this.setResizable(false);

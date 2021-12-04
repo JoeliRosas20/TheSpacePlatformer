@@ -36,10 +36,8 @@ public class Resources {
 
     public TileMap loadNextMap(int n){
         if (curr != n){
-            System.out.println("True");
             curr = n;
         }
-        System.out.println("Current is "+curr);
         map = new TileMap("Maps//world"+curr);
         return map;
     }

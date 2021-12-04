@@ -19,7 +19,6 @@ public class Sprite {
     public void update(long elapsedTime){
         x += dx * elapsedTime;
         y += dy * elapsedTime;
-        //System.out.println("Y is:"+y);
         animation.update(elapsedTime);
     }
 
@@ -109,11 +108,6 @@ public class Sprite {
     public void applyGravity(){
         this.ay = GRAVITY;
     }
-
-    /**
-     * Enemy default walk speed
-     */
-    public void move() { setDx(0.05f); }
 
     /**
      * Gets the image of the sprite

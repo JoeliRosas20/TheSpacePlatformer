@@ -29,51 +29,14 @@ public class InputManager implements KeyListener {
     }
 
     /**
-     * Clears all mapped keys
-     * @param gameAction
-     */
-    public void clearMap(GameAction gameAction){
-        for (int i = 0; i < keyActions.length; i++){
-            if (keyActions[i] == gameAction){
-                keyActions[i] = null;
-            }
-        }
-        gameAction.reset();
-    }
-
-    /**
-     * Gets list of names keys mapped to this action
-     * @param gameCode
-     * @return
-     */
-    public ArrayList getMaps(GameAction gameCode){
-        ArrayList list = new ArrayList();
-        for (int i = 0; i < keyActions.length; i++){
-            if (keyActions[i] == gameCode){
-                list.add(getKeyName(i));
-            }
-        }
-        return list;
-    }
-
-    /**
      * Resets all GameAction so they appear like they haven't pressed
      */
     public void resetAllGameActions(){
-        for(int i = 0; i < keyActions.length; i++){
-            if (keyActions[i] != null){
-                keyActions[i].reset();
+        for (GameAction keyAction : keyActions) {
+            if (keyAction != null) {
+                keyAction.reset();
             }
         }
-    }
-
-    /**
-     * Gets name of key
-     * @param keyCode
-     * @return
-     */
-    public static String getKeyName(int keyCode){
-        return KeyEvent.getKeyText(keyCode);
     }
 
     public GameAction getKeyAction(KeyEvent event){
