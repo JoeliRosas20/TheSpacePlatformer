@@ -6,7 +6,6 @@ import javax.sound.sampled.*;
 public class SimpleSoundPlayer {
 
     public static void main(String[] args){
-        System.out.println("Running");
         SimpleSoundPlayer sound = new SimpleSoundPlayer("Sound//Cyberpunk Moonlight Sonata.wav");
         LoopingByteInputStream stream = new LoopingByteInputStream(sound.getSamples());
         sound.play(stream);
